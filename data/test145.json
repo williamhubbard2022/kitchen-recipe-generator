@@ -17,7 +17,14 @@
       "expires": "2025-08-09"
     }
   ],
-  "equipment": [],
+  "equipment": [
+    {
+      "id": 1754178132280,
+      "name": "rice cooker",
+      "type": "Other",
+      "capabilities": "Describe what this equipment can do"
+    }
+  ],
   "kitchenStaples": {
     "Olive oil (light or regular)": true,
     "Coconut oil (virgin)": true,
@@ -27,7 +34,7 @@
     "Oregano": true
   },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-02T23:42:13.521Z",
+  "lastUpdated": "2025-08-02T23:42:19.878Z",
   "debug": {
     "message": "Data saved successfully"
   }
