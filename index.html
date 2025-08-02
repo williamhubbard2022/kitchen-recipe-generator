@@ -369,6 +369,7 @@
                     { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
                 ]);
                 setKitchenStaples({});
+                setSavedRecipes([]);
             };
 
             const getApiKey = () => {
@@ -393,6 +394,7 @@
                 { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
             ]);
             const [kitchenStaples, setKitchenStaples] = useState({});
+            const [savedRecipes, setSavedRecipes] = useState([]);
             const [activeTab, setActiveTab] = useState('ingredients');
             const [editingItem, setEditingItem] = useState(null);
             const [generatedRecipe, setGeneratedRecipe] = useState('');
@@ -465,7 +467,7 @@
                         clearTimeout(syncTimeoutRef.current);
                     }
                 };
-            }, [ingredients, equipment, kitchenStaples]);
+            }, [ingredients, equipment, kitchenStaples, savedRecipes]);
 
             const loadDataFromDatabase = async (forceLoad = false) => {
                 // Don't load if user is actively editing or has unsaved changes, unless forced
@@ -499,6 +501,9 @@
                         if (data.kitchenStaples && !editingItem) {
                             setKitchenStaples(data.kitchenStaples);
                         }
+                        if (data.savedRecipes && !editingItem) {
+                            setSavedRecipes(data.savedRecipes);
+                        }
                         setSyncStatus('synced');
                     } else {
                         const errorText = await response.text();
@@ -522,6 +527,10 @@
                     }
                     if (savedStaples) {
                         setKitchenStaples(JSON.parse(savedStaples));
+                    }
+                    const savedRecipesData = localStorage.getItem('savedRecipes');
+                    if (savedRecipesData) {
+                        setSavedRecipes(JSON.parse(savedRecipesData));
                     }
                 } finally {
                     setIsSyncing(false);
@@ -547,7 +556,8 @@
                             userId: userId,
                             ingredients: ingredients,
                             equipment: equipment,
-                            kitchenStaples: kitchenStaples
+                            kitchenStaples: kitchenStaples,
+                            savedRecipes: savedRecipes
                         })
                     });
 
@@ -562,6 +572,7 @@
                         localStorage.setItem('ingredients', JSON.stringify(ingredients));
                         localStorage.setItem('equipment', JSON.stringify(equipment));
                         localStorage.setItem('kitchenStaples', JSON.stringify(kitchenStaples));
+                        localStorage.setItem('savedRecipes', JSON.stringify(savedRecipes));
                     } else {
                         const errorData = await response.text();
                         console.error('Save failed:', response.status, errorData);
@@ -574,6 +585,7 @@
                     localStorage.setItem('ingredients', JSON.stringify(ingredients));
                     localStorage.setItem('equipment', JSON.stringify(equipment));
                     localStorage.setItem('kitchenStaples', JSON.stringify(kitchenStaples));
+                    localStorage.setItem('savedRecipes', JSON.stringify(savedRecipes));
                 }
             };
 
@@ -650,7 +662,32 @@
                     [itemName]: !prev[itemName]
                 }));
             };
-
+            const saveRecipe = (recipeText) => {
+                if (!recipeText.trim()) return;
+                
+                trackUserAction();
+                const newRecipe = {
+                    id: Date.now(),
+                    title: extractRecipeTitle(recipeText),
+                    content: recipeText,
+                    createdAt: new Date().toISOString(),
+                    ingredients: ingredients.map(ing => `${ing.name} (${ing.quantity} ${ing.unit})`),
+                    preferences: recipePreferences
+                };
+                
+                setSavedRecipes(prev => [newRecipe, ...prev]);
+            };
+            
+            const extractRecipeTitle = (recipeText) => {
+                const lines = recipeText.split('\n');
+                const titleLine = lines.find(line => line.trim() && !line.startsWith('##') && !line.startsWith('*'));
+                return titleLine ? titleLine.trim().replace(/^#+\s*/, '').substring(0, 60) : 'Untitled Recipe';
+            };
+            
+            const deleteRecipe = (id) => {
+                trackUserAction();
+                setSavedRecipes(prev => prev.filter(recipe => recipe.id !== id));
+            };
             const toggleCategory = (categoryKey) => {
                 setCollapsedCategories(prev => ({
                     ...prev,
@@ -924,6 +961,16 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                 >
                                     🏺 Kitchen Staples ({getSelectedStaplesCount()})
                                 </button>
+                                <button
+                                    onClick={() => setActiveTab('recipes')}
+                                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                                        activeTab === 'recipes' 
+                                            ? 'bg-blue-500 text-white' 
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    }`}
+                                >
+                                    📖 Saved Recipes ({savedRecipes.length})
+                                </button>
                             </div>
 
                             {/* Ingredients Tab */}
@@ -1177,6 +1224,64 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                     </div>
                                 </div>
                             )}
+                            </div>
+                            )}
+
+                            {/* Saved Recipes Tab */}
+                            {activeTab === 'recipes' && (
+                                <div>
+                                    <div className="flex justify-between items-center mb-4">
+                                        <h2 className="text-xl font-semibold text-gray-800">Saved Recipes</h2>
+                                        <span className="text-sm text-gray-600">
+                                            {savedRecipes.length} recipes saved
+                                        </span>
+                                    </div>
+                                    
+                                    {savedRecipes.length === 0 ? (
+                                        <div className="text-center py-8 text-gray-500">
+                                            <ChefHat className="mx-auto mb-2 text-gray-300" size={48} />
+                                            <p>No saved recipes yet</p>
+                                            <p className="text-sm">Generate and save your first recipe!</p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-3 max-h-96 overflow-y-auto">
+                                            {savedRecipes.map(recipe => (
+                                                <div key={recipe.id} className="p-4 rounded-lg border-2 border-gray-200 bg-gray-50">
+                                                    <div className="flex justify-between items-start mb-2">
+                                                        <div className="flex-1">
+                                                            <h3 className="font-medium text-gray-800 text-lg">{recipe.title}</h3>
+                                                            <p className="text-xs text-gray-500 mb-2">
+                                                                Saved: {new Date(recipe.createdAt).toLocaleDateString()}
+                                                            </p>
+                                                            {recipe.ingredients && recipe.ingredients.length > 0 && (
+                                                                <p className="text-xs text-blue-600 mb-2">
+                                                                    Used: {recipe.ingredients.slice(0, 3).join(', ')}
+                                                                    {recipe.ingredients.length > 3 && ` + ${recipe.ingredients.length - 3} more`}
+                                                                </p>
+                                                            )}
+                                                        </div>
+                                                        <button
+                                                            onClick={() => deleteRecipe(recipe.id)}
+                                                            className="text-red-500 hover:text-red-700 p-1"
+                                                            title="Delete Recipe"
+                                                        >
+                                                            <Trash2 />
+                                                        </button>
+                                                    </div>
+                                                    <div className="text-sm text-gray-700 bg-white p-3 rounded border max-h-40 overflow-y-auto">
+                                                        <div className="whitespace-pre-wrap">
+                                                            {recipe.content}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Right Panel - Recipe Generation */}
                         </div>
 
                         {/* Right Panel - Recipe Generation */}
@@ -1225,10 +1330,18 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
 
                             {generatedRecipe && (
                                 <div className="mt-4 p-4 bg-gray-50 rounded-lg border max-h-96 overflow-y-auto">
-                                    <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                                        <ChefHat className="text-orange-500" size={18} />
-                                        Your Custom Recipe:
-                                    </h3>
+                                    <div className="flex justify-between items-center mb-3">
+                                        <h3 className="font-semibold text-gray-800 flex items-center gap-2">
+                                            <ChefHat className="text-orange-500" size={18} />
+                                            Your Custom Recipe:
+                                        </h3>
+                                        <button
+                                            onClick={() => saveRecipe(generatedRecipe)}
+                                            className="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 flex items-center gap-1"
+                                        >
+                                            💾 Save Recipe
+                                        </button>
+                                    </div>
                                     <div className="whitespace-pre-wrap text-gray-700 text-sm leading-relaxed">
                                         {generatedRecipe}
                                     </div>
@@ -1346,4 +1459,5 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
