@@ -27,7 +27,7 @@
     {
       "id": 4,
       "name": "Mushrooms",
-      "quantity": 8,
+      "quantity": 19,
       "unit": "oz",
       "category": "Vegetable",
       "expires": "2025-08-04"
@@ -47,7 +47,7 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "lastUpdated": "2025-08-02T01:39:39.002Z",
+  "lastUpdated": "2025-08-02T01:39:39.713Z",
   "debug": {
     "message": "Data saved successfully"
   }
