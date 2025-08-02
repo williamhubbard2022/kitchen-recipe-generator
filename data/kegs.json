@@ -6,7 +6,7 @@
       "quantity": 2,
       "unit": "lbs",
       "category": "Protein",
-      "expires": "2025-08-05"
+      "expires": "2025-08-09"
     },
     {
       "id": 2,
@@ -78,7 +78,7 @@
     "Himalayan pink salt": true,
     "Celery salt": true
   },
-  "lastUpdated": "2025-08-02T20:14:23.192Z",
+  "lastUpdated": "2025-08-02T20:14:44.758Z",
   "debug": {
     "message": "Data saved successfully"
   }
