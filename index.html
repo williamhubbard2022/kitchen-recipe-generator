@@ -351,9 +351,10 @@
                     syncTimeoutRef.current = null;
                 }
                 
-                // Clear flags
+                // Clear flags and editing state
                 setHasUnsavedChanges(false);
                 setIsUserActive(false);
+                setEditingItem(null); // Clear any editing state
                 lastUserActionRef.current = 0;
                 
                 // Update user ID
@@ -361,19 +362,18 @@
                 setUserId(cleanUsername);
                 setShowUserModal(false);
                 
-                // Load data and then re-enable auto-save
+                // Force load data immediately
                 setTimeout(async () => {
                     await loadDataFromDatabase(true);
                     // Wait a bit more then re-enable auto-save
                     setTimeout(() => {
                         setIsSwitchingUsers(false);
                         setHasUnsavedChanges(false);
-                    }, 2000);
+                    }, 1000); // Reduced from 2000ms to 1000ms for better UX
                 }, 100);
                 
                 return true;
             };
-
             const clearUsername = () => {
                 localStorage.removeItem('username');
                 // Generate new random user ID
@@ -499,7 +499,7 @@
             
             const loadDataFromDatabase = async (forceLoad = false) => {
                 // Don't load if user is actively editing or has unsaved changes, unless forced
-                if (!forceLoad && (isUserActive || hasUnsavedChanges || editingItem)) {
+                if (!forceLoad && (isUserActive || hasUnsavedChanges)) {
                     console.log('Skipping load - user is active or has unsaved changes');
                     return;
                 }
@@ -511,26 +511,27 @@
                     const response = await fetch(`/.netlify/functions/github-sync?userId=${userId}`, {
                         method: 'GET',
                     });
-
+            
                     console.log('Response status:', response.status);
                     console.log('Response headers:', response.headers);
-
+            
                     if (response.ok) {
                         const data = await response.json();
                         console.log('Received data:', data);
                         
-                        // Only update if we actually got data from the database AND user isn't editing
-                        if (data.ingredients && data.ingredients.length > 0 && !editingItem) {
-                            setIngredients(data.ingredients);
+                        // ALWAYS update state with data from database (even if arrays are empty)
+                        // This ensures we override default data when switching users
+                        if (data.hasOwnProperty('ingredients')) {
+                            setIngredients(data.ingredients || []);
                         }
-                        if (data.equipment && data.equipment.length > 0 && !editingItem) {
-                            setEquipment(data.equipment);
+                        if (data.hasOwnProperty('equipment')) {
+                            setEquipment(data.equipment || []);
                         }
-                        if (data.kitchenStaples && !editingItem) {
-                            setKitchenStaples(data.kitchenStaples);
+                        if (data.hasOwnProperty('kitchenStaples')) {
+                            setKitchenStaples(data.kitchenStaples || {});
                         }
-                        if (data.savedRecipes && !editingItem) {
-                            setSavedRecipes(data.savedRecipes);
+                        if (data.hasOwnProperty('savedRecipes')) {
+                            setSavedRecipes(data.savedRecipes || []);
                         }
                         setSyncStatus('synced');
                     } else {
@@ -547,11 +548,11 @@
                     const savedStaples = localStorage.getItem('kitchenStaples');
                     if (savedIngredients) {
                         const parsed = JSON.parse(savedIngredients);
-                        if (parsed.length > 0) setIngredients(parsed);
+                        setIngredients(parsed);
                     }
                     if (savedEquipment) {
                         const parsed = JSON.parse(savedEquipment);
-                        if (parsed.length > 0) setEquipment(parsed);
+                        setEquipment(parsed);
                     }
                     if (savedStaples) {
                         setKitchenStaples(JSON.parse(savedStaples));
@@ -1481,6 +1482,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
 
 
