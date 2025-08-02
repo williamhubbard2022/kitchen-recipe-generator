@@ -71,9 +71,11 @@
     "Nutmeg": true,
     "Coriander": true,
     "Italian seasoning": false,
-    "Taco seasoning": true
+    "Taco seasoning": true,
+    "Curry powder": true,
+    "Garam masala": true
   },
-  "lastUpdated": "2025-08-02T20:14:10.491Z",
+  "lastUpdated": "2025-08-02T20:14:15.513Z",
   "debug": {
     "message": "Data saved successfully"
   }
