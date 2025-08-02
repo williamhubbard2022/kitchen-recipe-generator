@@ -23,6 +23,14 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
+        .staples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.5rem;
+        }
+        .collapse-transition {
+            transition: all 0.3s ease-in-out;
+        }
     </style>
 </head>
 <body>
@@ -106,6 +114,206 @@
             </svg>
         );
 
+        const ChevronDown = ({ size = 16, className = "" }) => (
+            <svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="6 9 12 15 18 9"/>
+            </svg>
+        );
+
+        const Droplet = ({ size = 16 }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+            </svg>
+        );
+
+        // Kitchen staples data
+        const KITCHEN_STAPLES = {
+            oils: {
+                name: "Oils & Fats",
+                icon: <Droplet size={16} />,
+                items: [
+                    "Olive oil (extra virgin)",
+                    "Olive oil (light or regular)",
+                    "Vegetable oil",
+                    "Canola oil",
+                    "Avocado oil",
+                    "Coconut oil (refined)",
+                    "Coconut oil (virgin)",
+                    "Sesame oil (toasted)",
+                    "Grapeseed oil",
+                    "Sunflower oil",
+                    "Peanut oil",
+                    "Corn oil",
+                    "Safflower oil",
+                    "Soybean oil",
+                    "Walnut oil",
+                    "Flaxseed oil",
+                    "Pumpkin seed oil",
+                    "Butter (salted)",
+                    "Butter (unsalted)",
+                    "Ghee / Clarified butter",
+                    "Lard",
+                    "Duck fat",
+                    "Bacon grease",
+                    "Shortening (e.g., Crisco)"
+                ]
+            },
+            seasonings: {
+                name: "Seasonings & Spices",
+                icon: "🌿",
+                subcategories: {
+                    "Herbs (dried)": [
+                        "Basil",
+                        "Oregano",
+                        "Thyme",
+                        "Rosemary",
+                        "Parsley",
+                        "Dill",
+                        "Sage",
+                        "Marjoram",
+                        "Bay leaves",
+                        "Tarragon",
+                        "Cilantro",
+                        "Mint"
+                    ],
+                    "Spices": [
+                        "Black pepper",
+                        "White pepper",
+                        "Crushed red pepper",
+                        "Cayenne pepper",
+                        "Chili powder",
+                        "Smoked paprika",
+                        "Sweet paprika",
+                        "Cumin",
+                        "Coriander",
+                        "Turmeric",
+                        "Ginger (ground)",
+                        "Nutmeg",
+                        "Cloves (ground or whole)",
+                        "Allspice",
+                        "Cardamom",
+                        "Cinnamon",
+                        "Mustard powder",
+                        "Fennel seed",
+                        "Caraway seed",
+                        "Anise seed"
+                    ],
+                    "Seasoning Blends": [
+                        "Italian seasoning",
+                        "Herbs de Provence",
+                        "Taco seasoning",
+                        "Cajun seasoning",
+                        "Creole seasoning",
+                        "Old Bay",
+                        "Garam masala",
+                        "Chinese five spice",
+                        "Za'atar",
+                        "Curry powder",
+                        "Ras el hanout",
+                        "Chili flakes (gochugaru, aleppo, etc.)"
+                    ],
+                    "Salts": [
+                        "Kosher salt",
+                        "Sea salt",
+                        "Table salt",
+                        "Himalayan pink salt",
+                        "Flaky salt (e.g., Maldon)",
+                        "Garlic salt",
+                        "Celery salt",
+                        "Onion salt",
+                        "Seasoned salt"
+                    ],
+                    "Other": [
+                        "MSG (e.g., Ajinomoto)",
+                        "Bouillon (cubes or paste: chicken, beef, veg)",
+                        "Nutritional yeast"
+                    ]
+                }
+            },
+            vinegars: {
+                name: "Vinegars",
+                icon: "🍾",
+                items: [
+                    "Distilled white vinegar",
+                    "Apple cider vinegar",
+                    "White wine vinegar",
+                    "Red wine vinegar",
+                    "Balsamic vinegar",
+                    "Sherry vinegar",
+                    "Champagne vinegar",
+                    "Rice vinegar (unseasoned)",
+                    "Seasoned rice vinegar",
+                    "Malt vinegar",
+                    "Coconut vinegar",
+                    "Black vinegar (Chinese/Zhenjiang)",
+                    "Cane vinegar",
+                    "Ume plum vinegar"
+                ]
+            },
+            condimentsAndSweeteners: {
+                name: "Condiments & Sweeteners",
+                icon: "🍯",
+                subcategories: {
+                    "Condiments": [
+                        "Ketchup",
+                        "Mustard (yellow)",
+                        "Dijon mustard",
+                        "Spicy brown mustard",
+                        "Whole grain mustard",
+                        "Mayonnaise",
+                        "Miracle Whip",
+                        "Relish (sweet or dill)",
+                        "Sriracha",
+                        "Hot sauce (e.g., Tabasco, Frank's)",
+                        "Chili garlic sauce",
+                        "Gochujang",
+                        "Harissa",
+                        "Hoisin sauce",
+                        "Fish sauce",
+                        "Oyster sauce",
+                        "Soy sauce",
+                        "Tamari",
+                        "Coconut aminos",
+                        "Worcestershire sauce",
+                        "BBQ sauce",
+                        "Buffalo sauce",
+                        "Teriyaki sauce",
+                        "Tzatziki",
+                        "Tahini",
+                        "Hummus",
+                        "Pesto",
+                        "Salsa",
+                        "Guacamole",
+                        "Curry paste (red/green/yellow)",
+                        "Tomato paste",
+                        "Tomato sauce",
+                        "Marinara",
+                        "Mole",
+                        "Chimichurri",
+                        "Aioli"
+                    ],
+                    "Sweeteners": [
+                        "Granulated white sugar",
+                        "Brown sugar (light and dark)",
+                        "Powdered sugar",
+                        "Cane sugar",
+                        "Turbinado sugar",
+                        "Honey",
+                        "Maple syrup",
+                        "Agave syrup",
+                        "Corn syrup",
+                        "Molasses (light or blackstrap)",
+                        "Date syrup",
+                        "Coconut sugar",
+                        "Stevia",
+                        "Monk fruit sweetener",
+                        "Erythritol",
+                        "Artificial sweeteners (Splenda, etc.)"
+                    ]
+                }
+            }
+        };
+
         const RecipeGenerator = () => {
             // User management functions
             const getUserId = () => {
@@ -160,6 +368,7 @@
                     { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
                     { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
                 ]);
+                setKitchenStaples({});
             };
 
             const getApiKey = () => {
@@ -183,6 +392,7 @@
                 { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
                 { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
             ]);
+            const [kitchenStaples, setKitchenStaples] = useState({});
             const [activeTab, setActiveTab] = useState('ingredients');
             const [editingItem, setEditingItem] = useState(null);
             const [generatedRecipe, setGeneratedRecipe] = useState('');
@@ -193,6 +403,7 @@
             const [userId, setUserId] = useState(getUserId());
             const [showUserModal, setShowUserModal] = useState(false);
             const [usernameInput, setUsernameInput] = useState('');
+            const [collapsedCategories, setCollapsedCategories] = useState({});
 
             const syncTimeoutRef = useRef(null);
 
@@ -219,7 +430,7 @@
                         clearTimeout(syncTimeoutRef.current);
                     }
                 };
-            }, [ingredients, equipment]);
+            }, [ingredients, equipment, kitchenStaples]);
 
             const loadDataFromDatabase = async () => {
                 try {
@@ -244,6 +455,9 @@
                         if (data.equipment && data.equipment.length > 0) {
                             setEquipment(data.equipment);
                         }
+                        if (data.kitchenStaples) {
+                            setKitchenStaples(data.kitchenStaples);
+                        }
                         setSyncStatus('synced');
                     } else {
                         const errorText = await response.text();
@@ -256,6 +470,7 @@
                     // Fallback to localStorage if database fails
                     const savedIngredients = localStorage.getItem('ingredients');
                     const savedEquipment = localStorage.getItem('equipment');
+                    const savedStaples = localStorage.getItem('kitchenStaples');
                     if (savedIngredients) {
                         const parsed = JSON.parse(savedIngredients);
                         if (parsed.length > 0) setIngredients(parsed);
@@ -263,6 +478,9 @@
                     if (savedEquipment) {
                         const parsed = JSON.parse(savedEquipment);
                         if (parsed.length > 0) setEquipment(parsed);
+                    }
+                    if (savedStaples) {
+                        setKitchenStaples(JSON.parse(savedStaples));
                     }
                 } finally {
                     setIsSyncing(false);
@@ -275,7 +493,8 @@
                     console.log('Saving data for user:', userId);
                     console.log('Data to save:', { 
                         ingredients: ingredients.length, 
-                        equipment: equipment.length 
+                        equipment: equipment.length,
+                        kitchenStaples: Object.keys(kitchenStaples).length
                     });
                     
                     const response = await fetch('/.netlify/functions/github-sync', {
@@ -286,7 +505,8 @@
                         body: JSON.stringify({
                             userId: userId,
                             ingredients: ingredients,
-                            equipment: equipment
+                            equipment: equipment,
+                            kitchenStaples: kitchenStaples
                         })
                     });
 
@@ -300,6 +520,7 @@
                         // Also save to localStorage as backup
                         localStorage.setItem('ingredients', JSON.stringify(ingredients));
                         localStorage.setItem('equipment', JSON.stringify(equipment));
+                        localStorage.setItem('kitchenStaples', JSON.stringify(kitchenStaples));
                     } else {
                         const errorData = await response.text();
                         console.error('Save failed:', response.status, errorData);
@@ -311,6 +532,7 @@
                     // Fallback to localStorage
                     localStorage.setItem('ingredients', JSON.stringify(ingredients));
                     localStorage.setItem('equipment', JSON.stringify(equipment));
+                    localStorage.setItem('kitchenStaples', JSON.stringify(kitchenStaples));
                 }
             };
 
@@ -372,6 +594,24 @@
                 ));
             };
 
+            const toggleStaple = (itemName) => {
+                setKitchenStaples(prev => ({
+                    ...prev,
+                    [itemName]: !prev[itemName]
+                }));
+            };
+
+            const toggleCategory = (categoryKey) => {
+                setCollapsedCategories(prev => ({
+                    ...prev,
+                    [categoryKey]: !prev[categoryKey]
+                }));
+            };
+
+            const getSelectedStaplesCount = () => {
+                return Object.values(kitchenStaples).filter(Boolean).length;
+            };
+
             const generateRecipe = async () => {
                 const apiKey = getApiKey();
                 if (!apiKey) {
@@ -391,18 +631,27 @@
                         `${eq.name} - ${eq.capabilities}`
                     ).join(', ');
 
+                    // Get selected staples
+                    const selectedStaples = Object.entries(kitchenStaples)
+                        .filter(([_, selected]) => selected)
+                        .map(([name, _]) => name)
+                        .join(', ');
+
                     const prompt = `Create a detailed recipe using these available ingredients: ${ingredientsList}
 
 Available specialized equipment: ${equipmentList}
+
+Kitchen staples I have: ${selectedStaples || 'No staples selected'}
 
 User preferences/notes: ${recipePreferences || 'No specific preferences'}
 
 Please create a recipe that:
 1. Uses primarily the ingredients I have available
 2. Takes advantage of my specialized kitchen equipment when possible
-3. Includes clear step-by-step instructions
-4. Mentions cooking times and temperatures
-5. If I'm missing any key ingredients, suggest simple substitutions or mention they're optional
+3. Can utilize any of my kitchen staples as needed
+4. Includes clear step-by-step instructions
+5. Mentions cooking times and temperatures
+6. If I'm missing any key ingredients, suggest simple substitutions or mention they're optional
 
 Format the recipe with a clear title, ingredient list, and numbered steps.`;
 
@@ -457,6 +706,69 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
 
             const statusInfo = getSyncStatusInfo();
 
+            const renderStapleCategory = (categoryKey, categoryData) => {
+                const isCollapsed = collapsedCategories[categoryKey];
+                
+                return (
+                    <div key={categoryKey} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                        <button
+                            onClick={() => toggleCategory(categoryKey)}
+                            className="w-full px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors flex items-center justify-between"
+                        >
+                            <div className="flex items-center gap-2 font-medium text-gray-800">
+                                <span className="text-lg">{categoryData.icon}</span>
+                                <span>{categoryData.name}</span>
+                            </div>
+                            <ChevronDown 
+                                size={20} 
+                                className={`text-gray-500 transition-transform ${isCollapsed ? '' : 'rotate-180'}`}
+                            />
+                        </button>
+                        
+                        {!isCollapsed && (
+                            <div className="p-4">
+                                {categoryData.subcategories ? (
+                                    // Render subcategories
+                                    Object.entries(categoryData.subcategories).map(([subName, items]) => (
+                                        <div key={subName} className="mb-4">
+                                            <h4 className="font-medium text-gray-700 mb-2 text-sm">{subName}</h4>
+                                            <div className="staples-grid">
+                                                {items.map(item => (
+                                                    <label key={item} className="flex items-center gap-2 text-sm hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={kitchenStaples[item] || false}
+                                                            onChange={() => toggleStaple(item)}
+                                                            className="w-4 h-4 text-blue-500 rounded focus:ring-blue-500"
+                                                        />
+                                                        <span className="text-gray-700">{item}</span>
+                                                    </label>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    // Render simple items
+                                    <div className="staples-grid">
+                                        {categoryData.items.map(item => (
+                                            <label key={item} className="flex items-center gap-2 text-sm hover:bg-gray-50 p-1 rounded cursor-pointer">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={kitchenStaples[item] || false}
+                                                    onChange={() => toggleStaple(item)}
+                                                    className="w-4 h-4 text-blue-500 rounded focus:ring-blue-500"
+                                                />
+                                                <span className="text-gray-700">{item}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                );
+            };
+
             return (
                 <div className="max-w-7xl mx-auto p-4 bg-gray-50 min-h-screen">
                     {/* Header */}
@@ -495,7 +807,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                 </button>
                                 <button
                                     onClick={() => {
-                                        console.log('Current state:', { ingredients, equipment, userId });
+                                        console.log('Current state:', { ingredients, equipment, kitchenStaples, userId });
                                         console.log('Sync status:', syncStatus);
                                     }}
                                     className="bg-gray-500 text-white px-3 py-1 rounded text-xs hover:bg-gray-600"
@@ -522,7 +834,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                     <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                         {/* Left Panel - Inventory Management */}
                         <div className="bg-white rounded-lg shadow-lg p-6">
-                            <div className="flex gap-2 mb-6">
+                            <div className="flex gap-2 mb-6 flex-wrap">
                                 <button
                                     onClick={() => setActiveTab('ingredients')}
                                     className={`px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -543,6 +855,16 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                 >
                                     <Utensils />
                                     Equipment ({equipment.length})
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('staples')}
+                                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                                        activeTab === 'staples' 
+                                            ? 'bg-blue-500 text-white' 
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    }`}
+                                >
+                                    🏺 Kitchen Staples ({getSelectedStaplesCount()})
                                 </button>
                             </div>
 
@@ -775,6 +1097,28 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                     </div>
                                 </div>
                             )}
+
+                            {/* Kitchen Staples Tab */}
+                            {activeTab === 'staples' && (
+                                <div>
+                                    <div className="flex justify-between items-center mb-4">
+                                        <h2 className="text-xl font-semibold text-gray-800">Kitchen Staples</h2>
+                                        <span className="text-sm text-gray-600">
+                                            {getSelectedStaplesCount()} items selected
+                                        </span>
+                                    </div>
+                                    
+                                    <p className="text-sm text-gray-600 mb-4">
+                                        Select the pantry staples you have on hand. These will be considered when generating recipes.
+                                    </p>
+                                    
+                                    <div className="space-y-3 max-h-96 overflow-y-auto">
+                                        {Object.entries(KITCHEN_STAPLES).map(([key, category]) => 
+                                            renderStapleCategory(key, category)
+                                        )}
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
                         {/* Right Panel - Recipe Generation */}
@@ -810,7 +1154,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                 ) : (
                                     <>
                                         <ChefHat size={20} />
-                                        Generate Recipe ({ingredients.length} ingredients)
+                                        Generate Recipe ({ingredients.length} ingredients, {getSelectedStaplesCount()} staples)
                                     </>
                                 )}
                             </button>
