@@ -71,9 +71,13 @@
     "Tzatziki": false,
     "Teriyaki sauce": true,
     "Tomato sauce": true,
-    "Tomato paste": true
+    "Tomato paste": true,
+    "Granulated white sugar": true,
+    "Brown sugar (light and dark)": true,
+    "Powdered sugar": true,
+    "Cane sugar": true
   },
-  "lastUpdated": "2025-08-02T07:56:16.494Z",
+  "lastUpdated": "2025-08-02T07:56:19.961Z",
   "debug": {
     "message": "Data saved successfully"
   }
