@@ -18,12 +18,18 @@
     },
     {
       "id": 2,
-      "name": "Cast Iron Dutch Oven",
+      "name": "Oval Enameled Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
+    },
+    {
+      "id": 1754119879535,
+      "name": "Cuisinart Ice Cream Maker",
+      "type": "Other",
+      "capabilities": "Describe what this equipment can do"
     }
   ],
-  "lastUpdated": "2025-08-02T07:31:23.170Z",
+  "lastUpdated": "2025-08-02T07:31:27.403Z",
   "debug": {
     "message": "Data saved successfully"
   }
