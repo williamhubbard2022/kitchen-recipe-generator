@@ -29,6 +29,12 @@
       "name": "Oval Enameled Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
+    },
+    {
+      "id": 1754165694959,
+      "name": "Ninja Neverclog Cold Press Juicer",
+      "type": "Other",
+      "capabilities": "Describe what this equipment can do"
     }
   ],
   "kitchenStaples": {
@@ -62,7 +68,7 @@
     "Himalayan pink salt": true,
     "Celery salt": true
   },
-  "lastUpdated": "2025-08-02T20:14:56.753Z",
+  "lastUpdated": "2025-08-02T20:15:05.450Z",
   "debug": {
     "message": "Data saved successfully"
   }
