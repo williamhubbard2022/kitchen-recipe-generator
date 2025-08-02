@@ -25,11 +25,11 @@
     {
       "id": 1754119980027,
       "name": "Blackstone Flat Top Griddle",
-      "type": "Other",
+      "type": "Cooking",
       "capabilities": "Describe what this equipment can do"
     }
   ],
-  "lastUpdated": "2025-08-02T07:33:07.418Z",
+  "lastUpdated": "2025-08-02T07:33:09.168Z",
   "debug": {
     "message": "Data saved successfully"
   }
