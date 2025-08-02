@@ -29,9 +29,15 @@
       "name": "Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
+    },
+    {
+      "id": 1754098545358,
+      "name": "ice cream maker",
+      "type": "Other",
+      "capabilities": "Describe what this equipment can do"
     }
   ],
-  "lastUpdated": "2025-08-02T01:35:45.666Z",
+  "lastUpdated": "2025-08-02T01:35:50.249Z",
   "debug": {
     "message": "Data saved successfully"
   }
