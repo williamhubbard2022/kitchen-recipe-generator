@@ -15,16 +15,16 @@
     }
   ],
   "kitchenStaples": {
-    "Coconut oil (virgin)": true,
-    "Vegetable oil": true,
-    "Walnut oil": true,
-    "Corn oil": true,
-    "Coconut oil (refined)": true,
-    "Olive oil (light or regular)": true,
-    "Soybean oil": true,
-    "Sesame oil (toasted)": true
+    "Coconut oil (virgin)": false,
+    "Vegetable oil": false,
+    "Walnut oil": false,
+    "Corn oil": false,
+    "Coconut oil (refined)": false,
+    "Olive oil (light or regular)": false,
+    "Soybean oil": false,
+    "Sesame oil (toasted)": false
   },
-  "lastUpdated": "2025-08-02T19:46:21.841Z",
+  "lastUpdated": "2025-08-02T19:46:25.436Z",
   "debug": {
     "message": "Data saved successfully"
   }
