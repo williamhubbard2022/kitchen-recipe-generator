@@ -46,7 +46,7 @@
     },
     {
       "id": 1754163773873,
-      "name": "ninja cold press ",
+      "name": "ninja cold press juicer",
       "type": "Other",
       "capabilities": "Describe what this equipment can do"
     }
@@ -61,7 +61,7 @@
     "Soybean oil": true,
     "Sesame oil (toasted)": true
   },
-  "lastUpdated": "2025-08-02T19:43:01.184Z",
+  "lastUpdated": "2025-08-02T19:43:03.553Z",
   "debug": {
     "message": "Data saved successfully"
   }
