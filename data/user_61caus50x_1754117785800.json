@@ -1,36 +1,12 @@
 {
   "ingredients": [
     {
-      "id": 1,
-      "name": "Chicken Breast",
-      "quantity": 2,
-      "unit": "lbs",
-      "category": "Protein",
-      "expires": "2025-08-05"
-    },
-    {
-      "id": 2,
-      "name": "Basmati Rice",
-      "quantity": 1,
-      "unit": "cup",
-      "category": "Grain",
-      "expires": "2026-01-01"
-    },
-    {
-      "id": 3,
-      "name": "Heavy Cream",
-      "quantity": 1,
-      "unit": "cup",
-      "category": "Dairy",
-      "expires": "2025-08-03"
-    },
-    {
-      "id": 4,
-      "name": "Mushrooms",
-      "quantity": 8,
+      "id": 1754099330881,
+      "name": "balls",
+      "quantity": 12,
       "unit": "oz",
-      "category": "Vegetable",
-      "expires": "2025-08-04"
+      "category": "Other",
+      "expires": "2025-08-09"
     }
   ],
   "equipment": [
@@ -47,7 +23,7 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "lastUpdated": "2025-08-02T06:56:27.905Z",
+  "lastUpdated": "2025-08-02T06:56:53.465Z",
   "debug": {
     "message": "Data saved successfully"
   }
