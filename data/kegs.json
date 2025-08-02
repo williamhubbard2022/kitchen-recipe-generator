@@ -63,9 +63,11 @@
     "Coconut oil (refined)": false,
     "Olive oil (light or regular)": false,
     "Soybean oil": false,
-    "Sesame oil (toasted)": false
+    "Sesame oil (toasted)": false,
+    "Olive oil (extra virgin)": true,
+    "Avocado oil": true
   },
-  "lastUpdated": "2025-08-02T19:48:32.614Z",
+  "lastUpdated": "2025-08-02T19:48:35.902Z",
   "debug": {
     "message": "Data saved successfully"
   }
