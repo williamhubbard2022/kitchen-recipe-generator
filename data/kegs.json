@@ -59,9 +59,10 @@
     "Bouillon (cubes or paste: chicken, beef, veg)": true,
     "Celery salt": true,
     "Kosher salt": true,
-    "Himalayan pink salt": true
+    "Himalayan pink salt": true,
+    "Distilled white vinegar": true
   },
-  "lastUpdated": "2025-08-02T07:55:20.326Z",
+  "lastUpdated": "2025-08-02T07:55:26.687Z",
   "debug": {
     "message": "Data saved successfully"
   }
