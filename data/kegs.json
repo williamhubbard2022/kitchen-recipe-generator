@@ -32,9 +32,11 @@
     "Butter (salted)": true,
     "Coconut oil (refined)": true,
     "Avocado oil": true,
-    "Grapeseed oil": true
+    "Grapeseed oil": true,
+    "Basil": true,
+    "Oregano": true
   },
-  "lastUpdated": "2025-08-02T07:47:05.954Z",
+  "lastUpdated": "2025-08-02T07:47:08.382Z",
   "debug": {
     "message": "Data saved successfully"
   }
