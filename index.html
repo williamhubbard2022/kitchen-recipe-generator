@@ -442,7 +442,7 @@
             const [isInitialLoad, setIsInitialLoad] = useState(true);
             const lastUserActionRef = useRef(Date.now());
             const syncTimeoutRef = useRef(null);
-            // Track user activity
+           // Track user activity
             const trackUserAction = () => {
                 lastUserActionRef.current = Date.now();
                 setIsUserActive(true);
@@ -455,6 +455,127 @@
                     }
                 }, 5000);
             };
+            
+            // ADD THESE TWO FUNCTIONS RIGHT HERE:
+            const debugUserData = async () => {
+                console.log('=== DEBUG USER DATA ===');
+                console.log('Current userId:', userId);
+                console.log('Current ingredients state:', ingredients);
+                console.log('Current equipment state:', equipment);
+                console.log('isSwitchingUsers:', isSwitchingUsers);
+                console.log('isInitialLoad:', isInitialLoad);
+                
+                try {
+                    // Test the API directly
+                    const response = await fetch(`/.netlify/functions/github-sync?userId=${userId}`, {
+                        method: 'GET',
+                    });
+                    
+                    console.log('Raw API response status:', response.status);
+                    
+                    if (response.ok) {
+                        const rawData = await response.text();
+                        console.log('Raw API response text:', rawData);
+                        
+                        try {
+                            const data = JSON.parse(rawData);
+                            console.log('Parsed API data:', data);
+                            console.log('API ingredients:', data.ingredients);
+                            console.log('API equipment:', data.equipment);
+                            console.log('API ingredients length:', data.ingredients?.length);
+                            console.log('API equipment length:', data.equipment?.length);
+                        } catch (parseError) {
+                            console.error('Failed to parse API response as JSON:', parseError);
+                        }
+                    } else {
+                        const errorText = await response.text();
+                        console.error('API error response:', errorText);
+                    }
+                } catch (error) {
+                    console.error('Network error:', error);
+                }
+                
+                console.log('=== END DEBUG ===');
+            };
+            
+            const loadDataFromDatabaseDebug = async (forceLoad = false) => {
+                console.log('🔄 loadDataFromDatabase called');
+                console.log('  - forceLoad:', forceLoad);
+                console.log('  - isUserActive:', isUserActive);
+                console.log('  - hasUnsavedChanges:', hasUnsavedChanges);
+                console.log('  - userId:', userId);
+                
+                // Don't load if user is actively editing or has unsaved changes, unless forced
+                if (!forceLoad && (isUserActive || hasUnsavedChanges)) {
+                    console.log('❌ Skipping load - user is active or has unsaved changes');
+                    return;
+                }
+                
+                try {
+                    setIsSyncing(true);
+                    console.log('📡 Loading data for user:', userId);
+                    
+                    const response = await fetch(`/.netlify/functions/github-sync?userId=${userId}`, {
+                        method: 'GET',
+                    });
+            
+                    console.log('📡 Response status:', response.status);
+            
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('📦 Received data:', data);
+                        console.log('📦 data.ingredients:', data.ingredients);
+                        console.log('📦 data.equipment:', data.equipment);
+                        console.log('📦 data.kitchenStaples:', data.kitchenStaples);
+                        
+                        // Log what we're about to set
+                        console.log('🔧 About to update state...');
+                        
+                        if (data.hasOwnProperty('ingredients')) {
+                            console.log('🔧 Setting ingredients to:', data.ingredients || []);
+                            setIngredients(data.ingredients || []);
+                        } else {
+                            console.log('⚠️ No ingredients property in data');
+                        }
+                        
+                        if (data.hasOwnProperty('equipment')) {
+                            console.log('🔧 Setting equipment to:', data.equipment || []);
+                            setEquipment(data.equipment || []);
+                        } else {
+                            console.log('⚠️ No equipment property in data');
+                        }
+                        
+                        if (data.hasOwnProperty('kitchenStaples')) {
+                            console.log('🔧 Setting kitchenStaples to:', data.kitchenStaples || {});
+                            setKitchenStaples(data.kitchenStaples || {});
+                        } else {
+                            console.log('⚠️ No kitchenStaples property in data');
+                        }
+                        
+                        if (data.hasOwnProperty('savedRecipes')) {
+                            console.log('🔧 Setting savedRecipes to:', data.savedRecipes || []);
+                            setSavedRecipes(data.savedRecipes || []);
+                        } else {
+                            console.log('⚠️ No savedRecipes property in data');
+                        }
+                        
+                        setSyncStatus('synced');
+                        console.log('✅ State update complete');
+                    } else {
+                        const errorText = await response.text();
+                        console.error('❌ Failed to load data:', response.status, errorText);
+                        setSyncStatus('error');
+                    }
+                } catch (error) {
+                    console.error('❌ Error loading data:', error);
+                    setSyncStatus('error');
+                } finally {
+                    setIsSyncing(false);
+                    console.log('🔄 loadDataFromDatabase finished');
+                }
+            };
+            
+            // Then the next function should start here (probably loadDataFromDatabase)
             // Load data from database on component mount
             useEffect(() => {
                 const initialLoad = async () => {
@@ -946,13 +1067,25 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                     {isSyncing ? 'Syncing...' : 'Force Sync'}
                                 </button>
                                 <button
+                                    onClick={debugUserData}
+                                    className="bg-gray-500 text-white px-3 py-1 rounded text-xs hover:bg-gray-600"
+                                >
+                                    Debug API
+                                </button>
+                                <button
+                                    onClick={() => loadDataFromDatabaseDebug(true)}
+                                    className="bg-purple-500 text-white px-3 py-1 rounded text-xs hover:bg-purple-600"
+                                >
+                                    Debug Load
+                                </button>
+                                <button
                                     onClick={() => {
                                         console.log('Current state:', { ingredients, equipment, kitchenStaples, userId });
                                         console.log('Sync status:', syncStatus);
                                     }}
-                                    className="bg-gray-500 text-white px-3 py-1 rounded text-xs hover:bg-gray-600"
+                                    className="bg-orange-500 text-white px-3 py-1 rounded text-xs hover:bg-orange-600"
                                 >
-                                    Debug
+                                    Debug State
                                 </button>
                             </div>
                         </div>
@@ -1498,6 +1631,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
 
 
