@@ -53,9 +53,10 @@
     "Mint": false,
     "Smoked paprika": true,
     "Nutmeg": true,
-    "Taco seasoning": true
+    "Taco seasoning": true,
+    "Chili flakes (gochugaru, aleppo, etc.)": false
   },
-  "lastUpdated": "2025-08-02T07:55:12.241Z",
+  "lastUpdated": "2025-08-02T07:55:14.321Z",
   "debug": {
     "message": "Data saved successfully"
   }
