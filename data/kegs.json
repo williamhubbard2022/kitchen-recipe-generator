@@ -47,10 +47,8 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "kitchenStaples": {
-    "Ghee / Clarified butter": true
-  },
-  "lastUpdated": "2025-08-02T19:50:13.185Z",
+  "kitchenStaples": {},
+  "lastUpdated": "2025-08-02T20:13:10.208Z",
   "debug": {
     "message": "Data saved successfully"
   }
