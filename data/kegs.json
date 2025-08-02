@@ -56,7 +56,7 @@
     },
     {
       "id": 1754164142487,
-      "name": "New Equipment",
+      "name": "Cuisinart Ice Cream Maker",
       "type": "Other",
       "capabilities": "Describe what this equipment can do"
     }
@@ -71,7 +71,7 @@
     "Soybean oil": false,
     "Sesame oil (toasted)": false
   },
-  "lastUpdated": "2025-08-02T19:49:05.653Z",
+  "lastUpdated": "2025-08-02T19:49:10.487Z",
   "debug": {
     "message": "Data saved successfully"
   }
