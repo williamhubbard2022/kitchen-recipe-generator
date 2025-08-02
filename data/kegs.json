@@ -37,9 +37,10 @@
     "Oregano": true,
     "Thyme": true,
     "Rosemary": true,
-    "Parsley": true
+    "Parsley": true,
+    "Dill": true
   },
-  "lastUpdated": "2025-08-02T07:47:27.938Z",
+  "lastUpdated": "2025-08-02T07:47:32.968Z",
   "debug": {
     "message": "Data saved successfully"
   }
