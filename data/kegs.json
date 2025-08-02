@@ -58,9 +58,10 @@
     "MSG (e.g., Ajinomoto)": true,
     "Bouillon (cubes or paste: chicken, beef, veg)": true,
     "Celery salt": true,
-    "Kosher salt": true
+    "Kosher salt": true,
+    "Himalayan pink salt": true
   },
-  "lastUpdated": "2025-08-02T07:55:19.187Z",
+  "lastUpdated": "2025-08-02T07:55:20.326Z",
   "debug": {
     "message": "Data saved successfully"
   }
