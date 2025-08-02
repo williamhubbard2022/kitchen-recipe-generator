@@ -54,9 +54,10 @@
     "Grapeseed oil": true,
     "Butter (unsalted)": true,
     "Butter (salted)": true,
-    "Peanut oil": true
+    "Peanut oil": true,
+    "Ghee / Clarified butter": true
   },
-  "lastUpdated": "2025-08-02T20:13:32.888Z",
+  "lastUpdated": "2025-08-02T20:13:35.058Z",
   "debug": {
     "message": "Data saved successfully"
   }
