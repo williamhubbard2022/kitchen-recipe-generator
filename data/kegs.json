@@ -18,24 +18,12 @@
     },
     {
       "id": 2,
-      "name": "Oval Enameled Cast Iron Dutch Oven",
+      "name": "Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
-    },
-    {
-      "id": 1754119879535,
-      "name": "Cuisinart Ice Cream Maker",
-      "type": "Other",
-      "capabilities": "2 quart ice cream maker"
-    },
-    {
-      "id": 1754119917481,
-      "name": "Blackstone flat top griddle",
-      "type": "Cooking",
-      "capabilities": "Cast iron"
     }
   ],
-  "lastUpdated": "2025-08-02T07:32:19.643Z",
+  "lastUpdated": "2025-08-02T07:32:22.529Z",
   "debug": {
     "message": "Data saved successfully"
   }
