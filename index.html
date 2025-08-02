@@ -23,21 +23,6 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-        .section-divider {
-            border-top: 2px solid #e5e7eb;
-            margin: 1rem 0;
-            position: relative;
-        }
-        .section-divider::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 2px;
-            background: #9ca3af;
-        }
     </style>
 </head>
 <body>
@@ -122,247 +107,6 @@
         );
 
         const RecipeGenerator = () => {
-            // Default pantry items with comprehensive options
-            const getDefaultPantryItems = () => ({
-                oils: [
-                    { id: 1, name: 'Olive Oil (Extra Virgin)', available: true },
-                    { id: 2, name: 'Olive Oil (Light/Regular)', available: false },
-                    { id: 3, name: 'Vegetable Oil', available: false },
-                    { id: 4, name: 'Canola Oil', available: false },
-                    { id: 5, name: 'Avocado Oil', available: false },
-                    { id: 6, name: 'Coconut Oil (Refined)', available: false },
-                    { id: 7, name: 'Coconut Oil (Virgin)', available: false },
-                    { id: 8, name: 'Sesame Oil (Toasted)', available: false },
-                    { id: 9, name: 'Grapeseed Oil', available: false },
-                    { id: 10, name: 'Sunflower Oil', available: false },
-                    { id: 11, name: 'Peanut Oil', available: false },
-                    { id: 12, name: 'Corn Oil', available: false },
-                    { id: 13, name: 'Safflower Oil', available: false },
-                    { id: 14, name: 'Soybean Oil', available: false },
-                    { id: 15, name: 'Walnut Oil', available: false },
-                    { id: 16, name: 'Flaxseed Oil', available: false },
-                    { id: 17, name: 'Pumpkin Seed Oil', available: false },
-                    { id: 18, name: 'Butter (Salted)', available: false },
-                    { id: 19, name: 'Butter (Unsalted)', available: false },
-                    { id: 20, name: 'Ghee / Clarified Butter', available: false },
-                    { id: 21, name: 'Lard', available: false },
-                    { id: 22, name: 'Duck Fat', available: false },
-                    { id: 23, name: 'Bacon Grease', available: false },
-                    { id: 24, name: 'Shortening (Crisco)', available: false }
-                ],
-                herbs: [
-                    { id: 1, name: 'Basil (Dried)', available: false },
-                    { id: 2, name: 'Oregano', available: false },
-                    { id: 3, name: 'Thyme', available: false },
-                    { id: 4, name: 'Rosemary', available: false },
-                    { id: 5, name: 'Parsley (Dried)', available: false },
-                    { id: 6, name: 'Dill', available: false },
-                    { id: 7, name: 'Sage', available: false },
-                    { id: 8, name: 'Marjoram', available: false },
-                    { id: 9, name: 'Bay Leaves', available: false },
-                    { id: 10, name: 'Tarragon', available: false },
-                    { id: 11, name: 'Cilantro (Dried)', available: false },
-                    { id: 12, name: 'Mint (Dried)', available: false }
-                ],
-                spices: [
-                    { id: 1, name: 'Black Pepper', available: true },
-                    { id: 2, name: 'White Pepper', available: false },
-                    { id: 3, name: 'Crushed Red Pepper', available: false },
-                    { id: 4, name: 'Cayenne Pepper', available: false },
-                    { id: 5, name: 'Chili Powder', available: false },
-                    { id: 6, name: 'Smoked Paprika', available: false },
-                    { id: 7, name: 'Sweet Paprika', available: false },
-                    { id: 8, name: 'Cumin', available: false },
-                    { id: 9, name: 'Coriander', available: false },
-                    { id: 10, name: 'Turmeric', available: false },
-                    { id: 11, name: 'Ginger (Ground)', available: false },
-                    { id: 12, name: 'Nutmeg', available: false },
-                    { id: 13, name: 'Cloves (Ground)', available: false },
-                    { id: 14, name: 'Cloves (Whole)', available: false },
-                    { id: 15, name: 'Allspice', available: false },
-                    { id: 16, name: 'Cardamom', available: false },
-                    { id: 17, name: 'Cinnamon', available: false },
-                    { id: 18, name: 'Mustard Powder', available: false },
-                    { id: 19, name: 'Fennel Seed', available: false },
-                    { id: 20, name: 'Caraway Seed', available: false },
-                    { id: 21, name: 'Anise Seed', available: false }
-                ],
-                blends: [
-                    { id: 1, name: 'Italian Seasoning', available: false },
-                    { id: 2, name: 'Herbs de Provence', available: false },
-                    { id: 3, name: 'Taco Seasoning', available: false },
-                    { id: 4, name: 'Cajun Seasoning', available: false },
-                    { id: 5, name: 'Creole Seasoning', available: false },
-                    { id: 6, name: 'Old Bay', available: false },
-                    { id: 7, name: 'Garam Masala', available: false },
-                    { id: 8, name: 'Chinese Five Spice', available: false },
-                    { id: 9, name: "Za'atar", available: false },
-                    { id: 10, name: 'Curry Powder', available: false },
-                    { id: 11, name: 'Ras el Hanout', available: false },
-                    { id: 12, name: 'Gochugaru (Korean Chili)', available: false },
-                    { id: 13, name: 'Aleppo Pepper', available: false }
-                ],
-                salts: [
-                    { id: 1, name: 'Kosher Salt', available: true },
-                    { id: 2, name: 'Sea Salt', available: false },
-                    { id: 3, name: 'Table Salt', available: false },
-                    { id: 4, name: 'Himalayan Pink Salt', available: false },
-                    { id: 5, name: 'Flaky Salt (Maldon)', available: false },
-                    { id: 6, name: 'Garlic Salt', available: false },
-                    { id: 7, name: 'Celery Salt', available: false },
-                    { id: 8, name: 'Onion Salt', available: false },
-                    { id: 9, name: 'Seasoned Salt', available: false }
-                ],
-                other_seasonings: [
-                    { id: 1, name: 'MSG (Ajinomoto)', available: false },
-                    { id: 2, name: 'Chicken Bouillon', available: false },
-                    { id: 3, name: 'Beef Bouillon', available: false },
-                    { id: 4, name: 'Vegetable Bouillon', available: false },
-                    { id: 5, name: 'Nutritional Yeast', available: false }
-                ],
-                vinegars: [
-                    { id: 1, name: 'Distilled White Vinegar', available: false },
-                    { id: 2, name: 'Apple Cider Vinegar', available: false },
-                    { id: 3, name: 'White Wine Vinegar', available: false },
-                    { id: 4, name: 'Red Wine Vinegar', available: false },
-                    { id: 5, name: 'Balsamic Vinegar', available: false },
-                    { id: 6, name: 'Sherry Vinegar', available: false },
-                    { id: 7, name: 'Champagne Vinegar', available: false },
-                    { id: 8, name: 'Rice Vinegar (Unseasoned)', available: false },
-                    { id: 9, name: 'Seasoned Rice Vinegar', available: false },
-                    { id: 10, name: 'Malt Vinegar', available: false },
-                    { id: 11, name: 'Coconut Vinegar', available: false },
-                    { id: 12, name: 'Black Vinegar (Chinese)', available: false },
-                    { id: 13, name: 'Cane Vinegar', available: false },
-                    { id: 14, name: 'Ume Plum Vinegar', available: false }
-                ],
-                sauces: [
-                    { id: 1, name: 'Soy Sauce', available: false },
-                    { id: 2, name: 'Tamari', available: false },
-                    { id: 3, name: 'Coconut Aminos', available: false },
-                    { id: 4, name: 'Fish Sauce', available: false },
-                    { id: 5, name: 'Oyster Sauce', available: false },
-                    { id: 6, name: 'Hoisin Sauce', available: false },
-                    { id: 7, name: 'Worcestershire Sauce', available: false },
-                    { id: 8, name: 'Sriracha', available: false },
-                    { id: 9, name: 'Hot Sauce (Tabasco)', available: false },
-                    { id: 10, name: "Frank's RedHot", available: false },
-                    { id: 11, name: 'Chili Garlic Sauce', available: false },
-                    { id: 12, name: 'Gochujang', available: false },
-                    { id: 13, name: 'Harissa', available: false },
-                    { id: 14, name: 'BBQ Sauce', available: false },
-                    { id: 15, name: 'Buffalo Sauce', available: false },
-                    { id: 16, name: 'Teriyaki Sauce', available: false },
-                    { id: 17, name: 'Red Curry Paste', available: false },
-                    { id: 18, name: 'Green Curry Paste', available: false },
-                    { id: 19, name: 'Yellow Curry Paste', available: false }
-                ],
-                condiments: [
-                    { id: 1, name: 'Ketchup', available: false },
-                    { id: 2, name: 'Yellow Mustard', available: false },
-                    { id: 3, name: 'Dijon Mustard', available: false },
-                    { id: 4, name: 'Spicy Brown Mustard', available: false },
-                    { id: 5, name: 'Whole Grain Mustard', available: false },
-                    { id: 6, name: 'Mayonnaise', available: false },
-                    { id: 7, name: 'Miracle Whip', available: false },
-                    { id: 8, name: 'Sweet Relish', available: false },
-                    { id: 9, name: 'Dill Relish', available: false },
-                    { id: 10, name: 'Tahini', available: false },
-                    { id: 11, name: 'Pesto', available: false },
-                    { id: 12, name: 'Salsa', available: false },
-                    { id: 13, name: 'Chimichurri', available: false },
-                    { id: 14, name: 'Aioli', available: false },
-                    { id: 15, name: 'Tomato Paste', available: false },
-                    { id: 16, name: 'Tomato Sauce', available: false },
-                    { id: 17, name: 'Marinara', available: false }
-                ],
-                sweeteners: [
-                    { id: 1, name: 'Granulated White Sugar', available: false },
-                    { id: 2, name: 'Brown Sugar (Light)', available: false },
-                    { id: 3, name: 'Brown Sugar (Dark)', available: false },
-                    { id: 4, name: 'Powdered Sugar', available: false },
-                    { id: 5, name: 'Cane Sugar', available: false },
-                    { id: 6, name: 'Turbinado Sugar', available: false },
-                    { id: 7, name: 'Honey', available: false },
-                    { id: 8, name: 'Maple Syrup', available: false },
-                    { id: 9, name: 'Agave Syrup', available: false },
-                    { id: 10, name: 'Corn Syrup', available: false },
-                    { id: 11, name: 'Molasses (Light)', available: false },
-                    { id: 12, name: 'Blackstrap Molasses', available: false },
-                    { id: 13, name: 'Date Syrup', available: false },
-                    { id: 14, name: 'Coconut Sugar', available: false },
-                    { id: 15, name: 'Stevia', available: false },
-                    { id: 16, name: 'Monk Fruit Sweetener', available: false },
-                    { id: 17, name: 'Erythritol', available: false }
-                ],
-                grains: [
-                    { id: 1, name: 'All-Purpose Flour', available: false },
-                    { id: 2, name: 'Bread Flour', available: false },
-                    { id: 3, name: 'Whole Wheat Flour', available: false },
-                    { id: 4, name: 'White Rice', available: false },
-                    { id: 5, name: 'Brown Rice', available: false },
-                    { id: 6, name: 'Jasmine Rice', available: false },
-                    { id: 7, name: 'Basmati Rice', available: false },
-                    { id: 8, name: 'Arborio Rice', available: false },
-                    { id: 9, name: 'Wild Rice', available: false },
-                    { id: 10, name: 'Quinoa', available: false },
-                    { id: 11, name: 'Rolled Oats', available: false },
-                    { id: 12, name: 'Steel Cut Oats', available: false },
-                    { id: 13, name: 'Barley', available: false },
-                    { id: 14, name: 'Farro', available: false },
-                    { id: 15, name: 'Bulgur', available: false },
-                    { id: 16, name: 'Couscous', available: false },
-                    { id: 17, name: 'Breadcrumbs (Plain)', available: false },
-                    { id: 18, name: 'Panko Breadcrumbs', available: false }
-                ],
-                pasta: [
-                    { id: 1, name: 'Spaghetti', available: false },
-                    { id: 2, name: 'Penne', available: false },
-                    { id: 3, name: 'Fusilli', available: false },
-                    { id: 4, name: 'Rigatoni', available: false },
-                    { id: 5, name: 'Farfalle', available: false },
-                    { id: 6, name: 'Linguine', available: false },
-                    { id: 7, name: 'Fettuccine', available: false },
-                    { id: 8, name: 'Angel Hair', available: false },
-                    { id: 9, name: 'Lasagna Sheets', available: false },
-                    { id: 10, name: 'Macaroni', available: false },
-                    { id: 11, name: 'Orzo', available: false },
-                    { id: 12, name: 'Egg Noodles', available: false }
-                ],
-                canned: [
-                    { id: 1, name: 'Diced Tomatoes', available: false },
-                    { id: 2, name: 'Crushed Tomatoes', available: false },
-                    { id: 3, name: 'Whole Tomatoes', available: false },
-                    { id: 4, name: 'Tomato Puree', available: false },
-                    { id: 5, name: 'Black Beans', available: false },
-                    { id: 6, name: 'Kidney Beans', available: false },
-                    { id: 7, name: 'Chickpeas', available: false },
-                    { id: 8, name: 'White Beans', available: false },
-                    { id: 9, name: 'Pinto Beans', available: false },
-                    { id: 10, name: 'Coconut Milk (Full Fat)', available: false },
-                    { id: 11, name: 'Coconut Milk (Light)', available: false },
-                    { id: 12, name: 'Chicken Broth', available: false },
-                    { id: 13, name: 'Vegetable Broth', available: false },
-                    { id: 14, name: 'Beef Broth', available: false },
-                    { id: 15, name: 'Corn (Whole Kernel)', available: false },
-                    { id: 16, name: 'Green Chiles', available: false }
-                ],
-                baking: [
-                    { id: 1, name: 'Baking Powder', available: false },
-                    { id: 2, name: 'Baking Soda', available: false },
-                    { id: 3, name: 'Active Dry Yeast', available: false },
-                    { id: 4, name: 'Instant Yeast', available: false },
-                    { id: 5, name: 'Vanilla Extract', available: false },
-                    { id: 6, name: 'Almond Extract', available: false },
-                    { id: 7, name: 'Cocoa Powder', available: false },
-                    { id: 8, name: 'Dark Chocolate Chips', available: false },
-                    { id: 9, name: 'Semi-Sweet Chocolate Chips', available: false },
-                    { id: 10, name: 'White Chocolate Chips', available: false },
-                    { id: 11, name: 'Cream of Tartar', available: false },
-                    { id: 12, name: 'Cornstarch', available: false }
-                ]
-            });
-
             // User management functions
             const getUserId = () => {
                 let username = localStorage.getItem('username');
@@ -428,7 +172,7 @@
                 localStorage.setItem('user_id', newId);
                 setUserId(newId);
                 setShowUserModal(false);
-                // Reset to defaults with expanded pantry
+                // Reset to defaults
                 setIngredients([
                     { id: 1, name: 'Chicken Breast', quantity: 2, unit: 'lbs', category: 'Protein', expires: '2025-08-05' },
                     { id: 2, name: 'Basmati Rice', quantity: 1, unit: 'cup', category: 'Grain', expires: '2026-01-01' },
@@ -439,7 +183,42 @@
                     { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
                     { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
                 ]);
-                setPantryItems(getDefaultPantryItems());
+                setPantryItems({
+                    oils: [
+                        { id: 1, name: 'Olive Oil', available: true },
+                        { id: 2, name: 'Vegetable Oil', available: false },
+                        { id: 3, name: 'Coconut Oil', available: false },
+                        { id: 4, name: 'Sesame Oil', available: false },
+                        { id: 5, name: 'Avocado Oil', available: false }
+                    ],
+                    seasonings: [
+                        { id: 1, name: 'Salt', available: true },
+                        { id: 2, name: 'Black Pepper', available: true },
+                        { id: 3, name: 'Garlic Powder', available: false },
+                        { id: 4, name: 'Onion Powder', available: false },
+                        { id: 5, name: 'Paprika', available: false },
+                        { id: 6, name: 'Cumin', available: false },
+                        { id: 7, name: 'Oregano', available: false },
+                        { id: 8, name: 'Thyme', available: false },
+                        { id: 9, name: 'Basil', available: false },
+                        { id: 10, name: 'Rosemary', available: false }
+                    ],
+                    vinegars: [
+                        { id: 1, name: 'White Vinegar', available: false },
+                        { id: 2, name: 'Apple Cider Vinegar', available: false },
+                        { id: 3, name: 'Balsamic Vinegar', available: false },
+                        { id: 4, name: 'Rice Vinegar', available: false },
+                        { id: 5, name: 'Red Wine Vinegar', available: false }
+                    ],
+                    condiments: [
+                        { id: 1, name: 'Soy Sauce', available: false },
+                        { id: 2, name: 'Hot Sauce', available: false },
+                        { id: 3, name: 'Worcestershire Sauce', available: false },
+                        { id: 4, name: 'Dijon Mustard', available: false },
+                        { id: 5, name: 'Honey', available: false },
+                        { id: 6, name: 'Maple Syrup', available: false }
+                    ]
+                });
                 setSyncStatus('synced');
             };
 
@@ -467,7 +246,42 @@
                 { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
             ]);
 
-            const [pantryItems, setPantryItems] = useState(getDefaultPantryItems());
+            const [pantryItems, setPantryItems] = useState({
+                oils: [
+                    { id: 1, name: 'Olive Oil', available: true },
+                    { id: 2, name: 'Vegetable Oil', available: false },
+                    { id: 3, name: 'Coconut Oil', available: false },
+                    { id: 4, name: 'Sesame Oil', available: false },
+                    { id: 5, name: 'Avocado Oil', available: false }
+                ],
+                seasonings: [
+                    { id: 1, name: 'Salt', available: true },
+                    { id: 2, name: 'Black Pepper', available: true },
+                    { id: 3, name: 'Garlic Powder', available: false },
+                    { id: 4, name: 'Onion Powder', available: false },
+                    { id: 5, name: 'Paprika', available: false },
+                    { id: 6, name: 'Cumin', available: false },
+                    { id: 7, name: 'Oregano', available: false },
+                    { id: 8, name: 'Thyme', available: false },
+                    { id: 9, name: 'Basil', available: false },
+                    { id: 10, name: 'Rosemary', available: false }
+                ],
+                vinegars: [
+                    { id: 1, name: 'White Vinegar', available: false },
+                    { id: 2, name: 'Apple Cider Vinegar', available: false },
+                    { id: 3, name: 'Balsamic Vinegar', available: false },
+                    { id: 4, name: 'Rice Vinegar', available: false },
+                    { id: 5, name: 'Red Wine Vinegar', available: false }
+                ],
+                condiments: [
+                    { id: 1, name: 'Soy Sauce', available: false },
+                    { id: 2, name: 'Hot Sauce', available: false },
+                    { id: 3, name: 'Worcestershire Sauce', available: false },
+                    { id: 4, name: 'Dijon Mustard', available: false },
+                    { id: 5, name: 'Honey', available: false },
+                    { id: 6, name: 'Maple Syrup', available: false }
+                ]
+            });
 
             const [activeTab, setActiveTab] = useState('ingredients');
             const [editingItem, setEditingItem] = useState(null);
@@ -793,72 +607,6 @@ Format the recipe with a clear title, ingredient list (using only available item
 
             const statusInfo = getSyncStatusInfo();
 
-            // Helper function to render pantry sections with dividers
-            const renderPantrySection = (title, category, emoji = '') => {
-                const items = pantryItems[category] || [];
-                const availableCount = items.filter(item => item.available).length;
-                
-                return (
-                    <div className="mb-6">
-                        <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium text-gray-700 text-sm">
-                                {emoji} {title} <span className="text-blue-600">({availableCount})</span>
-                            </h4>
-                            <button
-                                onClick={() => {
-                                    const itemName = prompt(`Add custom ${title.toLowerCase()}:`);
-                                    if (itemName) addCustomPantryItem(category, itemName);
-                                }}
-                                className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-2 py-1 rounded"
-                            >
-                                + Add
-                            </button>
-                        </div>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                            {items.map(item => (
-                                <div
-                                    key={item.id}
-                                    className={`p-2 rounded border transition-colors text-xs ${
-                                        item.available 
-                                            ? 'border-green-300 bg-green-50' 
-                                            : 'border-gray-200 bg-gray-50'
-                                    }`}
-                                >
-                                    <div className="flex items-center justify-between">
-                                        <label 
-                                            className="flex items-center gap-2 cursor-pointer flex-1"
-                                            onClick={() => togglePantryItem(category, item.id)}
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                checked={item.available}
-                                                onChange={() => togglePantryItem(category, item.id)}
-                                                className="w-3 h-3 text-green-600 rounded focus:ring-green-500"
-                                            />
-                                            <span className={`font-medium leading-tight ${
-                                                item.available ? 'text-green-800' : 'text-gray-600'
-                                            }`}>
-                                                {item.name}
-                                            </span>
-                                        </label>
-                                        {item.id > 1000 && (
-                                            <button
-                                                onClick={() => deletePantryItem(category, item.id)}
-                                                className="text-red-500 hover:text-red-700 p-1 ml-1"
-                                                title="Delete custom item"
-                                            >
-                                                <Trash2 size={10} />
-                                            </button>
-                                        )}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="section-divider"></div>
-                    </div>
-                );
-            };
-
             return (
                 <div className="max-w-7xl mx-auto p-4 bg-gray-50 min-h-screen">
                     {/* Header */}
@@ -937,14 +685,44 @@ Format the recipe with a clear title, ingredient list (using only available item
                                     Equipment ({equipment.length})
                                 </button>
                                 <button
-                                    onClick={() => setActiveTab('pantry')}
-                                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                                        activeTab === 'pantry' 
+                                    onClick={() => setActiveTab('oils')}
+                                    className={`px-3 py-2 rounded-lg font-medium transition-colors text-sm ${
+                                        activeTab === 'oils' 
                                             ? 'bg-green-500 text-white' 
                                             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                     }`}
                                 >
-                                    🏪 Pantry Items
+                                    🫒 Oils ({pantryItems.oils.filter(item => item.available).length})
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('seasonings')}
+                                    className={`px-3 py-2 rounded-lg font-medium transition-colors text-sm ${
+                                        activeTab === 'seasonings' 
+                                            ? 'bg-green-500 text-white' 
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    }`}
+                                >
+                                    🧂 Seasonings ({pantryItems.seasonings.filter(item => item.available).length})
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('vinegars')}
+                                    className={`px-3 py-2 rounded-lg font-medium transition-colors text-sm ${
+                                        activeTab === 'vinegars' 
+                                            ? 'bg-green-500 text-white' 
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    }`}
+                                >
+                                    🍶 Vinegars ({pantryItems.vinegars.filter(item => item.available).length})
+                                </button>
+                                <button
+                                    onClick={() => setActiveTab('condiments')}
+                                    className={`px-3 py-2 rounded-lg font-medium transition-colors text-sm ${
+                                        activeTab === 'condiments' 
+                                            ? 'bg-green-500 text-white' 
+                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    }`}
+                                >
+                                    🍯 Condiments ({pantryItems.condiments.filter(item => item.available).length})
                                 </button>
                             </div>
 
@@ -1022,6 +800,131 @@ Format the recipe with a clear title, ingredient list (using only available item
                                                         </div>
                                                     </div>
                                                 ) : (
+                                                    <div>
+                                                        <div className="flex justify-between items-start mb-2">
+                                                            <div className="flex-1">
+                                                                <div className="font-medium text-gray-800 text-lg">{ingredient.name}</div>
+                                                                <div className="text-sm text-gray-600">
+                                                                    <span className="font-medium">{ingredient.quantity} {ingredient.unit}</span>
+                                                                    <span className="mx-2">•</span>
+                                                                    <span className="text-blue-600">{ingredient.category}</span>
+                                                                </div>
+                                                                <div className="text-xs text-gray-500 mt-1">
+                                                                    Expires: {ingredient.expires}
+                                                                    {isExpiringSoon(ingredient.expires) && (
+                                                                        <span className="text-red-600 font-medium ml-2">⚠️ Use Soon!</span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex gap-1 ml-4">
+                                                                <button
+                                                                    onClick={() => setEditingItem({ type: 'ingredient', id: ingredient.id })}
+                                                                    className="text-blue-500 hover:text-blue-700 p-1"
+                                                                    title="Edit"
+                                                                >
+                                                                    <Edit2 />
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => markAsUsed(ingredient.id)}
+                                                                    className="text-orange-500 hover:text-orange-700 p-1"
+                                                                    title="Mark as Used"
+                                                                >
+                                                                    <Check />
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => deleteIngredient(ingredient.id)}
+                                                                    className="text-red-500 hover:text-red-700 p-1"
+                                                                    title="Delete"
+                                                                >
+                                                                    <Trash2 />
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        {/* Quick quantity controls */}
+                                                        <div className="flex items-center gap-2 mt-2">
+                                                            <span className="text-xs text-gray-500">Quick update:</span>
+                                                            <button
+                                                                onClick={() => updateQuantity(ingredient.id, ingredient.quantity - 1)}
+                                                                className="bg-red-100 text-red-600 hover:bg-red-200 rounded px-2 py-1 text-xs"
+                                                                disabled={ingredient.quantity <= 1}
+                                                            >
+                                                                -1
+                                                            </button>
+                                                            <button
+                                                                onClick={() => updateQuantity(ingredient.id, ingredient.quantity / 2)}
+                                                                className="bg-yellow-100 text-yellow-600 hover:bg-yellow-200 rounded px-2 py-1 text-xs"
+                                                            >
+                                                                ÷2
+                                                            </button>
+                                                            <button
+                                                                onClick={() => updateQuantity(ingredient.id, ingredient.quantity + 1)}
+                                                                className="bg-green-100 text-green-600 hover:bg-green-200 rounded px-2 py-1 text-xs"
+                                                            >
+                                                                +1
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {activeTab === 'equipment' && (
+                                <div>
+                                    <div className="flex justify-between items-center mb-4">
+                                        <h2 className="text-xl font-semibold text-gray-800">Your Equipment</h2>
+                                        <button
+                                            onClick={addEquipment}
+                                            className="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 text-sm"
+                                        >
+                                            <Plus />
+                                            Add
+                                        </button>
+                                    </div>
+                                    
+                                    <div className="space-y-3 max-h-96 overflow-y-auto">
+                                        {equipment.map(item => (
+                                            <div key={item.id} className="p-4 rounded-lg border-2 border-gray-200 bg-gray-50">
+                                                {editingItem?.type === 'equipment' && editingItem?.id === item.id ? (
+                                                    <div className="space-y-3">
+                                                        <input
+                                                            value={item.name}
+                                                            onChange={(e) => updateEquipment(item.id, 'name', e.target.value)}
+                                                            className="w-full p-2 border rounded-lg"
+                                                            placeholder="Equipment name"
+                                                        />
+                                                        <input
+                                                            value={item.type}
+                                                            onChange={(e) => updateEquipment(item.id, 'type', e.target.value)}
+                                                            className="w-full p-2 border rounded-lg"
+                                                            placeholder="Type/Category"
+                                                        />
+                                                        <textarea
+                                                            value={item.capabilities}
+                                                            onChange={(e) => updateEquipment(item.id, 'capabilities', e.target.value)}
+                                                            className="w-full p-2 border rounded-lg"
+                                                            placeholder="What can this equipment do?"
+                                                            rows={3}
+                                                        />
+                                                        <div className="flex gap-2">
+                                                            <button
+                                                                onClick={() => setEditingItem(null)}
+                                                                className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
+                                                            >
+                                                                Save
+                                                            </button>
+                                                            <button
+                                                                onClick={() => setEditingItem(null)}
+                                                                className="bg-gray-500 text-white px-3 py-1 rounded text-sm hover:bg-gray-600"
+                                                            >
+                                                                Cancel
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ) : (
                                                     <div className="flex justify-between items-start">
                                                         <div className="flex-1">
                                                             <div className="font-medium text-gray-800 text-lg">{item.name}</div>
@@ -1052,61 +955,75 @@ Format the recipe with a clear title, ingredient list (using only available item
                                 </div>
                             )}
 
-                            {/* Enhanced Pantry Tab */}
-                            {activeTab === 'pantry' && (
+                            {/* Pantry tabs */}
+                            {['oils', 'seasonings', 'vinegars', 'condiments'].includes(activeTab) && (
                                 <div>
                                     <div className="flex justify-between items-center mb-4">
-                                        <h2 className="text-xl font-semibold text-gray-800">Pantry & Staples</h2>
-                                        <div className="text-sm text-blue-600">
-                                            Total Available: {Object.values(pantryItems).flat().filter(item => item.available).length}
-                                        </div>
+                                        <h2 className="text-xl font-semibold text-gray-800">
+                                            Available {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
+                                        </h2>
+                                        <button
+                                            onClick={() => {
+                                                const itemName = prompt(`Add custom ${activeTab.slice(0, -1)}:`);
+                                                if (itemName) addCustomPantryItem(activeTab, itemName);
+                                            }}
+                                            className="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 text-sm"
+                                        >
+                                            <Plus />
+                                            Add Custom
+                                        </button>
                                     </div>
                                     
-                                    <div className="max-h-96 overflow-y-auto space-y-4">
-                                        {/* Oils & Fats Section */}
-                                        {renderPantrySection('Oils & Fats', 'oils', '🫒')}
-                                        
-                                        {/* Seasonings Sections */}
-                                        {renderPantrySection('Dried Herbs', 'herbs', '🌿')}
-                                        {renderPantrySection('Spices', 'spices', '🌶️')}
-                                        {renderPantrySection('Seasoning Blends', 'blends', '🧂')}
-                                        {renderPantrySection('Salts', 'salts', '🧂')}
-                                        {renderPantrySection('Other Seasonings', 'other_seasonings', '✨')}
-                                        
-                                        {/* Acids & Liquids */}
-                                        {renderPantrySection('Vinegars', 'vinegars', '🍶')}
-                                        {renderPantrySection('Asian & Global Sauces', 'sauces', '🥢')}
-                                        {renderPantrySection('Western Condiments', 'condiments', '🍯')}
-                                        
-                                        {/* Sweeteners */}
-                                        {renderPantrySection('Sweeteners', 'sweeteners', '🍯')}
-                                        
-                                        {/* Dry Goods */}
-                                        {renderPantrySection('Grains & Flour', 'grains', '🌾')}
-                                        {renderPantrySection('Pasta & Noodles', 'pasta', '🍝')}
-                                        {renderPantrySection('Canned Goods', 'canned', '🥫')}
-                                        {renderPantrySection('Baking Essentials', 'baking', '🧁')}
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 max-h-96 overflow-y-auto">
+                                        {pantryItems[activeTab].map(item => (
+                                            <div
+                                                key={item.id}
+                                                className={`p-3 rounded-lg border-2 transition-colors ${
+                                                    item.available 
+                                                        ? 'border-green-300 bg-green-50' 
+                                                        : 'border-gray-200 bg-gray-50'
+                                                }`}
+                                            >
+                                                <div className="flex items-center justify-between">
+                                                    <label 
+                                                        className="flex items-center gap-2 cursor-pointer flex-1"
+                                                        onClick={() => togglePantryItem(activeTab, item.id)}
+                                                    >
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={item.available}
+                                                            onChange={() => togglePantryItem(activeTab, item.id)}
+                                                            className="w-4 h-4 text-green-600 rounded focus:ring-green-500"
+                                                        />
+                                                        <span className={`text-sm font-medium ${
+                                                            item.available ? 'text-green-800' : 'text-gray-600'
+                                                        }`}>
+                                                            {item.name}
+                                                        </span>
+                                                    </label>
+                                                    {/* Only show delete button for custom items (high ID numbers) */}
+                                                    {item.id > 100 && (
+                                                        <button
+                                                            onClick={() => deletePantryItem(activeTab, item.id)}
+                                                            className="text-red-500 hover:text-red-700 p-1 ml-2"
+                                                            title="Delete custom item"
+                                                        >
+                                                            <Trash2 size={12} />
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                     
-                                    <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
-                                        <p className="text-sm text-green-700 mb-2">
-                                            <strong>💡 Pantry Tips:</strong>
+                                    <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                                        <p className="text-sm text-blue-700 mb-2">
+                                            <strong>💡 Tip: </strong>
+                                            Check the items you have available. Only checked items will be used in recipe generation.
                                         </p>
-                                        <ul className="text-xs text-green-600 space-y-1">
-                                            <li>• Check items you currently have available</li>
-                                            <li>• Only checked items will be used in recipe generation</li>
-                                            <li>• Add custom items if you have something not listed</li>
-                                            <li>• Organize by section to find items quickly</li>
-                                        </ul>
-                                        <div className="mt-2 pt-2 border-t border-green-300">
-                                            <p className="text-xs text-green-600">
-                                                <strong>Currently available:</strong> {
-                                                    Object.values(pantryItems).flat().filter(item => item.available).length > 0
-                                                        ? `${Object.values(pantryItems).flat().filter(item => item.available).length} items selected`
-                                                        : 'No pantry items selected'
-                                                }
-                                            </p>
-                                        </div>
+                                        <p className="text-xs text-blue-600">
+                                            Currently available: {pantryItems[activeTab].filter(item => item.available).map(item => item.name).join(', ') || 'None selected'}
+                                        </p>
                                     </div>
                                 </div>
                             )}
@@ -1132,21 +1049,6 @@ Format the recipe with a clear title, ingredient list (using only available item
                                 />
                             </div>
 
-                            {/* Current Inventory Summary */}
-                            <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                                <h3 className="font-medium text-blue-800 mb-2">📋 Current Inventory Summary:</h3>
-                                <div className="text-sm text-blue-700 space-y-1">
-                                    <div>🥘 <strong>Ingredients:</strong> {ingredients.length} items</div>
-                                    <div>🔧 <strong>Equipment:</strong> {equipment.length} items</div>
-                                    <div>🏪 <strong>Pantry Items:</strong> {Object.values(pantryItems).flat().filter(item => item.available).length} available</div>
-                                </div>
-                                {ingredients.length === 0 && (
-                                    <div className="mt-2 text-xs text-orange-600">
-                                        ⚠️ Add main ingredients to generate recipes
-                                    </div>
-                                )}
-                            </div>
-
                             <button
                                 onClick={generateRecipe}
                                 disabled={isGenerating || ingredients.length === 0}
@@ -1160,7 +1062,7 @@ Format the recipe with a clear title, ingredient list (using only available item
                                 ) : (
                                     <>
                                         <ChefHat size={20} />
-                                        Generate Recipe ({ingredients.length} ingredients + {Object.values(pantryItems).flat().filter(item => item.available).length} pantry items)
+                                        Generate Recipe ({ingredients.length} ingredients)
                                     </>
                                 )}
                             </button>
@@ -1298,128 +1200,3 @@ Format the recipe with a clear title, ingredient list (using only available item
     </script>
 </body>
 </html>
-                                                            </button>
-                                                            <button
-                                                                onClick={() => setEditingItem(null)}
-                                                                className="bg-gray-500 text-white px-3 py-1 rounded text-sm hover:bg-gray-600"
-                                                            >
-                                                                Cancel
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    <div>
-                                                        <div className="flex justify-between items-start mb-2">
-                                                            <div className="flex-1">
-                                                                <div className="font-medium text-gray-800 text-lg">{ingredient.name}</div>
-                                                                <div className="text-sm text-gray-600">
-                                                                    <span className="font-medium">{ingredient.quantity} {ingredient.unit}</span>
-                                                                    <span className="mx-2">•</span>
-                                                                    <span className="text-blue-600">{ingredient.category}</span>
-                                                                </div>
-                                                                <div className="text-xs text-gray-500 mt-1">
-                                                                    Expires: {ingredient.expires}
-                                                                    {isExpiringSoon(ingredient.expires) && (
-                                                                        <span className="text-red-600 font-medium ml-2">⚠️ Use Soon!</span>
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                            <div className="flex gap-1 ml-4">
-                                                                <button
-                                                                    onClick={() => setEditingItem({ type: 'ingredient', id: ingredient.id })}
-                                                                    className="text-blue-500 hover:text-blue-700 p-1"
-                                                                    title="Edit"
-                                                                >
-                                                                    <Edit2 />
-                                                                </button>
-                                                                <button
-                                                                    onClick={() => markAsUsed(ingredient.id)}
-                                                                    className="text-orange-500 hover:text-orange-700 p-1"
-                                                                    title="Mark as Used"
-                                                                >
-                                                                    <Check />
-                                                                </button>
-                                                                <button
-                                                                    onClick={() => deleteIngredient(ingredient.id)}
-                                                                    className="text-red-500 hover:text-red-700 p-1"
-                                                                    title="Delete"
-                                                                >
-                                                                    <Trash2 />
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        {/* Quick quantity controls */}
-                                                        <div className="flex items-center gap-2 mt-2">
-                                                            <span className="text-xs text-gray-500">Quick update:</span>
-                                                            <button
-                                                                onClick={() => updateQuantity(ingredient.id, ingredient.quantity - 1)}
-                                                                className="bg-red-100 text-red-600 hover:bg-red-200 rounded px-2 py-1 text-xs"
-                                                                disabled={ingredient.quantity <= 1}
-                                                            >
-                                                                -1
-                                                            </button>
-                                                            <button
-                                                                onClick={() => updateQuantity(ingredient.id, ingredient.quantity / 2)}
-                                                                className="bg-yellow-100 text-yellow-600 hover:bg-yellow-200 rounded px-2 py-1 text-xs"
-                                                            >
-                                                                ÷2
-                                                            </button>
-                                                            <button
-                                                                onClick={() => updateQuantity(ingredient.id, ingredient.quantity + 1)}
-                                                                className="bg-green-100 text-green-600 hover:bg-green-200 rounded px-2 py-1 text-xs"
-                                                            >
-                                                                +1
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {activeTab === 'equipment' && (
-                                <div>
-                                    <div className="flex justify-between items-center mb-4">
-                                        <h2 className="text-xl font-semibold text-gray-800">Your Equipment</h2>
-                                        <button
-                                            onClick={addEquipment}
-                                            className="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 text-sm"
-                                        >
-                                            <Plus />
-                                            Add
-                                        </button>
-                                    </div>
-                                    
-                                    <div className="space-y-3 max-h-96 overflow-y-auto">
-                                        {equipment.map(item => (
-                                            <div key={item.id} className="p-4 rounded-lg border-2 border-gray-200 bg-gray-50">
-                                                {editingItem?.type === 'equipment' && editingItem?.id === item.id ? (
-                                                    <div className="space-y-3">
-                                                        <input
-                                                            value={item.name}
-                                                            onChange={(e) => updateEquipment(item.id, 'name', e.target.value)}
-                                                            className="w-full p-2 border rounded-lg"
-                                                            placeholder="Equipment name"
-                                                        />
-                                                        <input
-                                                            value={item.type}
-                                                            onChange={(e) => updateEquipment(item.id, 'type', e.target.value)}
-                                                            className="w-full p-2 border rounded-lg"
-                                                            placeholder="Type/Category"
-                                                        />
-                                                        <textarea
-                                                            value={item.capabilities}
-                                                            onChange={(e) => updateEquipment(item.id, 'capabilities', e.target.value)}
-                                                            className="w-full p-2 border rounded-lg"
-                                                            placeholder="What can this equipment do?"
-                                                            rows={3}
-                                                        />
-                                                        <div className="flex gap-2">
-                                                            <button
-                                                                onClick={() => setEditingItem(null)}
-                                                                className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
-                                                            >
-                                                                Save
