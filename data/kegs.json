@@ -61,9 +61,10 @@
     "Kosher salt": true,
     "Himalayan pink salt": true,
     "Distilled white vinegar": true,
-    "Red wine vinegar": true
+    "Red wine vinegar": true,
+    "Balsamic vinegar": true
   },
-  "lastUpdated": "2025-08-02T07:55:28.659Z",
+  "lastUpdated": "2025-08-02T07:55:29.670Z",
   "debug": {
     "message": "Data saved successfully"
   }
