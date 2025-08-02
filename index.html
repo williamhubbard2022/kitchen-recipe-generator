@@ -333,40 +333,46 @@
             };
 
             const setUsername = (newUsername) => {
-            if (!newUsername || newUsername.trim() === '') return false;
-            
-            // Clean the username (remove spaces, special chars, make lowercase)
-            const cleanUsername = newUsername.toLowerCase().replace(/[^a-z0-9-_]/g, '');
-            if (cleanUsername.length < 2) {
-                alert('Username must be at least 2 characters long and contain only letters, numbers, hyphens, and underscores');
-                return false;
-            }
-            
-            // IMPORTANT: Clear the sync timeout to prevent saving current data to new user
-            if (syncTimeoutRef.current) {
-                clearTimeout(syncTimeoutRef.current);
-                syncTimeoutRef.current = null;
-            }
-            
-            localStorage.setItem('username', cleanUsername);
-            setUserId(cleanUsername);
-            setShowUserModal(false);
-            
-            // Clear flags to allow loading
-            setHasUnsavedChanges(false);
-            setIsUserActive(false);
-            lastUserActionRef.current = 0;
-            
-            // Load the user's data first, THEN start auto-save again
-            loadDataFromDatabase(true).then(() => {
-                // Re-enable auto-save after data is loaded
-                setTimeout(() => {
-                    setHasUnsavedChanges(false);
-                }, 1000);
-            });
-            
-            return true;
-        };
+                if (!newUsername || newUsername.trim() === '') return false;
+                
+                // Clean the username (remove spaces, special chars, make lowercase)
+                const cleanUsername = newUsername.toLowerCase().replace(/[^a-z0-9-_]/g, '');
+                if (cleanUsername.length < 2) {
+                    alert('Username must be at least 2 characters long and contain only letters, numbers, hyphens, and underscores');
+                    return false;
+                }
+                
+                // Set switching flag to completely disable auto-save
+                setIsSwitchingUsers(true);
+                
+                // Clear any pending saves
+                if (syncTimeoutRef.current) {
+                    clearTimeout(syncTimeoutRef.current);
+                    syncTimeoutRef.current = null;
+                }
+                
+                // Clear flags
+                setHasUnsavedChanges(false);
+                setIsUserActive(false);
+                lastUserActionRef.current = 0;
+                
+                // Update user ID
+                localStorage.setItem('username', cleanUsername);
+                setUserId(cleanUsername);
+                setShowUserModal(false);
+                
+                // Load data and then re-enable auto-save
+                setTimeout(async () => {
+                    await loadDataFromDatabase(true);
+                    // Wait a bit more then re-enable auto-save
+                    setTimeout(() => {
+                        setIsSwitchingUsers(false);
+                        setHasUnsavedChanges(false);
+                    }, 2000);
+                }, 100);
+                
+                return true;
+            };
 
             const clearUsername = () => {
                 localStorage.removeItem('username');
@@ -426,6 +432,7 @@
             const [collapsedCategories, setCollapsedCategories] = useState({});
             const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
             const [isUserActive, setIsUserActive] = useState(false);
+            const [isSwitchingUsers, setIsSwitchingUsers] = useState(false);
             const lastUserActionRef = useRef(Date.now());
             const syncTimeoutRef = useRef(null);
             // Track user activity
@@ -469,8 +476,8 @@
             }, [hasUnsavedChanges, isUserActive]);
             // Auto-save to database when data changes (debounced)
             useEffect(() => {
-                // Don't auto-save if we're switching users
-                if (!userId) return;
+                // Don't auto-save if we're switching users or no userId
+                if (!userId || isSwitchingUsers) return;
                 
                 if (syncTimeoutRef.current) {
                     clearTimeout(syncTimeoutRef.current);
@@ -481,15 +488,15 @@
                 syncTimeoutRef.current = setTimeout(() => {
                     saveDataToDatabase();
                     setHasUnsavedChanges(false);
-                }, 2000); // Increased to 2 seconds to give users more time
+                }, 2000);
             
                 return () => {
                     if (syncTimeoutRef.current) {
                         clearTimeout(syncTimeoutRef.current);
                     }
                 };
-            }, [ingredients, equipment, kitchenStaples, savedRecipes, userId]);
-
+            }, [ingredients, equipment, kitchenStaples, savedRecipes, userId, isSwitchingUsers]);
+            
             const loadDataFromDatabase = async (forceLoad = false) => {
                 // Don't load if user is actively editing or has unsaved changes, unless forced
                 if (!forceLoad && (isUserActive || hasUnsavedChanges || editingItem)) {
@@ -1474,6 +1481,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
 
 
