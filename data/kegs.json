@@ -13,7 +13,7 @@
       "name": "salmon",
       "quantity": 12,
       "unit": "oz",
-      "category": "Other",
+      "category": "protein",
       "expires": "2025-08-04"
     },
     {
@@ -49,7 +49,7 @@
     "Soybean oil": true,
     "Sesame oil (toasted)": true
   },
-  "lastUpdated": "2025-08-02T19:42:15.538Z",
+  "lastUpdated": "2025-08-02T19:42:20.224Z",
   "debug": {
     "message": "Data saved successfully"
   }
