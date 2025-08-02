@@ -76,9 +76,10 @@
     "Thyme": true,
     "Rosemary": true,
     "Parsley": true,
-    "Dill": true
+    "Dill": true,
+    "Bay leaves": true
   },
-  "lastUpdated": "2025-08-02T19:48:52.763Z",
+  "lastUpdated": "2025-08-02T19:48:53.882Z",
   "debug": {
     "message": "Data saved successfully"
   }
