@@ -47,44 +47,9 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "kitchenStaples": {
-    "Black pepper": true,
-    "Kosher salt": true,
-    "Himalayan pink salt": true,
-    "Celery salt": true,
-    "Bouillon (cubes or paste: chicken, beef, veg)": true,
-    "MSG (e.g., Ajinomoto)": true,
-    "Distilled white vinegar": true
-  },
-  "savedRecipes": [
-    {
-      "id": 1754174659300,
-      "title": "Sous Vide Chicken with Creamy Mushroom Rice Pilaf",
-      "content": "# Sous Vide Chicken with Creamy Mushroom Rice Pilaf\n\n## Ingredients\n\n**For the Sous Vide Chicken:**\n- 2 lbs chicken breast\n- 1 tsp kosher salt\n- 1/2 tsp black pepper\n- 1/4 tsp MSG (optional, for enhanced umami)\n\n**For the Creamy Mushroom Rice Pilaf:**\n- 1 cup basmati rice\n- 8 oz mushrooms, sliced\n- 1 cup heavy cream\n- 1 chicken bouillon cube\n- 2 cups water\n- 1/2 tsp kosher salt\n- 1/4 tsp black pepper\n- 1 tbsp distilled white vinegar\n\n## Instructions\n\n### Prepare the Sous Vide Chicken (Start First - 1.5 hours total)\n\n1. **Set up sous vide**: Fill a large pot with water and set your sous vide immersion circulator to 145°F (63°C). Allow water to come to temperature.\n\n2. **Season chicken**: Pat chicken breasts dry and season both sides with kosher salt, black pepper, and MSG. Let rest for 10 minutes.\n\n3. **Vacuum seal**: Place seasoned chicken in a vacuum-seal bag or zip-lock bag. If using zip-lock, use the water displacement method to remove air.\n\n4. **Cook sous vide**: Submerge sealed chicken in the water bath and cook for 1.5 hours at 145°F.\n\n### Prepare the Creamy Mushroom Rice Pilaf (Start 45 minutes before chicken is done)\n\n5. **Prepare mushrooms**: Clean and slice mushrooms into 1/4-inch thick pieces.\n\n6. **Toast rice**: Heat your cast iron Dutch oven over medium heat. Add the basmati rice (no oil needed) and toast for 2-3 minutes, stirring frequently, until fragrant and lightly golden.\n\n7. **Make broth**: In a separate pot, dissolve the chicken bouillon cube in 2 cups of hot water. Add the distilled white vinegar to brighten the flavor.\n\n8. **Cook mushrooms**: Push rice to one side of the Dutch oven and add sliced mushrooms to the empty side. Cook mushrooms for 4-5 minutes until they release their moisture and begin to brown.\n\n9. **Combine and simmer**: Mix the rice and mushrooms together. Add the hot chicken broth, salt, and black pepper. Bring to a boil, then reduce heat to low, cover, and simmer for 15 minutes.\n\n10. **Add cream**: After 15 minutes, remove from heat and let stand for 5 minutes. Stir in the heavy cream until well incorporated. Taste and adjust seasoning with additional salt and pepper if needed.\n\n### Finish the Chicken\n\n11. **Sear chicken**: When sous vide cooking is complete, remove chicken from bag and pat completely dry. Heat the Dutch oven (after transferring rice to serving dish) over high heat. Sear chicken for 1-2 minutes per side until golden brown.\n\n12. **Rest and slice**: Let chicken rest for 2-3 minutes, then slice against the grain.\n\n## Serving\n\nServe the sliced sous vide chicken over the creamy mushroom rice pilaf. The rice should be creamy and flavorful, while the chicken will be incredibly tender and juicy.\n\n**Total Cooking Time:** 1.5 hours (mostly hands-off for the chicken)\n**Serves:** 4-6 people\n\n## Chef's Notes\n\n- The sous vide method ensures perfectly cooked, juicy chicken every time\n- The cast iron Dutch oven provides excellent heat retention for the rice pilaf\n- If you prefer a richer flavor, you can save the juices from the sous vide bag and drizzle them over the finished dish\n- For extra depth, you can add a pinch of celery salt to the rice during cooking",
-      "createdAt": "2025-08-02T22:44:19.300Z",
-      "ingredients": [
-        "Chicken Breast (2 lbs)",
-        "Basmati Rice (1 cup)",
-        "Heavy Cream (1 cup)",
-        "Mushrooms (8 oz)"
-      ],
-      "preferences": ""
-    },
-    {
-      "id": 1754174657855,
-      "title": "Sous Vide Chicken with Creamy Mushroom Rice Pilaf",
-      "content": "# Sous Vide Chicken with Creamy Mushroom Rice Pilaf\n\n## Ingredients\n\n**For the Sous Vide Chicken:**\n- 2 lbs chicken breast\n- 1 tsp kosher salt\n- 1/2 tsp black pepper\n- 1/4 tsp MSG (optional, for enhanced umami)\n\n**For the Creamy Mushroom Rice Pilaf:**\n- 1 cup basmati rice\n- 8 oz mushrooms, sliced\n- 1 cup heavy cream\n- 1 chicken bouillon cube\n- 2 cups water\n- 1/2 tsp kosher salt\n- 1/4 tsp black pepper\n- 1 tbsp distilled white vinegar\n\n## Instructions\n\n### Prepare the Sous Vide Chicken (Start First - 1.5 hours total)\n\n1. **Set up sous vide**: Fill a large pot with water and set your sous vide immersion circulator to 145°F (63°C). Allow water to come to temperature.\n\n2. **Season chicken**: Pat chicken breasts dry and season both sides with kosher salt, black pepper, and MSG. Let rest for 10 minutes.\n\n3. **Vacuum seal**: Place seasoned chicken in a vacuum-seal bag or zip-lock bag. If using zip-lock, use the water displacement method to remove air.\n\n4. **Cook sous vide**: Submerge sealed chicken in the water bath and cook for 1.5 hours at 145°F.\n\n### Prepare the Creamy Mushroom Rice Pilaf (Start 45 minutes before chicken is done)\n\n5. **Prepare mushrooms**: Clean and slice mushrooms into 1/4-inch thick pieces.\n\n6. **Toast rice**: Heat your cast iron Dutch oven over medium heat. Add the basmati rice (no oil needed) and toast for 2-3 minutes, stirring frequently, until fragrant and lightly golden.\n\n7. **Make broth**: In a separate pot, dissolve the chicken bouillon cube in 2 cups of hot water. Add the distilled white vinegar to brighten the flavor.\n\n8. **Cook mushrooms**: Push rice to one side of the Dutch oven and add sliced mushrooms to the empty side. Cook mushrooms for 4-5 minutes until they release their moisture and begin to brown.\n\n9. **Combine and simmer**: Mix the rice and mushrooms together. Add the hot chicken broth, salt, and black pepper. Bring to a boil, then reduce heat to low, cover, and simmer for 15 minutes.\n\n10. **Add cream**: After 15 minutes, remove from heat and let stand for 5 minutes. Stir in the heavy cream until well incorporated. Taste and adjust seasoning with additional salt and pepper if needed.\n\n### Finish the Chicken\n\n11. **Sear chicken**: When sous vide cooking is complete, remove chicken from bag and pat completely dry. Heat the Dutch oven (after transferring rice to serving dish) over high heat. Sear chicken for 1-2 minutes per side until golden brown.\n\n12. **Rest and slice**: Let chicken rest for 2-3 minutes, then slice against the grain.\n\n## Serving\n\nServe the sliced sous vide chicken over the creamy mushroom rice pilaf. The rice should be creamy and flavorful, while the chicken will be incredibly tender and juicy.\n\n**Total Cooking Time:** 1.5 hours (mostly hands-off for the chicken)\n**Serves:** 4-6 people\n\n## Chef's Notes\n\n- The sous vide method ensures perfectly cooked, juicy chicken every time\n- The cast iron Dutch oven provides excellent heat retention for the rice pilaf\n- If you prefer a richer flavor, you can save the juices from the sous vide bag and drizzle them over the finished dish\n- For extra depth, you can add a pinch of celery salt to the rice during cooking",
-      "createdAt": "2025-08-02T22:44:17.855Z",
-      "ingredients": [
-        "Chicken Breast (2 lbs)",
-        "Basmati Rice (1 cup)",
-        "Heavy Cream (1 cup)",
-        "Mushrooms (8 oz)"
-      ],
-      "preferences": ""
-    }
-  ],
-  "lastUpdated": "2025-08-02T22:44:23.807Z",
+  "kitchenStaples": {},
+  "savedRecipes": [],
+  "lastUpdated": "2025-08-02T22:44:53.551Z",
   "debug": {
     "message": "Data saved successfully"
   }
