@@ -1,6 +1,14 @@
 {
   "ingredients": [
     {
+      "id": 3,
+      "name": "Heavy Cream",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Dairy",
+      "expires": "2025-08-03"
+    },
+    {
       "id": 4,
       "name": "Mushrooms",
       "quantity": 8,
@@ -24,7 +32,7 @@
     }
   ],
   "kitchenStaples": {},
-  "lastUpdated": "2025-08-02T19:41:15.705Z",
+  "lastUpdated": "2025-08-02T19:41:24.264Z",
   "debug": {
     "message": "Data saved successfully"
   }
