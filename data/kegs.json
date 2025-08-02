@@ -73,9 +73,12 @@
     "Italian seasoning": false,
     "Taco seasoning": true,
     "Curry powder": true,
-    "Garam masala": true
+    "Garam masala": true,
+    "Kosher salt": true,
+    "Himalayan pink salt": true,
+    "Celery salt": true
   },
-  "lastUpdated": "2025-08-02T20:14:15.513Z",
+  "lastUpdated": "2025-08-02T20:14:23.192Z",
   "debug": {
     "message": "Data saved successfully"
   }
