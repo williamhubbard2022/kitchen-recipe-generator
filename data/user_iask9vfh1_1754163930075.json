@@ -12,12 +12,6 @@
       "name": "Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
-    },
-    {
-      "id": 1754163773873,
-      "name": "ninja cold press juicer",
-      "type": "Other",
-      "capabilities": "ninja neverclog juicer"
     }
   ],
   "kitchenStaples": {
@@ -30,7 +24,7 @@
     "Soybean oil": true,
     "Sesame oil (toasted)": true
   },
-  "lastUpdated": "2025-08-02T19:46:20.100Z",
+  "lastUpdated": "2025-08-02T19:46:21.841Z",
   "debug": {
     "message": "Data saved successfully"
   }
