@@ -60,9 +60,10 @@
     "Celery salt": true,
     "Kosher salt": true,
     "Himalayan pink salt": true,
-    "Distilled white vinegar": true
+    "Distilled white vinegar": true,
+    "Red wine vinegar": true
   },
-  "lastUpdated": "2025-08-02T07:55:26.687Z",
+  "lastUpdated": "2025-08-02T07:55:28.659Z",
   "debug": {
     "message": "Data saved successfully"
   }
