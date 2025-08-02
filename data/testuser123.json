@@ -48,10 +48,16 @@
     }
   ],
   "kitchenStaples": {
-    "Black pepper": true
+    "Black pepper": true,
+    "Kosher salt": true,
+    "Himalayan pink salt": true,
+    "Celery salt": true,
+    "Bouillon (cubes or paste: chicken, beef, veg)": true,
+    "MSG (e.g., Ajinomoto)": true,
+    "Distilled white vinegar": true
   },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-02T22:43:44.550Z",
+  "lastUpdated": "2025-08-02T22:43:51.846Z",
   "debug": {
     "message": "Data saved successfully"
   }
