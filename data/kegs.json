@@ -1,5 +1,14 @@
 {
-  "ingredients": [],
+  "ingredients": [
+    {
+      "id": 1754099330881,
+      "name": "New Ingredient",
+      "quantity": 1,
+      "unit": "unit",
+      "category": "Other",
+      "expires": "2025-08-09"
+    }
+  ],
   "equipment": [
     {
       "id": 1,
@@ -14,7 +23,7 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "lastUpdated": "2025-08-02T01:48:50.422Z",
+  "lastUpdated": "2025-08-02T01:48:53.238Z",
   "debug": {
     "message": "Data saved successfully"
   }
