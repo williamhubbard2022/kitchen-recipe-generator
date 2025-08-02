@@ -23,6 +23,12 @@
       "name": "rice cooker",
       "type": "Other",
       "capabilities": "cook rice"
+    },
+    {
+      "id": 1754178142081,
+      "name": "ninja cold press juicer",
+      "type": "Other",
+      "capabilities": "juice"
     }
   ],
   "kitchenStaples": {
@@ -34,7 +40,7 @@
     "Oregano": true
   },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-02T23:42:23.888Z",
+  "lastUpdated": "2025-08-02T23:42:36.525Z",
   "debug": {
     "message": "Data saved successfully"
   }
