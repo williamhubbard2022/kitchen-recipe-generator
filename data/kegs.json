@@ -43,6 +43,12 @@
       "name": "cuisinart ice cream maker",
       "type": "Other",
       "capabilities": "2 quarts"
+    },
+    {
+      "id": 1754163773873,
+      "name": "New Equipment",
+      "type": "Other",
+      "capabilities": "Describe what this equipment can do"
     }
   ],
   "kitchenStaples": {
@@ -55,7 +61,7 @@
     "Soybean oil": true,
     "Sesame oil (toasted)": true
   },
-  "lastUpdated": "2025-08-02T19:42:53.840Z",
+  "lastUpdated": "2025-08-02T19:42:56.976Z",
   "debug": {
     "message": "Data saved successfully"
   }
