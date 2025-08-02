@@ -34,14 +34,9 @@
     "Avocado oil": true,
     "Grapeseed oil": true,
     "Basil": true,
-    "Oregano": true,
-    "Sage": true,
-    "Bay leaves": true,
-    "Rosemary": true,
-    "Parsley": true,
-    "Thyme": true
+    "Oregano": true
   },
-  "lastUpdated": "2025-08-02T07:47:13.488Z",
+  "lastUpdated": "2025-08-02T07:47:14.859Z",
   "debug": {
     "message": "Data saved successfully"
   }
