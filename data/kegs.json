@@ -31,9 +31,10 @@
     "Butter (unsalted)": true,
     "Butter (salted)": true,
     "Coconut oil (refined)": true,
-    "Avocado oil": true
+    "Avocado oil": true,
+    "Grapeseed oil": true
   },
-  "lastUpdated": "2025-08-02T07:47:04.920Z",
+  "lastUpdated": "2025-08-02T07:47:05.954Z",
   "debug": {
     "message": "Data saved successfully"
   }
