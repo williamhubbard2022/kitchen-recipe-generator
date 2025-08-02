@@ -34,7 +34,7 @@
       "id": 1754165694959,
       "name": "Ninja Neverclog Cold Press Juicer",
       "type": "Other",
-      "capabilities": "Describe what this equipment can do"
+      "capabilities": ""
     }
   ],
   "kitchenStaples": {
@@ -68,7 +68,7 @@
     "Himalayan pink salt": true,
     "Celery salt": true
   },
-  "lastUpdated": "2025-08-02T20:15:05.450Z",
+  "lastUpdated": "2025-08-02T20:15:10.343Z",
   "debug": {
     "message": "Data saved successfully"
   }
