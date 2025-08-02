@@ -26,7 +26,7 @@
     },
     {
       "id": 2,
-      "name": "Cast Iron Dutch Oven",
+      "name": "Oval Enameled Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
     }
@@ -62,7 +62,7 @@
     "Himalayan pink salt": true,
     "Celery salt": true
   },
-  "lastUpdated": "2025-08-02T20:14:49.963Z",
+  "lastUpdated": "2025-08-02T20:14:56.753Z",
   "debug": {
     "message": "Data saved successfully"
   }
