@@ -14,12 +14,6 @@
       "capabilities": "Braising, bread baking, high heat retention"
     },
     {
-      "id": 1754163762215,
-      "name": "cuisinart ice cream maker",
-      "type": "Other",
-      "capabilities": "2 quarts"
-    },
-    {
       "id": 1754163773873,
       "name": "ninja cold press juicer",
       "type": "Other",
@@ -36,7 +30,7 @@
     "Soybean oil": true,
     "Sesame oil (toasted)": true
   },
-  "lastUpdated": "2025-08-02T19:46:17.483Z",
+  "lastUpdated": "2025-08-02T19:46:20.100Z",
   "debug": {
     "message": "Data saved successfully"
   }
