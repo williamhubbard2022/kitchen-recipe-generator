@@ -7,6 +7,14 @@
       "unit": "lbs",
       "category": "Other",
       "expires": "2025-08-09"
+    },
+    {
+      "id": 1754163697427,
+      "name": "New Ingredient",
+      "quantity": 1,
+      "unit": "unit",
+      "category": "Other",
+      "expires": "2025-08-09"
     }
   ],
   "equipment": [
@@ -33,7 +41,7 @@
     "Soybean oil": true,
     "Sesame oil (toasted)": true
   },
-  "lastUpdated": "2025-08-02T19:41:38.286Z",
+  "lastUpdated": "2025-08-02T19:41:40.954Z",
   "debug": {
     "message": "Data saved successfully"
   }
