@@ -33,9 +33,15 @@
       "name": "Cuisinart 2qt Ice Cream Maker",
       "type": "Other",
       "capabilities": ""
+    },
+    {
+      "id": 1754120024239,
+      "name": "New Equipment",
+      "type": "Other",
+      "capabilities": "Describe what this equipment can do"
     }
   ],
-  "lastUpdated": "2025-08-02T07:33:43.179Z",
+  "lastUpdated": "2025-08-02T07:33:46.387Z",
   "debug": {
     "message": "Data saved successfully"
   }
