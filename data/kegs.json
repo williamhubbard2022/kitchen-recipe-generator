@@ -79,9 +79,10 @@
     "Corn syrup": false,
     "Agave syrup": true,
     "Maple syrup": true,
-    "Honey": true
+    "Honey": true,
+    "Coconut sugar": true
   },
-  "lastUpdated": "2025-08-02T07:56:23.622Z",
+  "lastUpdated": "2025-08-02T07:56:27.232Z",
   "debug": {
     "message": "Data saved successfully"
   }
