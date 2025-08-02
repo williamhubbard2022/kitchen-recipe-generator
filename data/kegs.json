@@ -3,15 +3,23 @@
     {
       "id": 1,
       "name": "Chicken Breast",
-      "quantity": 0.5,
+      "quantity": 2,
       "unit": "lbs",
       "category": "Protein",
       "expires": "2025-08-05"
     },
     {
+      "id": 2,
+      "name": "Basmati Rice",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Grain",
+      "expires": "2026-01-01"
+    },
+    {
       "id": 3,
       "name": "Heavy Cream",
-      "quantity": 6,
+      "quantity": 1,
       "unit": "cup",
       "category": "Dairy",
       "expires": "2025-08-03"
@@ -19,7 +27,7 @@
     {
       "id": 4,
       "name": "Mushrooms",
-      "quantity": 21,
+      "quantity": 8,
       "unit": "oz",
       "category": "Vegetable",
       "expires": "2025-08-04"
@@ -37,15 +45,9 @@
       "name": "Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
-    },
-    {
-      "id": 1754099081596,
-      "name": "ice cream maker",
-      "type": "Other",
-      "capabilities": "Describe what this equipmenasdasdat can do"
     }
   ],
-  "lastUpdated": "2025-08-02T01:45:19.989Z",
+  "lastUpdated": "2025-08-02T01:45:31.623Z",
   "debug": {
     "message": "Data saved successfully"
   }
