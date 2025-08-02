@@ -122,97 +122,6 @@
         );
 
         const RecipeGenerator = () => {
-            // User management functions
-            const getUserId = () => {
-                let username = localStorage.getItem('username');
-                if (username) return username;
-                
-                let userId = localStorage.getItem('user_id');
-                if (!userId) {
-                    userId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
-                    localStorage.setItem('user_id', userId);
-                }
-                return userId;
-            };
-
-            const setUsername = (newUsername) => {
-                if (!newUsername || newUsername.trim() === '') return false;
-                
-                const cleanUsername = newUsername.toLowerCase().replace(/[^a-z0-9-_]/g, '');
-                if (cleanUsername.length < 2) {
-                    alert('Username must be at least 2 characters long and contain only letters, numbers, hyphens, and underscores');
-                    return false;
-                }
-                
-                localStorage.setItem('username', cleanUsername);
-                setUserId(cleanUsername);
-                setShowUserModal(false);
-                loadDataForUser(cleanUsername);
-                return true;
-            };
-
-            const loadDataForUser = async (targetUserId) => {
-                try {
-                    setIsSyncing(true);
-                    const response = await fetch(`/.netlify/functions/github-sync?userId=${targetUserId}`, {
-                        method: 'GET',
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.ingredients && data.ingredients.length > 0) {
-                            setIngredients(data.ingredients);
-                        }
-                        if (data.equipment && data.equipment.length > 0) {
-                            setEquipment(data.equipment);
-                        }
-                        if (data.pantryItems) {
-                            setPantryItems(data.pantryItems);
-                        }
-                        setSyncStatus('synced');
-                    } else {
-                        setSyncStatus('synced');
-                    }
-                } catch (error) {
-                    console.error('Error loading data for user:', error);
-                    setSyncStatus('error');
-                } finally {
-                    setIsSyncing(false);
-                }
-            };
-
-            const clearUsername = () => {
-                localStorage.removeItem('username');
-                const newId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
-                localStorage.setItem('user_id', newId);
-                setUserId(newId);
-                setShowUserModal(false);
-                // Reset to defaults with expanded pantry
-                setIngredients([
-                    { id: 1, name: 'Chicken Breast', quantity: 2, unit: 'lbs', category: 'Protein', expires: '2025-08-05' },
-                    { id: 2, name: 'Basmati Rice', quantity: 1, unit: 'cup', category: 'Grain', expires: '2026-01-01' },
-                    { id: 3, name: 'Heavy Cream', quantity: 1, unit: 'cup', category: 'Dairy', expires: '2025-08-03' },
-                    { id: 4, name: 'Mushrooms', quantity: 8, unit: 'oz', category: 'Vegetable', expires: '2025-08-04' }
-                ]);
-                setEquipment([
-                    { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
-                    { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
-                ]);
-                setPantryItems(getDefaultPantryItems());
-                setSyncStatus('synced');
-            };
-
-            const getApiKey = () => {
-                let apiKey = localStorage.getItem('anthropic_api_key');
-                if (!apiKey) {
-                    apiKey = prompt('Please enter your Anthropic API key (starts with sk-ant-):');
-                    if (apiKey) {
-                        localStorage.setItem('anthropic_api_key', apiKey);
-                    }
-                }
-                return apiKey;
-            };
-
             // Default pantry items with comprehensive options
             const getDefaultPantryItems = () => ({
                 oils: [
@@ -453,6 +362,97 @@
                     { id: 12, name: 'Cornstarch', available: false }
                 ]
             });
+
+            // User management functions
+            const getUserId = () => {
+                let username = localStorage.getItem('username');
+                if (username) return username;
+                
+                let userId = localStorage.getItem('user_id');
+                if (!userId) {
+                    userId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                    localStorage.setItem('user_id', userId);
+                }
+                return userId;
+            };
+
+            const setUsername = (newUsername) => {
+                if (!newUsername || newUsername.trim() === '') return false;
+                
+                const cleanUsername = newUsername.toLowerCase().replace(/[^a-z0-9-_]/g, '');
+                if (cleanUsername.length < 2) {
+                    alert('Username must be at least 2 characters long and contain only letters, numbers, hyphens, and underscores');
+                    return false;
+                }
+                
+                localStorage.setItem('username', cleanUsername);
+                setUserId(cleanUsername);
+                setShowUserModal(false);
+                loadDataForUser(cleanUsername);
+                return true;
+            };
+
+            const loadDataForUser = async (targetUserId) => {
+                try {
+                    setIsSyncing(true);
+                    const response = await fetch(`/.netlify/functions/github-sync?userId=${targetUserId}`, {
+                        method: 'GET',
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.ingredients && data.ingredients.length > 0) {
+                            setIngredients(data.ingredients);
+                        }
+                        if (data.equipment && data.equipment.length > 0) {
+                            setEquipment(data.equipment);
+                        }
+                        if (data.pantryItems) {
+                            setPantryItems(data.pantryItems);
+                        }
+                        setSyncStatus('synced');
+                    } else {
+                        setSyncStatus('synced');
+                    }
+                } catch (error) {
+                    console.error('Error loading data for user:', error);
+                    setSyncStatus('error');
+                } finally {
+                    setIsSyncing(false);
+                }
+            };
+
+            const clearUsername = () => {
+                localStorage.removeItem('username');
+                const newId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                localStorage.setItem('user_id', newId);
+                setUserId(newId);
+                setShowUserModal(false);
+                // Reset to defaults with expanded pantry
+                setIngredients([
+                    { id: 1, name: 'Chicken Breast', quantity: 2, unit: 'lbs', category: 'Protein', expires: '2025-08-05' },
+                    { id: 2, name: 'Basmati Rice', quantity: 1, unit: 'cup', category: 'Grain', expires: '2026-01-01' },
+                    { id: 3, name: 'Heavy Cream', quantity: 1, unit: 'cup', category: 'Dairy', expires: '2025-08-03' },
+                    { id: 4, name: 'Mushrooms', quantity: 8, unit: 'oz', category: 'Vegetable', expires: '2025-08-04' }
+                ]);
+                setEquipment([
+                    { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
+                    { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
+                ]);
+                setPantryItems(getDefaultPantryItems());
+                setSyncStatus('synced');
+            };
+
+            const getApiKey = () => {
+                let apiKey = localStorage.getItem('anthropic_api_key');
+                if (!apiKey) {
+                    apiKey = prompt('Please enter your Anthropic API key (starts with sk-ant-):');
+                    if (apiKey) {
+                        localStorage.setItem('anthropic_api_key', apiKey);
+                    }
+                }
+                return apiKey;
+            };
 
             // State
             const [ingredients, setIngredients] = useState([
@@ -1009,6 +1009,12 @@ Format the recipe with a clear title, ingredient list (using only available item
                                                         <div className="flex gap-2">
                                                             <button
                                                                 onClick={() => setEditingItem(null)}
+                                                                className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
+                                                            >
+                                                                Save
+                                                            </button>
+                                                            <button
+                                                                onClick={() => setEditingItem(null)}
                                                                 className="bg-gray-500 text-white px-3 py-1 rounded text-sm hover:bg-gray-600"
                                                             >
                                                                 Cancel
@@ -1291,9 +1297,7 @@ Format the recipe with a clear title, ingredient list (using only available item
         ReactDOM.render(<RecipeGenerator />, document.getElementById('root'));
     </script>
 </body>
-</html>-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
-                                                            >
-                                                                Save
+</html>
                                                             </button>
                                                             <button
                                                                 onClick={() => setEditingItem(null)}
@@ -1419,7 +1423,3 @@ Format the recipe with a clear title, ingredient list (using only available item
                                                                 className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
                                                             >
                                                                 Save
-                                                            </button>
-                                                            <button
-                                                                onClick={() => setEditingItem(null)}
-                                                                className="bg
