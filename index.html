@@ -404,92 +404,88 @@
             const [showUserModal, setShowUserModal] = useState(false);
             const [usernameInput, setUsernameInput] = useState('');
             const [collapsedCategories, setCollapsedCategories] = useState({});
-            
-            const [lastSyncTime, setLastSyncTime] = useState(Date.now());
-            
-            const [pendingChanges, setPendingChanges] = useState(false);
-            
-            const [localVersion, setLocalVersion] = useState(0);
 
             const syncTimeoutRef = useRef(null);
 
             // Load data from database on component mount
             useEffect(() => {
-    loadDataFromDatabase();
-    // Set up periodic sync check (every 30 seconds)
-    const interval = setInterval(() => {
-        // Only sync if no pending changes
-        if (!pendingChanges) {
-            loadDataFromDatabase();
-        }
-    }, 30000);
-    return () => clearInterval(interval);
-}, [pendingChanges]); // Add pendingChanges as dependency
+                loadDataFromDatabase();
+                // Set up periodic sync check (every 30 seconds)
+                const interval = setInterval(loadDataFromDatabase, 30000);
+                return () => clearInterval(interval);
+            }, []);
 
             // Auto-save to database when data changes (debounced)
             useEffect(() => {
-    setPendingChanges(true);
-    setLocalVersion(v => v + 1);
-    
-    if (syncTimeoutRef.current) {
-        clearTimeout(syncTimeoutRef.current);
-    }
-    
-    syncTimeoutRef.current = setTimeout(() => {
-        saveDataToDatabase().then(() => {
-            setPendingChanges(false);
-            setLastSyncTime(Date.now());
-        });
-    }, 2000); // Increased to 2 seconds for better debouncing
+                if (syncTimeoutRef.current) {
+                    clearTimeout(syncTimeoutRef.current);
+                }
+                
+                syncTimeoutRef.current = setTimeout(() => {
+                    saveDataToDatabase();
+                }, 1000); // Save 1 second after user stops making changes
 
-    return () => {
-        if (syncTimeoutRef.current) {
-            clearTimeout(syncTimeoutRef.current);
-        }
-    };
-}, [ingredients, equipment, kitchenStaples, localVersion]);
+                return () => {
+                    if (syncTimeoutRef.current) {
+                        clearTimeout(syncTimeoutRef.current);
+                    }
+                };
+            }, [ingredients, equipment, kitchenStaples]);
+
             const loadDataFromDatabase = async () => {
-    // Don't sync if there are pending local changes
-    if (pendingChanges) {
-        console.log('Skipping sync - pending local changes');
-        return;
-    }
-    
-    try {
-        setIsSyncing(true);
-        console.log('Loading data for user:', userId);
-        
-        const response = await fetch(`/.netlify/functions/github-sync?userId=${userId}`, {
-            method: 'GET',
-        });
+                try {
+                    setIsSyncing(true);
+                    console.log('Loading data for user:', userId);
+                    
+                    const response = await fetch(`/.netlify/functions/github-sync?userId=${userId}`, {
+                        method: 'GET',
+                    });
 
-        if (response.ok) {
-            const data = await response.json();
-            console.log('Received data:', data);
-            
-            // Only update if the server data is newer than our last sync
-            if (!data.lastUpdated || new Date(data.lastUpdated) > new Date(lastSyncTime)) {
-                if (data.ingredients && data.ingredients.length > 0) {
-                    setIngredients(data.ingredients);
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', response.headers);
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('Received data:', data);
+                        
+                        // Only update if we actually got data from the database
+                        if (data.ingredients && data.ingredients.length > 0) {
+                            setIngredients(data.ingredients);
+                        }
+                        if (data.equipment && data.equipment.length > 0) {
+                            setEquipment(data.equipment);
+                        }
+                        if (data.kitchenStaples) {
+                            setKitchenStaples(data.kitchenStaples);
+                        }
+                        setSyncStatus('synced');
+                    } else {
+                        const errorText = await response.text();
+                        console.error('Failed to load data:', response.status, errorText);
+                        setSyncStatus('error');
+                    }
+                } catch (error) {
+                    console.error('Error loading data:', error);
+                    setSyncStatus('error');
+                    // Fallback to localStorage if database fails
+                    const savedIngredients = localStorage.getItem('ingredients');
+                    const savedEquipment = localStorage.getItem('equipment');
+                    const savedStaples = localStorage.getItem('kitchenStaples');
+                    if (savedIngredients) {
+                        const parsed = JSON.parse(savedIngredients);
+                        if (parsed.length > 0) setIngredients(parsed);
+                    }
+                    if (savedEquipment) {
+                        const parsed = JSON.parse(savedEquipment);
+                        if (parsed.length > 0) setEquipment(parsed);
+                    }
+                    if (savedStaples) {
+                        setKitchenStaples(JSON.parse(savedStaples));
+                    }
+                } finally {
+                    setIsSyncing(false);
                 }
-                if (data.equipment && data.equipment.length > 0) {
-                    setEquipment(data.equipment);
-                }
-                if (data.kitchenStaples) {
-                    setKitchenStaples(data.kitchenStaples);
-                }
-                setLastSyncTime(Date.now());
-            }
-            setSyncStatus('synced');
-        } else {
-            // ... rest of error handling
-        }
-    } catch (error) {
-        // ... rest of error handling
-    } finally {
-        setIsSyncing(false);
-    }
-};
+            };
 
             const saveDataToDatabase = async () => {
                 try {
@@ -696,20 +692,20 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
             const expiringSoon = ingredients.filter(ing => isExpiringSoon(ing.expires));
 
             const getSyncStatusInfo = () => {
-    if (pendingChanges) {
-        return { color: 'text-yellow-500', text: 'Saving...', icon: <Cloud className="sync-indicator" /> };
-    }
-    switch (syncStatus) {
-        case 'syncing':
-            return { color: 'text-blue-500', text: 'Syncing...', icon: <Cloud className="sync-indicator" /> };
-        case 'synced':
-            return { color: 'text-green-500', text: 'Synced', icon: <Cloud /> };
-        case 'error':
-            return { color: 'text-red-500', text: 'Sync Error', icon: <Cloud /> };
-        default:
-            return { color: 'text-gray-500', text: 'Unknown', icon: <Cloud /> };
-    }
-};
+                switch (syncStatus) {
+                    case 'syncing':
+                        return { color: 'text-blue-500', text: 'Syncing...', icon: <Cloud className="sync-indicator" /> };
+                    case 'synced':
+                        return { color: 'text-green-500', text: 'Synced', icon: <Cloud /> };
+                    case 'error':
+                        return { color: 'text-red-500', text: 'Sync Error', icon: <Cloud /> };
+                    default:
+                        return { color: 'text-gray-500', text: 'Unknown', icon: <Cloud /> };
+                }
+            };
+
+            const statusInfo = getSyncStatusInfo();
+
             const renderStapleCategory = (categoryKey, categoryData) => {
                 const isCollapsed = collapsedCategories[categoryKey];
                 
@@ -1292,4 +1288,3 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
-
