@@ -1,28 +1,44 @@
 {
   "ingredients": [
     {
-      "id": 1754163690590,
-      "name": "chicken breast",
+      "id": 1,
+      "name": "Chicken Breast",
       "quantity": 2,
       "unit": "lbs",
-      "category": "protein",
-      "expires": "2025-08-09"
+      "category": "Protein",
+      "expires": "2025-08-05"
     },
     {
-      "id": 1754163697427,
-      "name": "salmon",
-      "quantity": 12,
+      "id": 2,
+      "name": "Basmati Rice",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Grain",
+      "expires": "2026-01-01"
+    },
+    {
+      "id": 3,
+      "name": "Heavy Cream",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Dairy",
+      "expires": "2025-08-03"
+    },
+    {
+      "id": 4,
+      "name": "Mushrooms",
+      "quantity": 8,
       "unit": "oz",
-      "category": "protein",
+      "category": "Vegetable",
       "expires": "2025-08-04"
     },
     {
-      "id": 1754163715461,
-      "name": "Fettucine dry pasta",
-      "quantity": 12,
-      "unit": "oz",
-      "category": "pasta",
-      "expires": "2030-08-09"
+      "id": 1754164071848,
+      "name": "New Ingredient",
+      "quantity": 1,
+      "unit": "unit",
+      "category": "Other",
+      "expires": "2025-08-09"
     }
   ],
   "equipment": [
@@ -37,31 +53,19 @@
       "name": "Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
-    },
-    {
-      "id": 1754163762215,
-      "name": "cuisinart ice cream maker",
-      "type": "Other",
-      "capabilities": "2 quarts"
-    },
-    {
-      "id": 1754163773873,
-      "name": "ninja cold press juicer",
-      "type": "Other",
-      "capabilities": "ninja neverclog juicer"
     }
   ],
   "kitchenStaples": {
-    "Coconut oil (virgin)": true,
-    "Vegetable oil": true,
-    "Walnut oil": true,
-    "Corn oil": true,
-    "Coconut oil (refined)": true,
-    "Olive oil (light or regular)": true,
-    "Soybean oil": true,
-    "Sesame oil (toasted)": true
+    "Coconut oil (virgin)": false,
+    "Vegetable oil": false,
+    "Walnut oil": false,
+    "Corn oil": false,
+    "Coconut oil (refined)": false,
+    "Olive oil (light or regular)": false,
+    "Soybean oil": false,
+    "Sesame oil (toasted)": false
   },
-  "lastUpdated": "2025-08-02T19:46:06.842Z",
+  "lastUpdated": "2025-08-02T19:48:16.812Z",
   "debug": {
     "message": "Data saved successfully"
   }
