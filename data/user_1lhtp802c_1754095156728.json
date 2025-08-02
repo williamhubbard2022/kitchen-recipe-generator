@@ -17,22 +17,6 @@
       "expires": "2026-01-01"
     },
     {
-      "id": 3,
-      "name": "Heavy Cream",
-      "quantity": 1,
-      "unit": "cup",
-      "category": "Dairy",
-      "expires": "2025-08-03"
-    },
-    {
-      "id": 4,
-      "name": "Mushrooms",
-      "quantity": 8,
-      "unit": "oz",
-      "category": "Vegetable",
-      "expires": "2025-08-04"
-    },
-    {
       "id": 1754097719208,
       "name": "greek yogurt",
       "quantity": 12,
@@ -55,7 +39,7 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "lastUpdated": "2025-08-02T01:22:06.741Z",
+  "lastUpdated": "2025-08-02T01:22:12.281Z",
   "debug": {
     "message": "Data saved successfully"
   }
