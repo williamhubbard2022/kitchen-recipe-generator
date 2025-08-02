@@ -1,21 +1,4 @@
-if (!userId) {
-      console.error('No userId provided');
-      return {
-        statusCode: 400,
-        headers: { 
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-          error: 'User ID is required',
-          debug: {
-            method: httpMethod,
-            queryParams: event.queryStringParameters,
-            bodyProvided: !!event.body
-          }
-        })
-      };
-    }// netlify/functions/github-sync.js
+// netlify/functions/github-sync.js
 exports.handler = async (event, context) => {
   // Handle CORS preflight
   if (event.httpMethod === 'OPTIONS') {
@@ -115,6 +98,25 @@ exports.handler = async (event, context) => {
       };
     }
 
+    if (!userId) {
+      console.error('No userId provided');
+      return {
+        statusCode: 400,
+        headers: { 
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          error: 'User ID is required',
+          debug: {
+            method: httpMethod,
+            queryParams: event.queryStringParameters,
+            bodyProvided: !!event.body
+          }
+        })
+      };
+    }
+
     console.log('Processing request for user:', userId);
 
     const fileName = `data/${userId}.json`;
@@ -122,7 +124,7 @@ exports.handler = async (event, context) => {
     
     // Common headers for GitHub API
     const githubHeaders = {
-      'Authorization': `Bearer ${GITHUB_TOKEN}`, // Using Bearer instead of token
+      'Authorization': `Bearer ${GITHUB_TOKEN}`,
       'Accept': 'application/vnd.github.v3+json',
       'User-Agent': 'kitchen-recipe-generator-app',
       'X-GitHub-Api-Version': '2022-11-28'
@@ -309,7 +311,10 @@ exports.handler = async (event, context) => {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ error: `Method ${method} not allowed` })
+          body: JSON.stringify({ 
+            error: `Method ${httpMethod} not allowed`,
+            allowedMethods: ['GET', 'POST', 'OPTIONS']
+          })
         };
     }
 
