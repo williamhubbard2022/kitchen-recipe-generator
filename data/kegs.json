@@ -6,16 +6,10 @@
       "name": "Sous Vide Immersion Circulator",
       "type": "Precision Cooking",
       "capabilities": "Precise temperature control, long slow cooking"
-    },
-    {
-      "id": 2,
-      "name": "Cast Iron Dutch Oven",
-      "type": "Cooking",
-      "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
   "kitchenStaples": {},
-  "lastUpdated": "2025-08-02T19:49:49.710Z",
+  "lastUpdated": "2025-08-02T19:49:51.690Z",
   "debug": {
     "message": "Data saved successfully"
   }
