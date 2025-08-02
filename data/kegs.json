@@ -52,9 +52,10 @@
     "Sweet paprika": false,
     "Mint": false,
     "Smoked paprika": true,
-    "Nutmeg": true
+    "Nutmeg": true,
+    "Taco seasoning": true
   },
-  "lastUpdated": "2025-08-02T07:55:04.295Z",
+  "lastUpdated": "2025-08-02T07:55:12.241Z",
   "debug": {
     "message": "Data saved successfully"
   }
