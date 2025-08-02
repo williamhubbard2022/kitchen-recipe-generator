@@ -404,27 +404,62 @@
             const [showUserModal, setShowUserModal] = useState(false);
             const [usernameInput, setUsernameInput] = useState('');
             const [collapsedCategories, setCollapsedCategories] = useState({});
-
+            const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+            const [isUserActive, setIsUserActive] = useState(false);
+            const lastUserActionRef = useRef(Date.now());
             const syncTimeoutRef = useRef(null);
-
+            // Track user activity
+            const trackUserAction = () => {
+                lastUserActionRef.current = Date.now();
+                setIsUserActive(true);
+                setHasUnsavedChanges(true);
+                
+                // Clear the "user active" flag after 5 seconds of inactivity
+                setTimeout(() => {
+                    if (Date.now() - lastUserActionRef.current >= 5000) {
+                        setIsUserActive(false);
+                    }
+                }, 5000);
+            };
             // Load data from database on component mount
             useEffect(() => {
                 loadDataFromDatabase();
-                // Set up periodic sync check (every 30 seconds)
-                const interval = setInterval(loadDataFromDatabase, 30000);
+            // Set up periodic sync check (every 30 seconds, but only when user is not active)
+            const interval = setInterval(() => {
+                const timeSinceLastAction = Date.now() - lastUserActionRef.current;
+                if (!isUserActive && !hasUnsavedChanges && timeSinceLastAction > 10000) {
+                    loadDataFromDatabase();
+                }
+            }, 30000);
                 return () => clearInterval(interval);
             }, []);
-
+            // Handle page visibility changes to prevent sync conflicts
+            useEffect(() => {
+                const handleVisibilityChange = () => {
+                    if (document.visibilityState === 'visible') {
+                        // Page became visible, sync if no unsaved changes
+                        if (!hasUnsavedChanges && !isUserActive) {
+                            setTimeout(() => loadDataFromDatabase(true), 1000);
+                        }
+                    }
+                };
+            
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+                return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+            }, [hasUnsavedChanges, isUserActive]);
             // Auto-save to database when data changes (debounced)
             useEffect(() => {
                 if (syncTimeoutRef.current) {
                     clearTimeout(syncTimeoutRef.current);
                 }
                 
+                trackUserAction(); // Track that user made changes
+                
                 syncTimeoutRef.current = setTimeout(() => {
                     saveDataToDatabase();
-                }, 1000); // Save 1 second after user stops making changes
-
+                    setHasUnsavedChanges(false);
+                }, 2000); // Increased to 2 seconds to give users more time
+            
                 return () => {
                     if (syncTimeoutRef.current) {
                         clearTimeout(syncTimeoutRef.current);
@@ -432,7 +467,13 @@
                 };
             }, [ingredients, equipment, kitchenStaples]);
 
-            const loadDataFromDatabase = async () => {
+            const loadDataFromDatabase = async (forceLoad = false) => {
+                // Don't load if user is actively editing or has unsaved changes, unless forced
+                if (!forceLoad && (isUserActive || hasUnsavedChanges || editingItem)) {
+                    console.log('Skipping load - user is active or has unsaved changes');
+                    return;
+                }
+                
                 try {
                     setIsSyncing(true);
                     console.log('Loading data for user:', userId);
@@ -448,14 +489,14 @@
                         const data = await response.json();
                         console.log('Received data:', data);
                         
-                        // Only update if we actually got data from the database
-                        if (data.ingredients && data.ingredients.length > 0) {
+                        // Only update if we actually got data from the database AND user isn't editing
+                        if (data.ingredients && data.ingredients.length > 0 && !editingItem) {
                             setIngredients(data.ingredients);
                         }
-                        if (data.equipment && data.equipment.length > 0) {
+                        if (data.equipment && data.equipment.length > 0 && !editingItem) {
                             setEquipment(data.equipment);
                         }
-                        if (data.kitchenStaples) {
+                        if (data.kitchenStaples && !editingItem) {
                             setKitchenStaples(data.kitchenStaples);
                         }
                         setSyncStatus('synced');
@@ -537,10 +578,12 @@
             };
 
             const markAsUsed = (id) => {
+                trackUserAction();
                 setIngredients(ingredients.filter(item => item.id !== id));
             };
 
             const updateQuantity = (id, newQuantity) => {
+                trackUserAction();
                 if (newQuantity <= 0) {
                     markAsUsed(id);
                 } else {
@@ -551,6 +594,7 @@
             };
 
             const addIngredient = () => {
+                trackUserAction();
                 const newIngredient = {
                     id: Date.now(),
                     name: 'New Ingredient',
@@ -564,6 +608,7 @@
             };
 
             const addEquipment = () => {
+                trackUserAction();
                 const newEquipment = {
                     id: Date.now(),
                     name: 'New Equipment',
@@ -575,26 +620,31 @@
             };
 
             const deleteIngredient = (id) => {
+                trackUserAction();
                 setIngredients(ingredients.filter(item => item.id !== id));
             };
 
             const deleteEquipment = (id) => {
+                trackUserAction();
                 setEquipment(equipment.filter(item => item.id !== id));
             };
 
             const updateIngredient = (id, field, value) => {
+                trackUserAction();
                 setIngredients(ingredients.map(item => 
                     item.id === id ? { ...item, [field]: value } : item
                 ));
             };
 
             const updateEquipment = (id, field, value) => {
+                trackUserAction();
                 setEquipment(equipment.map(item => 
                     item.id === id ? { ...item, [field]: value } : item
                 ));
             };
 
             const toggleStaple = (itemName) => {
+                trackUserAction();
                 setKitchenStaples(prev => ({
                     ...prev,
                     [itemName]: !prev[itemName]
@@ -785,6 +835,9 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                 <div className={`flex items-center gap-1 ${statusInfo.color}`}>
                                     {statusInfo.icon}
                                     <span>{statusInfo.text}</span>
+                                    {hasUnsavedChanges && (
+                                        <span className="text-orange-500 text-xs">• Unsaved</span>
+                                    )}
                                 </div>
                                 <button
                                     onClick={() => setShowUserModal(true)}
@@ -797,8 +850,13 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                 <button
                                     onClick={() => {
                                         console.log('Force sync clicked');
-                                        loadDataFromDatabase();
-                                        saveDataToDatabase();
+                                        if (hasUnsavedChanges) {
+                                            saveDataToDatabase().then(() => {
+                                                loadDataFromDatabase(true);
+                                            });
+                                        } else {
+                                            loadDataFromDatabase(true);
+                                        }
                                     }}
                                     className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600"
                                     disabled={isSyncing}
@@ -1288,3 +1346,4 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
