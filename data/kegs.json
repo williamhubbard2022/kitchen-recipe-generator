@@ -2,7 +2,7 @@
   "ingredients": [
     {
       "id": 1754099330881,
-      "name": "b",
+      "name": "assad",
       "quantity": 1,
       "unit": "unit",
       "category": "Other",
@@ -23,7 +23,7 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "lastUpdated": "2025-08-02T01:48:57.208Z",
+  "lastUpdated": "2025-08-02T01:48:58.880Z",
   "debug": {
     "message": "Data saved successfully"
   }
