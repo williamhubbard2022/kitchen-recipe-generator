@@ -114,8 +114,16 @@
                 return apiKey;
             };
 
-            const [ingredients, setIngredients] = useState([]);
-            const [equipment, setEquipment] = useState([]);
+            const [ingredients, setIngredients] = useState([
+                { id: 1, name: 'Chicken Breast', quantity: 2, unit: 'lbs', category: 'Protein', expires: '2025-08-05' },
+                { id: 2, name: 'Basmati Rice', quantity: 1, unit: 'cup', category: 'Grain', expires: '2026-01-01' },
+                { id: 3, name: 'Heavy Cream', quantity: 1, unit: 'cup', category: 'Dairy', expires: '2025-08-03' },
+                { id: 4, name: 'Mushrooms', quantity: 8, unit: 'oz', category: 'Vegetable', expires: '2025-08-04' }
+            ]);
+            const [equipment, setEquipment] = useState([
+                { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
+                { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
+            ]);
             const [activeTab, setActiveTab] = useState('ingredients');
             const [editingItem, setEditingItem] = useState(null);
             const [generatedRecipe, setGeneratedRecipe] = useState('');
@@ -155,14 +163,19 @@
             const loadDataFromDatabase = async () => {
                 try {
                     setIsSyncing(true);
-                    const response = await fetch(`/.netlify/functions/sync-data?userId=${userId}`, {
+                    const response = await fetch(`/.netlify/functions/github-sync?userId=${userId}`, {
                         method: 'GET',
                     });
 
                     if (response.ok) {
                         const data = await response.json();
-                        setIngredients(data.ingredients || []);
-                        setEquipment(data.equipment || []);
+                        // Only update if we actually got data from the database
+                        if (data.ingredients && data.ingredients.length > 0) {
+                            setIngredients(data.ingredients);
+                        }
+                        if (data.equipment && data.equipment.length > 0) {
+                            setEquipment(data.equipment);
+                        }
                         setSyncStatus('synced');
                     } else {
                         console.error('Failed to load data');
@@ -174,8 +187,14 @@
                     // Fallback to localStorage if database fails
                     const savedIngredients = localStorage.getItem('ingredients');
                     const savedEquipment = localStorage.getItem('equipment');
-                    if (savedIngredients) setIngredients(JSON.parse(savedIngredients));
-                    if (savedEquipment) setEquipment(JSON.parse(savedEquipment));
+                    if (savedIngredients) {
+                        const parsed = JSON.parse(savedIngredients);
+                        if (parsed.length > 0) setIngredients(parsed);
+                    }
+                    if (savedEquipment) {
+                        const parsed = JSON.parse(savedEquipment);
+                        if (parsed.length > 0) setEquipment(parsed);
+                    }
                 } finally {
                     setIsSyncing(false);
                 }
@@ -184,7 +203,7 @@
             const saveDataToDatabase = async () => {
                 try {
                     setSyncStatus('syncing');
-                    const response = await fetch('/.netlify/functions/sync-data', {
+                    const response = await fetch('/.netlify/functions/github-sync', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -375,6 +394,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                 </div>
                                 <button
                                     onClick={() => {
+                                        console.log('Force sync clicked');
                                         loadDataFromDatabase();
                                         saveDataToDatabase();
                                     }}
@@ -382,6 +402,15 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                     disabled={isSyncing}
                                 >
                                     {isSyncing ? 'Syncing...' : 'Force Sync'}
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        console.log('Current state:', { ingredients, equipment, userId });
+                                        console.log('Sync status:', syncStatus);
+                                    }}
+                                    className="bg-gray-500 text-white px-3 py-1 rounded text-xs hover:bg-gray-600"
+                                >
+                                    Debug
                                 </button>
                             </div>
                         </div>
