@@ -34,10 +34,10 @@
       "id": 1754098545358,
       "name": "ice cream maker",
       "type": "Other",
-      "capabilities": "Describe what this equipment can do"
+      "capabilities": "make ice cream"
     }
   ],
-  "lastUpdated": "2025-08-02T01:35:50.249Z",
+  "lastUpdated": "2025-08-02T01:35:56.531Z",
   "debug": {
     "message": "Data saved successfully"
   }
