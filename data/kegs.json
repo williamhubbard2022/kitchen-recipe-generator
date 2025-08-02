@@ -41,9 +41,18 @@
     "Dill": true,
     "Black pepper": true,
     "Turmeric": true,
-    "Coconut oil (virgin)": false
+    "Coconut oil (virgin)": false,
+    "Sage": false,
+    "Marjoram": false,
+    "Bay leaves": true,
+    "Cayenne pepper": true,
+    "Crushed red pepper": true,
+    "Cumin": true,
+    "White pepper": false,
+    "Sweet paprika": true,
+    "Mint": false
   },
-  "lastUpdated": "2025-08-02T07:54:46.446Z",
+  "lastUpdated": "2025-08-02T07:54:57.430Z",
   "debug": {
     "message": "Data saved successfully"
   }
