@@ -56,7 +56,7 @@ exports.handler = async (event, context) => {
     }
 
     const { httpMethod } = event;
-    let userId, ingredients, equipment, kitchenStaples;
+    let userId, ingredients, equipment, kitchenStaples, savedRecipes;
 
     if (httpMethod === 'GET') {
       userId = event.queryStringParameters?.userId;
@@ -68,6 +68,7 @@ exports.handler = async (event, context) => {
         ingredients = body.ingredients;
         equipment = body.equipment;
         kitchenStaples = body.kitchenStaples;
+        savedRecipes = body.savedRecipes;
         console.log('POST request for user:', userId, 'with', ingredients?.length || 0, 'ingredients and', equipment?.length || 0, 'equipment');
       } catch (parseError) {
         console.error('JSON parse error:', parseError);
@@ -209,11 +210,12 @@ exports.handler = async (event, context) => {
           console.log('Attempting to save to GitHub...');
           
           const dataToSave = {
-            ingredients: ingredients || [],
-            equipment: equipment || [],
-            kitchenStaples: kitchenStaples || [],
-            lastUpdated: new Date().toISOString(),
-            debug: { message: 'Data saved successfully' }
+              ingredients: ingredients || [],
+              equipment: equipment || [],
+              kitchenStaples: kitchenStaples || [],
+              savedRecipes: savedRecipes || [],
+              lastUpdated: new Date().toISOString(),
+              debug: { message: 'Data saved successfully' }
           };
 
           const content = Buffer.from(JSON.stringify(dataToSave, null, 2)).toString('base64');
