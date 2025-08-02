@@ -67,9 +67,10 @@
     "Smoked paprika": true,
     "Cinnamon": true,
     "Ginger (ground)": true,
-    "Turmeric": true
+    "Turmeric": true,
+    "Nutmeg": true
   },
-  "lastUpdated": "2025-08-02T20:13:50.610Z",
+  "lastUpdated": "2025-08-02T20:13:57.184Z",
   "debug": {
     "message": "Data saved successfully"
   }
