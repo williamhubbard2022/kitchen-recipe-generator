@@ -69,9 +69,11 @@
     "Ginger (ground)": true,
     "Turmeric": true,
     "Nutmeg": true,
-    "Coriander": true
+    "Coriander": true,
+    "Italian seasoning": false,
+    "Taco seasoning": true
   },
-  "lastUpdated": "2025-08-02T20:14:04.878Z",
+  "lastUpdated": "2025-08-02T20:14:10.491Z",
   "debug": {
     "message": "Data saved successfully"
   }
