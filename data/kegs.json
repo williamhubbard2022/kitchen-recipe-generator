@@ -53,6 +53,12 @@
       "name": "Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
+    },
+    {
+      "id": 1754164142487,
+      "name": "New Equipment",
+      "type": "Other",
+      "capabilities": "Describe what this equipment can do"
     }
   ],
   "kitchenStaples": {
@@ -65,7 +71,7 @@
     "Soybean oil": false,
     "Sesame oil (toasted)": false
   },
-  "lastUpdated": "2025-08-02T19:49:02.436Z",
+  "lastUpdated": "2025-08-02T19:49:05.653Z",
   "debug": {
     "message": "Data saved successfully"
   }
