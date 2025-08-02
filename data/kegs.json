@@ -34,9 +34,9 @@
     },
     {
       "id": 1754098798735,
-      "name": "New Ingredient",
-      "quantity": 1,
-      "unit": "unit",
+      "name": "beluga",
+      "quantity": 12,
+      "unit": "oz",
       "category": "Other",
       "expires": "2025-08-09"
     }
@@ -55,7 +55,7 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "lastUpdated": "2025-08-02T01:40:00.248Z",
+  "lastUpdated": "2025-08-02T01:40:05.669Z",
   "debug": {
     "message": "Data saved successfully"
   }
