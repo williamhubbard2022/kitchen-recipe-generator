@@ -54,9 +54,11 @@
     "Smoked paprika": true,
     "Nutmeg": true,
     "Taco seasoning": true,
-    "Chili flakes (gochugaru, aleppo, etc.)": false
+    "Chili flakes (gochugaru, aleppo, etc.)": false,
+    "MSG (e.g., Ajinomoto)": true,
+    "Bouillon (cubes or paste: chicken, beef, veg)": true
   },
-  "lastUpdated": "2025-08-02T07:55:14.321Z",
+  "lastUpdated": "2025-08-02T07:55:17.606Z",
   "debug": {
     "message": "Data saved successfully"
   }
