@@ -65,9 +65,10 @@
     "Soybean oil": false,
     "Sesame oil (toasted)": false,
     "Olive oil (extra virgin)": true,
-    "Avocado oil": true
+    "Avocado oil": true,
+    "Grapeseed oil": true
   },
-  "lastUpdated": "2025-08-02T19:48:37.998Z",
+  "lastUpdated": "2025-08-02T19:48:40.784Z",
   "debug": {
     "message": "Data saved successfully"
   }
