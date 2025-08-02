@@ -1,5 +1,38 @@
 {
-  "ingredients": [],
+  "ingredients": [
+    {
+      "id": 1,
+      "name": "Chicken Breast",
+      "quantity": 2,
+      "unit": "lbs",
+      "category": "Protein",
+      "expires": "2025-08-05"
+    },
+    {
+      "id": 2,
+      "name": "Basmati Rice",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Grain",
+      "expires": "2026-01-01"
+    },
+    {
+      "id": 3,
+      "name": "Heavy Cream",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Dairy",
+      "expires": "2025-08-03"
+    },
+    {
+      "id": 4,
+      "name": "Mushrooms",
+      "quantity": 8,
+      "unit": "oz",
+      "category": "Vegetable",
+      "expires": "2025-08-04"
+    }
+  ],
   "equipment": [
     {
       "id": 1,
@@ -24,7 +57,7 @@
     "Soybean oil": false,
     "Sesame oil (toasted)": false
   },
-  "lastUpdated": "2025-08-02T19:46:25.436Z",
+  "lastUpdated": "2025-08-02T19:46:32.518Z",
   "debug": {
     "message": "Data saved successfully"
   }
