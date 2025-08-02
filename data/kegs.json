@@ -35,6 +35,12 @@
       "name": "Ninja Neverclog Cold Press Juicer",
       "type": "Other",
       "capabilities": ""
+    },
+    {
+      "id": 1754165708364,
+      "name": "Cuisinart Ice Cream Maker",
+      "type": "Other",
+      "capabilities": "2 quarts"
     }
   ],
   "kitchenStaples": {
@@ -68,7 +74,7 @@
     "Himalayan pink salt": true,
     "Celery salt": true
   },
-  "lastUpdated": "2025-08-02T20:15:10.343Z",
+  "lastUpdated": "2025-08-02T20:15:23.406Z",
   "debug": {
     "message": "Data saved successfully"
   }
