@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Chicken Breast",
-      "quantity": 2,
+      "quantity": 1,
       "unit": "lbs",
       "category": "Protein",
       "expires": "2025-08-05"
@@ -39,7 +39,7 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "lastUpdated": "2025-08-02T01:44:34.385Z",
+  "lastUpdated": "2025-08-02T01:44:35.361Z",
   "debug": {
     "message": "Data saved successfully"
   }
