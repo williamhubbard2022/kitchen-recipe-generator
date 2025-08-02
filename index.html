@@ -345,8 +345,17 @@
                 localStorage.setItem('username', cleanUsername);
                 setUserId(cleanUsername);
                 setShowUserModal(false);
-                // Force reload data for new user
-                loadDataFromDatabase();
+                
+                // Clear the unsaved changes flag and user active state to allow loading
+                setHasUnsavedChanges(false);
+                setIsUserActive(false);
+                lastUserActionRef.current = 0; // Reset user action time
+                
+                // Force reload data for new user with a slight delay to ensure state is updated
+                setTimeout(() => {
+                    loadDataFromDatabase(true);
+                }, 100);
+                
                 return true;
             };
 
@@ -1453,5 +1462,6 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
 
