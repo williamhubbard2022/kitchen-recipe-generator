@@ -50,7 +50,7 @@
     },
     {
       "id": 2,
-      "name": "Cast Iron Dutch Oven",
+      "name": "Oval Enameled Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
     },
@@ -71,7 +71,7 @@
     "Soybean oil": false,
     "Sesame oil (toasted)": false
   },
-  "lastUpdated": "2025-08-02T19:49:14.386Z",
+  "lastUpdated": "2025-08-02T19:49:20.748Z",
   "debug": {
     "message": "Data saved successfully"
   }
