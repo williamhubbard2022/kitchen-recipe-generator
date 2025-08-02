@@ -351,29 +351,35 @@
                     syncTimeoutRef.current = null;
                 }
                 
-                // Clear flags and editing state
+                // Clear flags and editing state - RESET user action timestamp
                 setHasUnsavedChanges(false);
                 setIsUserActive(false);
-                setEditingItem(null); // Clear any editing state
-                lastUserActionRef.current = 0;
+                setEditingItem(null);
+                lastUserActionRef.current = 0; // This prevents auto-save from triggering
                 
                 // Update user ID
                 localStorage.setItem('username', cleanUsername);
                 setUserId(cleanUsername);
                 setShowUserModal(false);
                 
-                // Force load data immediately
+                // Force load data with longer delay to ensure state is settled
                 setTimeout(async () => {
+                    console.log('Loading data for new user:', cleanUsername);
                     await loadDataFromDatabase(true);
-                    // Wait a bit more then re-enable auto-save
+                    console.log('Data loaded, waiting before re-enabling auto-save');
+                    
+                    // Wait longer before re-enabling auto-save to ensure data is fully loaded
                     setTimeout(() => {
+                        console.log('Re-enabling auto-save for user:', cleanUsername);
                         setIsSwitchingUsers(false);
                         setHasUnsavedChanges(false);
-                    }, 1000); // Reduced from 2000ms to 1000ms for better UX
-                }, 100);
+                        // Keep lastUserActionRef at 0 to prevent immediate auto-save
+                    }, 2000); // Increased back to 2000ms for safety
+                }, 200); // Increased delay to 200ms
                 
                 return true;
             };
+            
             const clearUsername = () => {
                 localStorage.removeItem('username');
                 // Generate new random user ID
@@ -433,6 +439,7 @@
             const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
             const [isUserActive, setIsUserActive] = useState(false);
             const [isSwitchingUsers, setIsSwitchingUsers] = useState(false);
+            const [isInitialLoad, setIsInitialLoad] = useState(true);
             const lastUserActionRef = useRef(Date.now());
             const syncTimeoutRef = useRef(null);
             // Track user activity
@@ -450,16 +457,22 @@
             };
             // Load data from database on component mount
             useEffect(() => {
-                loadDataFromDatabase();
-            // Set up periodic sync check (every 30 seconds, but only when user is not active)
-            const interval = setInterval(() => {
-                const timeSinceLastAction = Date.now() - lastUserActionRef.current;
-                if (!isUserActive && !hasUnsavedChanges && timeSinceLastAction > 10000) {
-                    loadDataFromDatabase();
-                }
-            }, 30000);
+                const initialLoad = async () => {
+                    await loadDataFromDatabase(true);
+                    setIsInitialLoad(false);
+                };
+                initialLoad();
+                
+                // Set up periodic sync check (every 30 seconds, but only when user is not active)
+                const interval = setInterval(() => {
+                    const timeSinceLastAction = Date.now() - lastUserActionRef.current;
+                    if (!isUserActive && !hasUnsavedChanges && timeSinceLastAction > 10000) {
+                        loadDataFromDatabase();
+                    }
+                }, 30000);
                 return () => clearInterval(interval);
             }, []);
+            
             // Handle page visibility changes to prevent sync conflicts
             useEffect(() => {
                 const handleVisibilityChange = () => {
@@ -476,8 +489,11 @@
             }, [hasUnsavedChanges, isUserActive]);
             // Auto-save to database when data changes (debounced)
             useEffect(() => {
-                // Don't auto-save if we're switching users or no userId
-                if (!userId || isSwitchingUsers) return;
+                // Don't auto-save if we're switching users, no userId, or still on initial load
+                if (!userId || isSwitchingUsers || isInitialLoad) return;
+                
+                // Don't auto-save on initial load - wait for user action
+                if (lastUserActionRef.current === 0) return;
                 
                 if (syncTimeoutRef.current) {
                     clearTimeout(syncTimeoutRef.current);
@@ -495,7 +511,7 @@
                         clearTimeout(syncTimeoutRef.current);
                     }
                 };
-            }, [ingredients, equipment, kitchenStaples, savedRecipes, userId, isSwitchingUsers]);
+            }, [ingredients, equipment, kitchenStaples, savedRecipes, userId, isSwitchingUsers, isInitialLoad]);
             
             const loadDataFromDatabase = async (forceLoad = false) => {
                 // Don't load if user is actively editing or has unsaved changes, unless forced
@@ -1482,6 +1498,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
 
 
