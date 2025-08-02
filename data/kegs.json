@@ -1,5 +1,14 @@
 {
-  "ingredients": [],
+  "ingredients": [
+    {
+      "id": 1754163690590,
+      "name": "New Ingredient",
+      "quantity": 1,
+      "unit": "unit",
+      "category": "Other",
+      "expires": "2025-08-09"
+    }
+  ],
   "equipment": [
     {
       "id": 1,
@@ -24,7 +33,7 @@
     "Soybean oil": true,
     "Sesame oil (toasted)": true
   },
-  "lastUpdated": "2025-08-02T19:41:29.919Z",
+  "lastUpdated": "2025-08-02T19:41:33.745Z",
   "debug": {
     "message": "Data saved successfully"
   }
