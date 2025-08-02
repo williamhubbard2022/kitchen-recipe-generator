@@ -1,0 +1,68 @@
+{
+  "ingredients": [
+    {
+      "id": 1754163690590,
+      "name": "chicken breast",
+      "quantity": 2,
+      "unit": "lbs",
+      "category": "protein",
+      "expires": "2025-08-09"
+    },
+    {
+      "id": 1754163697427,
+      "name": "salmon",
+      "quantity": 12,
+      "unit": "oz",
+      "category": "protein",
+      "expires": "2025-08-04"
+    },
+    {
+      "id": 1754163715461,
+      "name": "Fettucine dry pasta",
+      "quantity": 12,
+      "unit": "oz",
+      "category": "pasta",
+      "expires": "2030-08-09"
+    }
+  ],
+  "equipment": [
+    {
+      "id": 1,
+      "name": "Sous Vide Immersion Circulator",
+      "type": "Precision Cooking",
+      "capabilities": "Precise temperature control, long slow cooking"
+    },
+    {
+      "id": 2,
+      "name": "Cast Iron Dutch Oven",
+      "type": "Cooking",
+      "capabilities": "Braising, bread baking, high heat retention"
+    },
+    {
+      "id": 1754163762215,
+      "name": "cuisinart ice cream maker",
+      "type": "Other",
+      "capabilities": "2 quarts"
+    },
+    {
+      "id": 1754163773873,
+      "name": "ninja cold press juicer",
+      "type": "Other",
+      "capabilities": "ninja neverclog juicer"
+    }
+  ],
+  "kitchenStaples": {
+    "Coconut oil (virgin)": true,
+    "Vegetable oil": true,
+    "Walnut oil": true,
+    "Corn oil": true,
+    "Coconut oil (refined)": true,
+    "Olive oil (light or regular)": true,
+    "Soybean oil": true,
+    "Sesame oil (toasted)": true
+  },
+  "lastUpdated": "2025-08-02T19:45:30.585Z",
+  "debug": {
+    "message": "Data saved successfully"
+  }
+}
