@@ -50,9 +50,10 @@
     "Cumin": true,
     "White pepper": false,
     "Sweet paprika": false,
-    "Mint": false
+    "Mint": false,
+    "Smoked paprika": true
   },
-  "lastUpdated": "2025-08-02T07:54:59.804Z",
+  "lastUpdated": "2025-08-02T07:55:01.639Z",
   "debug": {
     "message": "Data saved successfully"
   }
