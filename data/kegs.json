@@ -50,9 +50,13 @@
   "kitchenStaples": {
     "Olive oil (extra virgin)": true,
     "Coconut oil (refined)": true,
-    "Avocado oil": true
+    "Avocado oil": true,
+    "Grapeseed oil": true,
+    "Butter (unsalted)": true,
+    "Butter (salted)": true,
+    "Peanut oil": true
   },
-  "lastUpdated": "2025-08-02T20:13:26.526Z",
+  "lastUpdated": "2025-08-02T20:13:32.888Z",
   "debug": {
     "message": "Data saved successfully"
   }
