@@ -64,9 +64,11 @@
     "Parsley": true,
     "Bay leaves": true,
     "Black pepper": true,
-    "Smoked paprika": true
+    "Smoked paprika": true,
+    "Cinnamon": true,
+    "Ginger (ground)": true
   },
-  "lastUpdated": "2025-08-02T20:13:44.147Z",
+  "lastUpdated": "2025-08-02T20:13:47.174Z",
   "debug": {
     "message": "Data saved successfully"
   }
