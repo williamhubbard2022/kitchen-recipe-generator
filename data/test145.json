@@ -22,7 +22,7 @@
       "id": 1754178132280,
       "name": "rice cooker",
       "type": "Other",
-      "capabilities": "Describe what this equipment can do"
+      "capabilities": "cook rice"
     }
   ],
   "kitchenStaples": {
@@ -34,7 +34,7 @@
     "Oregano": true
   },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-02T23:42:19.878Z",
+  "lastUpdated": "2025-08-02T23:42:23.888Z",
   "debug": {
     "message": "Data saved successfully"
   }
