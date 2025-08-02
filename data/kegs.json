@@ -70,9 +70,15 @@
     "Peanut oil": true,
     "Butter (salted)": true,
     "Butter (unsalted)": true,
-    "Ghee / Clarified butter": true
+    "Ghee / Clarified butter": true,
+    "Basil": true,
+    "Oregano": true,
+    "Thyme": true,
+    "Rosemary": true,
+    "Parsley": true,
+    "Dill": true
   },
-  "lastUpdated": "2025-08-02T19:48:45.173Z",
+  "lastUpdated": "2025-08-02T19:48:52.763Z",
   "debug": {
     "message": "Data saved successfully"
   }
