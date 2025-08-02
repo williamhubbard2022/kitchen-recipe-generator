@@ -5,7 +5,7 @@
       "name": "Chicken Breast",
       "quantity": null,
       "unit": "lbs",
-      "category": "Other",
+      "category": "Protein",
       "expires": "2025-08-09"
     }
   ],
@@ -41,7 +41,7 @@
       "capabilities": ""
     }
   ],
-  "lastUpdated": "2025-08-02T07:36:30.027Z",
+  "lastUpdated": "2025-08-02T07:36:36.574Z",
   "debug": {
     "message": "Data saved successfully"
   }
