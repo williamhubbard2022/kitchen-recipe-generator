@@ -42,28 +42,13 @@
     },
     {
       "id": 2,
-      "name": "Oval Enameled Cast Iron Dutch Oven",
+      "name": "Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
-    },
-    {
-      "id": 1754164142487,
-      "name": "Cuisinart Ice Cream Maker",
-      "type": "Other",
-      "capabilities": "2 quarts"
     }
   ],
-  "kitchenStaples": {
-    "Coconut oil (virgin)": false,
-    "Vegetable oil": false,
-    "Walnut oil": false,
-    "Corn oil": false,
-    "Coconut oil (refined)": false,
-    "Olive oil (light or regular)": false,
-    "Soybean oil": false,
-    "Sesame oil (toasted)": false
-  },
-  "lastUpdated": "2025-08-02T19:49:28.350Z",
+  "kitchenStaples": {},
+  "lastUpdated": "2025-08-02T19:49:45.779Z",
   "debug": {
     "message": "Data saved successfully"
   }
