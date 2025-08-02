@@ -9,14 +9,6 @@
       "expires": "2025-08-05"
     },
     {
-      "id": 2,
-      "name": "Basmati Rice",
-      "quantity": 1,
-      "unit": "cup",
-      "category": "Grain",
-      "expires": "2026-01-01"
-    },
-    {
       "id": 3,
       "name": "Heavy Cream",
       "quantity": 6,
@@ -47,7 +39,7 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "lastUpdated": "2025-08-02T01:44:30.873Z",
+  "lastUpdated": "2025-08-02T01:44:34.385Z",
   "debug": {
     "message": "Data saved successfully"
   }
