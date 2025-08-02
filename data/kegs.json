@@ -3,7 +3,7 @@
     {
       "id": 1754120182135,
       "name": "Chicken Breast",
-      "quantity": null,
+      "quantity": 2,
       "unit": "lbs",
       "category": "Protein",
       "expires": "2025-08-09"
@@ -41,7 +41,7 @@
       "capabilities": ""
     }
   ],
-  "lastUpdated": "2025-08-02T07:36:36.574Z",
+  "lastUpdated": "2025-08-02T07:36:41.019Z",
   "debug": {
     "message": "Data saved successfully"
   }
