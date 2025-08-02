@@ -34,9 +34,9 @@
     },
     {
       "id": 1754097719208,
-      "name": "New Ingredient",
-      "quantity": 1,
-      "unit": "unit",
+      "name": "greek yogurt",
+      "quantity": 12,
+      "unit": "oz",
       "category": "Other",
       "expires": "2025-08-09"
     }
@@ -55,7 +55,7 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "lastUpdated": "2025-08-02T01:22:00.682Z",
+  "lastUpdated": "2025-08-02T01:22:06.741Z",
   "debug": {
     "message": "Data saved successfully"
   }
