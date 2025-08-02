@@ -60,14 +60,14 @@
     "Vegetable oil": false,
     "Walnut oil": false,
     "Corn oil": false,
-    "Coconut oil (refined)": false,
+    "Coconut oil (refined)": true,
     "Olive oil (light or regular)": false,
     "Soybean oil": false,
     "Sesame oil (toasted)": false,
     "Olive oil (extra virgin)": true,
     "Avocado oil": true
   },
-  "lastUpdated": "2025-08-02T19:48:35.902Z",
+  "lastUpdated": "2025-08-02T19:48:37.998Z",
   "debug": {
     "message": "Data saved successfully"
   }
