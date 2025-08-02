@@ -66,9 +66,10 @@
     "Sesame oil (toasted)": false,
     "Olive oil (extra virgin)": true,
     "Avocado oil": true,
-    "Grapeseed oil": true
+    "Grapeseed oil": true,
+    "Peanut oil": true
   },
-  "lastUpdated": "2025-08-02T19:48:40.784Z",
+  "lastUpdated": "2025-08-02T19:48:41.942Z",
   "debug": {
     "message": "Data saved successfully"
   }
