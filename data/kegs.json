@@ -30,12 +30,12 @@
     },
     {
       "id": 1754119917481,
-      "name": "New Equipment",
+      "name": "",
       "type": "Other",
       "capabilities": "Describe what this equipment can do"
     }
   ],
-  "lastUpdated": "2025-08-02T07:31:59.630Z",
+  "lastUpdated": "2025-08-02T07:32:02.676Z",
   "debug": {
     "message": "Data saved successfully"
   }
