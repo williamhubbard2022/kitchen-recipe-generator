@@ -42,9 +42,10 @@
     }
   ],
   "kitchenStaples": {
-    "Olive oil (extra virgin)": true
+    "Olive oil (extra virgin)": true,
+    "Avocado oil": true
   },
-  "lastUpdated": "2025-08-02T07:44:10.083Z",
+  "lastUpdated": "2025-08-02T07:44:12.316Z",
   "debug": {
     "message": "Data saved successfully"
   }
