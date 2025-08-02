@@ -67,9 +67,12 @@
     "Olive oil (extra virgin)": true,
     "Avocado oil": true,
     "Grapeseed oil": true,
-    "Peanut oil": true
+    "Peanut oil": true,
+    "Butter (salted)": true,
+    "Butter (unsalted)": true,
+    "Ghee / Clarified butter": true
   },
-  "lastUpdated": "2025-08-02T19:48:41.942Z",
+  "lastUpdated": "2025-08-02T19:48:45.173Z",
   "debug": {
     "message": "Data saved successfully"
   }
