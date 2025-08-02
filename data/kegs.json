@@ -69,9 +69,11 @@
     "Soy sauce": true,
     "Fish sauce": true,
     "Tzatziki": false,
-    "Teriyaki sauce": true
+    "Teriyaki sauce": true,
+    "Tomato sauce": true,
+    "Tomato paste": true
   },
-  "lastUpdated": "2025-08-02T07:56:09.844Z",
+  "lastUpdated": "2025-08-02T07:56:13.304Z",
   "debug": {
     "message": "Data saved successfully"
   }
