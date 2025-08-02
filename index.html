@@ -16,13 +16,20 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+        .sync-indicator {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
     </style>
 </head>
 <body>
     <div id="root"></div>
     
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useRef } = React;
 
         // Simple icon components
         const ChefHat = ({ className = "", size = 24 }) => (
@@ -51,7 +58,7 @@
         const Trash2 = ({ size = 14 }) => (
             <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="3,6 5,6 21,6"/>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2 2h4a2 2 0 0 1 2 2v2"/>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
                 <line x1="10" y1="11" x2="10" y2="17"/>
                 <line x1="14" y1="11" x2="14" y2="17"/>
             </svg>
@@ -79,7 +86,23 @@
             </svg>
         );
 
+        const Cloud = ({ size = 16 }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+            </svg>
+        );
+
         const RecipeGenerator = () => {
+            // Generate or get user ID
+            const getUserId = () => {
+                let userId = localStorage.getItem('user_id');
+                if (!userId) {
+                    userId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                    localStorage.setItem('user_id', userId);
+                }
+                return userId;
+            };
+
             const getApiKey = () => {
                 let apiKey = localStorage.getItem('anthropic_api_key');
                 if (!apiKey) {
@@ -91,45 +114,104 @@
                 return apiKey;
             };
 
-            const [ingredients, setIngredients] = useState([
-                { id: 1, name: 'Chicken Breast', quantity: 2, unit: 'lbs', category: 'Protein', expires: '2025-08-05' },
-                { id: 2, name: 'Basmati Rice', quantity: 1, unit: 'cup', category: 'Grain', expires: '2026-01-01' },
-                { id: 3, name: 'Heavy Cream', quantity: 1, unit: 'cup', category: 'Dairy', expires: '2025-08-03' },
-                { id: 4, name: 'Mushrooms', quantity: 8, unit: 'oz', category: 'Vegetable', expires: '2025-08-04' }
-            ]);
-
-            const [equipment, setEquipment] = useState([
-                { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
-                { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
-            ]);
-
+            const [ingredients, setIngredients] = useState([]);
+            const [equipment, setEquipment] = useState([]);
             const [activeTab, setActiveTab] = useState('ingredients');
             const [editingItem, setEditingItem] = useState(null);
             const [generatedRecipe, setGeneratedRecipe] = useState('');
             const [isGenerating, setIsGenerating] = useState(false);
             const [recipePreferences, setRecipePreferences] = useState('');
+            const [isSyncing, setIsSyncing] = useState(false);
+            const [syncStatus, setSyncStatus] = useState('synced'); // 'synced', 'syncing', 'error'
+            const [userId] = useState(getUserId());
 
-            // Load data from localStorage
+            const syncTimeoutRef = useRef(null);
+
+            // Load data from database on component mount
             useEffect(() => {
-                const savedIngredients = localStorage.getItem('ingredients');
-                const savedEquipment = localStorage.getItem('equipment');
-                
-                if (savedIngredients) {
-                    setIngredients(JSON.parse(savedIngredients));
-                }
-                if (savedEquipment) {
-                    setEquipment(JSON.parse(savedEquipment));
-                }
+                loadDataFromDatabase();
+                // Set up periodic sync check (every 30 seconds)
+                const interval = setInterval(loadDataFromDatabase, 30000);
+                return () => clearInterval(interval);
             }, []);
 
-            // Save data to localStorage
+            // Auto-save to database when data changes (debounced)
             useEffect(() => {
-                localStorage.setItem('ingredients', JSON.stringify(ingredients));
-            }, [ingredients]);
+                if (syncTimeoutRef.current) {
+                    clearTimeout(syncTimeoutRef.current);
+                }
+                
+                syncTimeoutRef.current = setTimeout(() => {
+                    saveDataToDatabase();
+                }, 1000); // Save 1 second after user stops making changes
 
-            useEffect(() => {
-                localStorage.setItem('equipment', JSON.stringify(equipment));
-            }, [equipment]);
+                return () => {
+                    if (syncTimeoutRef.current) {
+                        clearTimeout(syncTimeoutRef.current);
+                    }
+                };
+            }, [ingredients, equipment]);
+
+            const loadDataFromDatabase = async () => {
+                try {
+                    setIsSyncing(true);
+                    const response = await fetch(`/.netlify/functions/sync-data?userId=${userId}`, {
+                        method: 'GET',
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        setIngredients(data.ingredients || []);
+                        setEquipment(data.equipment || []);
+                        setSyncStatus('synced');
+                    } else {
+                        console.error('Failed to load data');
+                        setSyncStatus('error');
+                    }
+                } catch (error) {
+                    console.error('Error loading data:', error);
+                    setSyncStatus('error');
+                    // Fallback to localStorage if database fails
+                    const savedIngredients = localStorage.getItem('ingredients');
+                    const savedEquipment = localStorage.getItem('equipment');
+                    if (savedIngredients) setIngredients(JSON.parse(savedIngredients));
+                    if (savedEquipment) setEquipment(JSON.parse(savedEquipment));
+                } finally {
+                    setIsSyncing(false);
+                }
+            };
+
+            const saveDataToDatabase = async () => {
+                try {
+                    setSyncStatus('syncing');
+                    const response = await fetch('/.netlify/functions/sync-data', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            userId: userId,
+                            ingredients: ingredients,
+                            equipment: equipment
+                        })
+                    });
+
+                    if (response.ok) {
+                        setSyncStatus('synced');
+                        // Also save to localStorage as backup
+                        localStorage.setItem('ingredients', JSON.stringify(ingredients));
+                        localStorage.setItem('equipment', JSON.stringify(equipment));
+                    } else {
+                        setSyncStatus('error');
+                    }
+                } catch (error) {
+                    console.error('Error saving data:', error);
+                    setSyncStatus('error');
+                    // Fallback to localStorage
+                    localStorage.setItem('ingredients', JSON.stringify(ingredients));
+                    localStorage.setItem('equipment', JSON.stringify(equipment));
+                }
+            };
 
             const markAsUsed = (id) => {
                 setIngredients(ingredients.filter(item => item.id !== id));
@@ -223,7 +305,6 @@ Please create a recipe that:
 
 Format the recipe with a clear title, ingredient list, and numbered steps.`;
 
-                    // Use Netlify function instead of direct API call
                     const response = await fetch("/.netlify/functions/generate-recipe", {
                         method: "POST",
                         headers: {
@@ -260,15 +341,50 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
 
             const expiringSoon = ingredients.filter(ing => isExpiringSoon(ing.expires));
 
+            const getSyncStatusInfo = () => {
+                switch (syncStatus) {
+                    case 'syncing':
+                        return { color: 'text-blue-500', text: 'Syncing...', icon: <Cloud className="sync-indicator" /> };
+                    case 'synced':
+                        return { color: 'text-green-500', text: 'Synced', icon: <Cloud /> };
+                    case 'error':
+                        return { color: 'text-red-500', text: 'Sync Error', icon: <Cloud /> };
+                    default:
+                        return { color: 'text-gray-500', text: 'Unknown', icon: <Cloud /> };
+                }
+            };
+
+            const statusInfo = getSyncStatusInfo();
+
             return (
                 <div className="max-w-7xl mx-auto p-4 bg-gray-50 min-h-screen">
                     {/* Header */}
                     <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-                        <h1 className="text-3xl font-bold text-gray-800 mb-2 flex items-center gap-2">
-                            <ChefHat className="text-orange-500" />
-                            Kitchen Recipe Generator
-                        </h1>
-                        <p className="text-gray-600">🎯 Manage your kitchen inventory and generate AI recipes</p>
+                        <div className="flex justify-between items-start">
+                            <div>
+                                <h1 className="text-3xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+                                    <ChefHat className="text-orange-500" />
+                                    Kitchen Recipe Generator
+                                </h1>
+                                <p className="text-gray-600">🎯 Manage your kitchen inventory and generate AI recipes</p>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm">
+                                <div className={`flex items-center gap-1 ${statusInfo.color}`}>
+                                    {statusInfo.icon}
+                                    <span>{statusInfo.text}</span>
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        loadDataFromDatabase();
+                                        saveDataToDatabase();
+                                    }}
+                                    className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600"
+                                    disabled={isSyncing}
+                                >
+                                    {isSyncing ? 'Syncing...' : 'Force Sync'}
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Expiring Soon Alert */}
@@ -313,146 +429,6 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
 
                             {/* Ingredients Tab */}
                             {activeTab === 'ingredients' && (
-                                <div>
-                                    <div className="flex justify-between items-center mb-4">
-                                        <h2 className="text-xl font-semibold text-gray-800">Your Ingredients</h2>
-                                        <button
-                                            onClick={addIngredient}
-                                            className="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 text-sm"
-                                        >
-                                            <Plus />
-                                            Add
-                                        </button>
-                                    </div>
-                                    
-                                    <div className="space-y-3 max-h-96 overflow-y-auto">
-                                        {ingredients.map(ingredient => (
-                                            <div
-                                                key={ingredient.id}
-                                                className={`p-4 rounded-lg border-2 ${
-                                                    isExpiringSoon(ingredient.expires) ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-gray-50'
-                                                }`}
-                                            >
-                                                {editingItem?.type === 'ingredient' && editingItem?.id === ingredient.id ? (
-                                                    <div className="space-y-3">
-                                                        <input
-                                                            value={ingredient.name}
-                                                            onChange={(e) => updateIngredient(ingredient.id, 'name', e.target.value)}
-                                                            className="w-full p-2 border rounded-lg"
-                                                            placeholder="Ingredient name"
-                                                        />
-                                                        <div className="grid grid-cols-3 gap-2">
-                                                            <input
-                                                                type="number"
-                                                                step="0.1"
-                                                                value={ingredient.quantity}
-                                                                onChange={(e) => updateIngredient(ingredient.id, 'quantity', parseFloat(e.target.value))}
-                                                                className="p-2 border rounded-lg"
-                                                                placeholder="Qty"
-                                                            />
-                                                            <input
-                                                                value={ingredient.unit}
-                                                                onChange={(e) => updateIngredient(ingredient.id, 'unit', e.target.value)}
-                                                                className="p-2 border rounded-lg"
-                                                                placeholder="Unit"
-                                                            />
-                                                            <input
-                                                                type="date"
-                                                                value={ingredient.expires}
-                                                                onChange={(e) => updateIngredient(ingredient.id, 'expires', e.target.value)}
-                                                                className="p-2 border rounded-lg"
-                                                            />
-                                                        </div>
-                                                        <div className="flex gap-2">
-                                                            <button
-                                                                onClick={() => setEditingItem(null)}
-                                                                className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
-                                                            >
-                                                                Save
-                                                            </button>
-                                                            <button
-                                                                onClick={() => setEditingItem(null)}
-                                                                className="bg-gray-500 text-white px-3 py-1 rounded text-sm hover:bg-gray-600"
-                                                            >
-                                                                Cancel
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    <div>
-                                                        <div className="flex justify-between items-start mb-2">
-                                                            <div className="flex-1">
-                                                                <div className="font-medium text-gray-800 text-lg">{ingredient.name}</div>
-                                                                <div className="text-sm text-gray-600">
-                                                                    <span className="font-medium">{ingredient.quantity} {ingredient.unit}</span>
-                                                                    <span className="mx-2">•</span>
-                                                                    <span className="text-blue-600">{ingredient.category}</span>
-                                                                </div>
-                                                                <div className="text-xs text-gray-500 mt-1">
-                                                                    Expires: {ingredient.expires}
-                                                                    {isExpiringSoon(ingredient.expires) && (
-                                                                        <span className="text-red-600 font-medium ml-2">⚠️ Use Soon!</span>
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                            <div className="flex gap-1 ml-4">
-                                                                <button
-                                                                    onClick={() => setEditingItem({ type: 'ingredient', id: ingredient.id })}
-                                                                    className="text-blue-500 hover:text-blue-700 p-1"
-                                                                    title="Edit"
-                                                                >
-                                                                    <Edit2 />
-                                                                </button>
-                                                                <button
-                                                                    onClick={() => markAsUsed(ingredient.id)}
-                                                                    className="text-orange-500 hover:text-orange-700 p-1"
-                                                                    title="Mark as Used"
-                                                                >
-                                                                    <Check />
-                                                                </button>
-                                                                <button
-                                                                    onClick={() => deleteIngredient(ingredient.id)}
-                                                                    className="text-red-500 hover:text-red-700 p-1"
-                                                                    title="Delete"
-                                                                >
-                                                                    <Trash2 />
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        {/* Quick quantity controls */}
-                                                        <div className="flex items-center gap-2 mt-2">
-                                                            <span className="text-xs text-gray-500">Quick update:</span>
-                                                            <button
-                                                                onClick={() => updateQuantity(ingredient.id, ingredient.quantity - 1)}
-                                                                className="bg-red-100 text-red-600 hover:bg-red-200 rounded px-2 py-1 text-xs"
-                                                                disabled={ingredient.quantity <= 1}
-                                                            >
-                                                                -1
-                                                            </button>
-                                                            <button
-                                                                onClick={() => updateQuantity(ingredient.id, ingredient.quantity / 2)}
-                                                                className="bg-yellow-100 text-yellow-600 hover:bg-yellow-200 rounded px-2 py-1 text-xs"
-                                                            >
-                                                                ÷2
-                                                            </button>
-                                                            <button
-                                                                onClick={() => updateQuantity(ingredient.id, ingredient.quantity + 1)}
-                                                                className="bg-green-100 text-green-600 hover:bg-green-200 rounded px-2 py-1 text-xs"
-                                                            >
-                                                                +1
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Equipment Tab */}
-                            {activeTab === 'equipment' && (
                                 <div>
                                     <div className="flex justify-between items-center mb-4">
                                         <h2 className="text-xl font-semibold text-gray-800">Your Equipment</h2>
@@ -597,9 +573,12 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                     {/* Footer */}
                     <div className="mt-6 bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-lg p-4">
                         <div className="text-center">
-                            <h3 className="font-semibold text-blue-800 mb-1">🎯 Pro Tips:</h3>
+                            <h3 className="font-semibold text-blue-800 mb-1">🎯 Real-time Sync Enabled!</h3>
                             <p className="text-blue-700 text-sm">
-                                • Use "Mark as Used" (✓) for quick ingredient removal • Try preferences like "use expiring ingredients first" • Update quantities with +1, ÷2, -1 buttons • Data saves automatically to your browser
+                                • Changes sync automatically across all your devices • Use any device - phone, laptop, tablet • Data is backed up in the cloud
+                            </p>
+                            <p className="text-blue-600 text-xs mt-2">
+                                📱 Your User ID: <span className="font-mono bg-blue-100 px-1 rounded">{userId}</span> (saves automatically)
                             </p>
                         </div>
                     </div>
@@ -611,3 +590,143 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+                                        <h2 className="text-xl font-semibold text-gray-800">Your Ingredients</h2>
+                                        <button
+                                            onClick={addIngredient}
+                                            className="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 text-sm"
+                                        >
+                                            <Plus />
+                                            Add
+                                        </button>
+                                    </div>
+                                    
+                                    <div className="space-y-3 max-h-96 overflow-y-auto">
+                                        {ingredients.map(ingredient => (
+                                            <div
+                                                key={ingredient.id}
+                                                className={`p-4 rounded-lg border-2 ${
+                                                    isExpiringSoon(ingredient.expires) ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-gray-50'
+                                                }`}
+                                            >
+                                                {editingItem?.type === 'ingredient' && editingItem?.id === ingredient.id ? (
+                                                    <div className="space-y-3">
+                                                        <input
+                                                            value={ingredient.name}
+                                                            onChange={(e) => updateIngredient(ingredient.id, 'name', e.target.value)}
+                                                            className="w-full p-2 border rounded-lg"
+                                                            placeholder="Ingredient name"
+                                                        />
+                                                        <div className="grid grid-cols-3 gap-2">
+                                                            <input
+                                                                type="number"
+                                                                step="0.1"
+                                                                value={ingredient.quantity}
+                                                                onChange={(e) => updateIngredient(ingredient.id, 'quantity', parseFloat(e.target.value))}
+                                                                className="p-2 border rounded-lg"
+                                                                placeholder="Qty"
+                                                            />
+                                                            <input
+                                                                value={ingredient.unit}
+                                                                onChange={(e) => updateIngredient(ingredient.id, 'unit', e.target.value)}
+                                                                className="p-2 border rounded-lg"
+                                                                placeholder="Unit"
+                                                            />
+                                                            <input
+                                                                type="date"
+                                                                value={ingredient.expires}
+                                                                onChange={(e) => updateIngredient(ingredient.id, 'expires', e.target.value)}
+                                                                className="p-2 border rounded-lg"
+                                                            />
+                                                        </div>
+                                                        <div className="flex gap-2">
+                                                            <button
+                                                                onClick={() => setEditingItem(null)}
+                                                                className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
+                                                            >
+                                                                Save
+                                                            </button>
+                                                            <button
+                                                                onClick={() => setEditingItem(null)}
+                                                                className="bg-gray-500 text-white px-3 py-1 rounded text-sm hover:bg-gray-600"
+                                                            >
+                                                                Cancel
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div>
+                                                        <div className="flex justify-between items-start mb-2">
+                                                            <div className="flex-1">
+                                                                <div className="font-medium text-gray-800 text-lg">{ingredient.name}</div>
+                                                                <div className="text-sm text-gray-600">
+                                                                    <span className="font-medium">{ingredient.quantity} {ingredient.unit}</span>
+                                                                    <span className="mx-2">•</span>
+                                                                    <span className="text-blue-600">{ingredient.category}</span>
+                                                                </div>
+                                                                <div className="text-xs text-gray-500 mt-1">
+                                                                    Expires: {ingredient.expires}
+                                                                    {isExpiringSoon(ingredient.expires) && (
+                                                                        <span className="text-red-600 font-medium ml-2">⚠️ Use Soon!</span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex gap-1 ml-4">
+                                                                <button
+                                                                    onClick={() => setEditingItem({ type: 'ingredient', id: ingredient.id })}
+                                                                    className="text-blue-500 hover:text-blue-700 p-1"
+                                                                    title="Edit"
+                                                                >
+                                                                    <Edit2 />
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => markAsUsed(ingredient.id)}
+                                                                    className="text-orange-500 hover:text-orange-700 p-1"
+                                                                    title="Mark as Used"
+                                                                >
+                                                                    <Check />
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => deleteIngredient(ingredient.id)}
+                                                                    className="text-red-500 hover:text-red-700 p-1"
+                                                                    title="Delete"
+                                                                >
+                                                                    <Trash2 />
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        {/* Quick quantity controls */}
+                                                        <div className="flex items-center gap-2 mt-2">
+                                                            <span className="text-xs text-gray-500">Quick update:</span>
+                                                            <button
+                                                                onClick={() => updateQuantity(ingredient.id, ingredient.quantity - 1)}
+                                                                className="bg-red-100 text-red-600 hover:bg-red-200 rounded px-2 py-1 text-xs"
+                                                                disabled={ingredient.quantity <= 1}
+                                                            >
+                                                                -1
+                                                            </button>
+                                                            <button
+                                                                onClick={() => updateQuantity(ingredient.id, ingredient.quantity / 2)}
+                                                                className="bg-yellow-100 text-yellow-600 hover:bg-yellow-200 rounded px-2 py-1 text-xs"
+                                                            >
+                                                                ÷2
+                                                            </button>
+                                                            <button
+                                                                onClick={() => updateQuantity(ingredient.id, ingredient.quantity + 1)}
+                                                                className="bg-green-100 text-green-600 hover:bg-green-200 rounded px-2 py-1 text-xs"
+                                                            >
+                                                                +1
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Equipment Tab */}
+                            {activeTab === 'equipment' && (
+                                <div>
+                                    <div className="flex justify-between items-center mb-4">
