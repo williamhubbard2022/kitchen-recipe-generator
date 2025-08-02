@@ -6,7 +6,7 @@
       "quantity": 2,
       "unit": "lbs",
       "category": "Protein",
-      "expires": "2025-08-09"
+      "expires": "2025-08-05"
     },
     {
       "id": 2,
@@ -15,6 +15,22 @@
       "unit": "cup",
       "category": "Grain",
       "expires": "2026-01-01"
+    },
+    {
+      "id": 3,
+      "name": "Heavy Cream",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Dairy",
+      "expires": "2025-08-03"
+    },
+    {
+      "id": 4,
+      "name": "Mushrooms",
+      "quantity": 8,
+      "unit": "oz",
+      "category": "Vegetable",
+      "expires": "2025-08-04"
     }
   ],
   "equipment": [
@@ -26,55 +42,13 @@
     },
     {
       "id": 2,
-      "name": "Oval Enameled Cast Iron Dutch Oven",
+      "name": "Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
-    },
-    {
-      "id": 1754165694959,
-      "name": "Ninja Neverclog Cold Press Juicer",
-      "type": "Other",
-      "capabilities": ""
-    },
-    {
-      "id": 1754165708364,
-      "name": "Cuisinart Ice Cream Maker",
-      "type": "Other",
-      "capabilities": "2 quarts"
     }
   ],
-  "kitchenStaples": {
-    "Olive oil (extra virgin)": true,
-    "Coconut oil (refined)": true,
-    "Avocado oil": true,
-    "Grapeseed oil": true,
-    "Butter (unsalted)": true,
-    "Butter (salted)": true,
-    "Peanut oil": true,
-    "Ghee / Clarified butter": true,
-    "Basil": true,
-    "Dill": true,
-    "Oregano": true,
-    "Thyme": true,
-    "Rosemary": true,
-    "Parsley": true,
-    "Bay leaves": true,
-    "Black pepper": true,
-    "Smoked paprika": true,
-    "Cinnamon": true,
-    "Ginger (ground)": true,
-    "Turmeric": true,
-    "Nutmeg": true,
-    "Coriander": true,
-    "Italian seasoning": false,
-    "Taco seasoning": true,
-    "Curry powder": true,
-    "Garam masala": true,
-    "Kosher salt": true,
-    "Himalayan pink salt": true,
-    "Celery salt": true
-  },
-  "lastUpdated": "2025-08-02T20:15:23.406Z",
+  "kitchenStaples": {},
+  "lastUpdated": "2025-08-02T20:18:36.911Z",
   "debug": {
     "message": "Data saved successfully"
   }
