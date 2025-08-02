@@ -3,10 +3,26 @@
     {
       "id": 1,
       "name": "Chicken Breast",
-      "quantity": 2,
+      "quantity": 6,
       "unit": "lbs",
       "category": "Protein",
       "expires": "2025-08-05"
+    },
+    {
+      "id": 2,
+      "name": "Basmati Rice",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Grain",
+      "expires": "2026-01-01"
+    },
+    {
+      "id": 4,
+      "name": "Mushrooms",
+      "quantity": 8,
+      "unit": "oz",
+      "category": "Vegetable",
+      "expires": "2025-08-04"
     }
   ],
   "equipment": [
@@ -23,17 +39,9 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "kitchenStaples": {
-    "Pumpkin seed oil": true,
-    "Coconut oil (virgin)": true,
-    "Sesame oil (toasted)": true,
-    "Butter (salted)": true,
-    "Butter (unsalted)": true,
-    "Canola oil": true,
-    "Sunflower oil": true
-  },
+  "kitchenStaples": {},
   "savedRecipes": [],
-  "lastUpdated": "2025-08-02T22:52:10.874Z",
+  "lastUpdated": "2025-08-02T22:52:26.428Z",
   "debug": {
     "message": "Data saved successfully"
   }
