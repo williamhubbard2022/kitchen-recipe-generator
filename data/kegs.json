@@ -53,12 +53,6 @@
       "name": "Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
-    },
-    {
-      "id": 1754164137273,
-      "name": "New Equipment",
-      "type": "Other",
-      "capabilities": "Describe what this equipment can do"
     }
   ],
   "kitchenStaples": {
@@ -66,27 +60,12 @@
     "Vegetable oil": false,
     "Walnut oil": false,
     "Corn oil": false,
-    "Coconut oil (refined)": true,
+    "Coconut oil (refined)": false,
     "Olive oil (light or regular)": false,
     "Soybean oil": false,
-    "Sesame oil (toasted)": false,
-    "Olive oil (extra virgin)": true,
-    "Avocado oil": true,
-    "Grapeseed oil": true,
-    "Peanut oil": true,
-    "Butter (salted)": true,
-    "Butter (unsalted)": true,
-    "Ghee / Clarified butter": true,
-    "Basil": true,
-    "Oregano": true,
-    "Thyme": true,
-    "Rosemary": true,
-    "Parsley": true,
-    "Dill": true,
-    "Bay leaves": true,
-    "Black pepper": true
+    "Sesame oil (toasted)": false
   },
-  "lastUpdated": "2025-08-02T19:49:00.416Z",
+  "lastUpdated": "2025-08-02T19:49:02.436Z",
   "debug": {
     "message": "Data saved successfully"
   }
