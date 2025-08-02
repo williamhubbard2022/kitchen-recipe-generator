@@ -332,17 +332,59 @@
                 return userId;
             };
 
-            const setUsername = (newUsername) => {
-                if (!newUsername || newUsername.trim() === '') return false;
+        const setUsername = (newUsername) => {
+            if (!newUsername || newUsername.trim() === '') return false;
+            
+            // Clean the username (remove spaces, special chars, make lowercase)
+            const cleanUsername = newUsername.toLowerCase().replace(/[^a-z0-9-_]/g, '');
+            if (cleanUsername.length < 2) {
+                alert('Username must be at least 2 characters long and contain only letters, numbers, hyphens, and underscores');
+                return false;
+            }
+            
+            console.log('🔄 Switching from', userId, 'to', cleanUsername);
+            
+            // Set switching flag to completely disable auto-save
+            setIsSwitchingUsers(true);
+            
+            // Clear any pending saves
+            if (syncTimeoutRef.current) {
+                clearTimeout(syncTimeoutRef.current);
+                syncTimeoutRef.current = null;
+            }
+            
+            // Clear flags and editing state
+            setHasUnsavedChanges(false);
+            setIsUserActive(false);
+            setEditingItem(null);
+            lastUserActionRef.current = 0; // This prevents auto-save from triggering
+            
+            // Update user ID FIRST
+            localStorage.setItem('username', cleanUsername);
+            setUserId(cleanUsername);
+            setShowUserModal(false);
+            
+            // Force load data with delay to ensure userId state is updated
+            setTimeout(async () => {
+                console.log('🔄 Loading data for new user:', cleanUsername);
+                await loadDataFromDatabase(true);
+                console.log('🔄 Data loaded, waiting before re-enabling auto-save');
                 
-                // Clean the username (remove spaces, special chars, make lowercase)
-                const cleanUsername = newUsername.toLowerCase().replace(/[^a-z0-9-_]/g, '');
-                if (cleanUsername.length < 2) {
-                    alert('Username must be at least 2 characters long and contain only letters, numbers, hyphens, and underscores');
-                    return false;
-                }
+                // Wait longer before re-enabling auto-save
+                setTimeout(() => {
+                    console.log('🔄 Re-enabling auto-save for user:', cleanUsername);
+                    setIsSwitchingUsers(false);
+                    setHasUnsavedChanges(false);
+                }, 2000);
+            }, 500); // Increased delay to ensure userId state is updated
+            
+            return true;
+        };
+            
+            const clearUsername = () => {
+                console.log('🔄 Clearing username and switching to anonymous user');
                 
-                // Set switching flag to completely disable auto-save
+                // Set switching flag to prevent any auto-saves during this process
                 setIsSwitchingUsers(true);
                 
                 // Clear any pending saves
@@ -351,43 +393,22 @@
                     syncTimeoutRef.current = null;
                 }
                 
-                // Clear flags and editing state - RESET user action timestamp
+                // Clear flags and editing state
                 setHasUnsavedChanges(false);
                 setIsUserActive(false);
                 setEditingItem(null);
-                lastUserActionRef.current = 0; // This prevents auto-save from triggering
+                lastUserActionRef.current = 0; // Reset to prevent auto-save
                 
-                // Update user ID
-                localStorage.setItem('username', cleanUsername);
-                setUserId(cleanUsername);
-                setShowUserModal(false);
-                
-                // Force load data with longer delay to ensure state is settled
-                setTimeout(async () => {
-                    console.log('Loading data for new user:', cleanUsername);
-                    await loadDataFromDatabase(true);
-                    console.log('Data loaded, waiting before re-enabling auto-save');
-                    
-                    // Wait longer before re-enabling auto-save to ensure data is fully loaded
-                    setTimeout(() => {
-                        console.log('Re-enabling auto-save for user:', cleanUsername);
-                        setIsSwitchingUsers(false);
-                        setHasUnsavedChanges(false);
-                        // Keep lastUserActionRef at 0 to prevent immediate auto-save
-                    }, 2000); // Increased back to 2000ms for safety
-                }, 200); // Increased delay to 200ms
-                
-                return true;
-            };
-            
-            const clearUsername = () => {
+                // Remove username and generate new random user ID
                 localStorage.removeItem('username');
-                // Generate new random user ID
                 const newId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
                 localStorage.setItem('user_id', newId);
+                
+                console.log('🔄 Switching from', userId, 'to', newId);
                 setUserId(newId);
                 setShowUserModal(false);
-                // Reset to default data
+                
+                // Immediately reset to default data
                 setIngredients([
                     { id: 1, name: 'Chicken Breast', quantity: 2, unit: 'lbs', category: 'Protein', expires: '2025-08-05' },
                     { id: 2, name: 'Basmati Rice', quantity: 1, unit: 'cup', category: 'Grain', expires: '2026-01-01' },
@@ -400,6 +421,13 @@
                 ]);
                 setKitchenStaples({});
                 setSavedRecipes([]);
+                
+                // Wait before re-enabling auto-save to ensure everything is settled
+                setTimeout(() => {
+                    console.log('🔄 Re-enabling auto-save for anonymous user:', newId);
+                    setIsSwitchingUsers(false);
+                    setHasUnsavedChanges(false);
+                }, 2000);
             };
 
             const getApiKey = () => {
@@ -1631,6 +1659,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
 
 
