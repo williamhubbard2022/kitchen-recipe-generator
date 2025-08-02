@@ -77,9 +77,10 @@
     "Rosemary": true,
     "Parsley": true,
     "Dill": true,
-    "Bay leaves": true
+    "Bay leaves": true,
+    "Black pepper": true
   },
-  "lastUpdated": "2025-08-02T19:48:53.882Z",
+  "lastUpdated": "2025-08-02T19:48:56.886Z",
   "debug": {
     "message": "Data saved successfully"
   }
