@@ -1,12 +1,36 @@
 {
   "ingredients": [
     {
-      "id": 1754120182135,
+      "id": 1,
       "name": "Chicken Breast",
       "quantity": 2,
       "unit": "lbs",
       "category": "Protein",
-      "expires": "2025-08-09"
+      "expires": "2025-08-05"
+    },
+    {
+      "id": 2,
+      "name": "Basmati Rice",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Grain",
+      "expires": "2026-01-01"
+    },
+    {
+      "id": 3,
+      "name": "Heavy Cream",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Dairy",
+      "expires": "2025-08-03"
+    },
+    {
+      "id": 4,
+      "name": "Mushrooms",
+      "quantity": 8,
+      "unit": "oz",
+      "category": "Vegetable",
+      "expires": "2025-08-04"
     }
   ],
   "equipment": [
@@ -18,35 +42,13 @@
     },
     {
       "id": 2,
-      "name": "Oval Enameled Cast Iron Dutch Oven",
+      "name": "Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
-    },
-    {
-      "id": 1754119980027,
-      "name": "Blackstone Flat Top Griddle",
-      "type": "Cooking",
-      "capabilities": "Cast iron propane"
-    },
-    {
-      "id": 1754119994358,
-      "name": "Cuisinart 2qt Ice Cream Maker",
-      "type": "Other",
-      "capabilities": ""
-    },
-    {
-      "id": 1754120024239,
-      "name": "Ninja Neverclog Cold Press Juicer",
-      "type": "Other",
-      "capabilities": ""
     }
   ],
-  "kitchenStaples": {
-    "Olive oil (extra virgin)": true,
-    "Avocado oil": true,
-    "Coconut oil (refined)": true
-  },
-  "lastUpdated": "2025-08-02T07:45:19.570Z",
+  "kitchenStaples": {},
+  "lastUpdated": "2025-08-02T07:45:31.080Z",
   "debug": {
     "message": "Data saved successfully"
   }
