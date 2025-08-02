@@ -37,10 +37,21 @@
     "Coconut oil (refined)": true,
     "Olive oil (extra virgin)": true,
     "Basil": true,
-    "Oregano": true
+    "Oregano": true,
+    "Cloves (ground or whole)": true,
+    "Allspice": true,
+    "Seasoned rice vinegar": true,
+    "Rice vinegar (unseasoned)": true,
+    "Teriyaki sauce": true,
+    "Tzatziki": true,
+    "Granulated white sugar": true,
+    "Monk fruit sweetener": true,
+    "Corn syrup": true,
+    "Agave syrup": true,
+    "Powdered sugar": true
   },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-02T23:42:36.525Z",
+  "lastUpdated": "2025-08-02T23:42:46.872Z",
   "debug": {
     "message": "Data saved successfully"
   }
