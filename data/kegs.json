@@ -75,9 +75,13 @@
     "Granulated white sugar": true,
     "Brown sugar (light and dark)": true,
     "Powdered sugar": true,
-    "Cane sugar": true
+    "Cane sugar": true,
+    "Corn syrup": false,
+    "Agave syrup": true,
+    "Maple syrup": true,
+    "Honey": true
   },
-  "lastUpdated": "2025-08-02T07:56:19.961Z",
+  "lastUpdated": "2025-08-02T07:56:23.622Z",
   "debug": {
     "message": "Data saved successfully"
   }
