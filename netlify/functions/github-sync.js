@@ -56,7 +56,7 @@ exports.handler = async (event, context) => {
     }
 
     const { httpMethod } = event;
-    let userId, ingredients, equipment;
+    let userId, ingredients, equipment, kitchenStaples;
 
     if (httpMethod === 'GET') {
       userId = event.queryStringParameters?.userId;
@@ -67,6 +67,7 @@ exports.handler = async (event, context) => {
         userId = body.userId;
         ingredients = body.ingredients;
         equipment = body.equipment;
+        kitchenStaples = body.kitchenStaples;
         console.log('POST request for user:', userId, 'with', ingredients?.length || 0, 'ingredients and', equipment?.length || 0, 'equipment');
       } catch (parseError) {
         console.error('JSON parse error:', parseError);
@@ -210,6 +211,7 @@ exports.handler = async (event, context) => {
           const dataToSave = {
             ingredients: ingredients || [],
             equipment: equipment || [],
+            kitchenStaples: kitchenStaples || [],
             lastUpdated: new Date().toISOString(),
             debug: { message: 'Data saved successfully' }
           };
