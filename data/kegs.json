@@ -39,9 +39,10 @@
     "Rosemary": true,
     "Parsley": true,
     "Dill": true,
-    "Black pepper": true
+    "Black pepper": true,
+    "Turmeric": true
   },
-  "lastUpdated": "2025-08-02T07:47:36.107Z",
+  "lastUpdated": "2025-08-02T07:47:39.372Z",
   "debug": {
     "message": "Data saved successfully"
   }
