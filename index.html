@@ -1216,15 +1216,12 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                     <p className="text-sm text-gray-600 mb-4">
                                         Select the pantry staples you have on hand. These will be considered when generating recipes.
                                     </p>
-                                    
                                     <div className="space-y-3 max-h-96 overflow-y-auto">
                                         {Object.entries(KITCHEN_STAPLES).map(([key, category]) => 
                                             renderStapleCategory(key, category)
                                         )}
                                     </div>
                                 </div>
-                            )}
-                            </div>
                             )}
 
                             {/* Saved Recipes Tab */}
@@ -1279,9 +1276,6 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                     )}
                                 </div>
                             )}
-                        </div>
-
-                        {/* Right Panel - Recipe Generation */}
                         </div>
 
                         {/* Right Panel - Recipe Generation */}
