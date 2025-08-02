@@ -26,7 +26,7 @@
   "kitchenStaples": {
     "Olive oil (extra virgin)": true,
     "Olive oil (light or regular)": true,
-    "Vegetable oil": false,
+    "Vegetable oil": true,
     "Canola oil": false,
     "Butter (unsalted)": true,
     "Butter (salted)": true,
@@ -40,9 +40,10 @@
     "Parsley": true,
     "Dill": true,
     "Black pepper": true,
-    "Turmeric": true
+    "Turmeric": true,
+    "Coconut oil (virgin)": false
   },
-  "lastUpdated": "2025-08-02T07:54:38.461Z",
+  "lastUpdated": "2025-08-02T07:54:43.751Z",
   "debug": {
     "message": "Data saved successfully"
   }
