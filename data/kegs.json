@@ -2,9 +2,9 @@
   "ingredients": [
     {
       "id": 1754120182135,
-      "name": "New Ingredient",
-      "quantity": 1,
-      "unit": "unit",
+      "name": "Chicken Breast",
+      "quantity": null,
+      "unit": "lbs",
       "category": "Other",
       "expires": "2025-08-09"
     }
@@ -41,7 +41,7 @@
       "capabilities": ""
     }
   ],
-  "lastUpdated": "2025-08-02T07:36:24.327Z",
+  "lastUpdated": "2025-08-02T07:36:30.027Z",
   "debug": {
     "message": "Data saved successfully"
   }
