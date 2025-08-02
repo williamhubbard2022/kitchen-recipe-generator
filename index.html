@@ -163,12 +163,19 @@
             const loadDataFromDatabase = async () => {
                 try {
                     setIsSyncing(true);
+                    console.log('Loading data for user:', userId);
+                    
                     const response = await fetch(`/.netlify/functions/github-sync?userId=${userId}`, {
                         method: 'GET',
                     });
 
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', response.headers);
+
                     if (response.ok) {
                         const data = await response.json();
+                        console.log('Received data:', data);
+                        
                         // Only update if we actually got data from the database
                         if (data.ingredients && data.ingredients.length > 0) {
                             setIngredients(data.ingredients);
@@ -178,7 +185,8 @@
                         }
                         setSyncStatus('synced');
                     } else {
-                        console.error('Failed to load data');
+                        const errorText = await response.text();
+                        console.error('Failed to load data:', response.status, errorText);
                         setSyncStatus('error');
                     }
                 } catch (error) {
@@ -203,6 +211,12 @@
             const saveDataToDatabase = async () => {
                 try {
                     setSyncStatus('syncing');
+                    console.log('Saving data for user:', userId);
+                    console.log('Data to save:', { 
+                        ingredients: ingredients.length, 
+                        equipment: equipment.length 
+                    });
+                    
                     const response = await fetch('/.netlify/functions/github-sync', {
                         method: 'POST',
                         headers: {
@@ -215,14 +229,20 @@
                         })
                     });
 
+                    console.log('Save response status:', response.status);
+                    console.log('Save response headers:', response.headers);
+
                     if (response.ok) {
+                        const result = await response.json();
+                        console.log('Save result:', result);
                         setSyncStatus('synced');
                         // Also save to localStorage as backup
                         localStorage.setItem('ingredients', JSON.stringify(ingredients));
                         localStorage.setItem('equipment', JSON.stringify(equipment));
                     } else {
+                        const errorData = await response.text();
+                        console.error('Save failed:', response.status, errorData);
                         setSyncStatus('error');
-                        console.error('Failed to save to database');
                     }
                 } catch (error) {
                     console.error('Error saving data:', error);
