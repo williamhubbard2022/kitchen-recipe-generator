@@ -61,9 +61,12 @@
     "Oregano": true,
     "Thyme": true,
     "Rosemary": true,
-    "Parsley": true
+    "Parsley": true,
+    "Bay leaves": true,
+    "Black pepper": true,
+    "Smoked paprika": true
   },
-  "lastUpdated": "2025-08-02T20:13:39.882Z",
+  "lastUpdated": "2025-08-02T20:13:44.147Z",
   "debug": {
     "message": "Data saved successfully"
   }
