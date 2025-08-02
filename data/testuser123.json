@@ -1,22 +1,6 @@
 {
   "ingredients": [
     {
-      "id": 1,
-      "name": "Chicken Breast",
-      "quantity": 2,
-      "unit": "lbs",
-      "category": "Protein",
-      "expires": "2025-08-05"
-    },
-    {
-      "id": 2,
-      "name": "Basmati Rice",
-      "quantity": 1,
-      "unit": "cup",
-      "category": "Grain",
-      "expires": "2026-01-01"
-    },
-    {
       "id": 3,
       "name": "Heavy Cream",
       "quantity": 1,
@@ -35,21 +19,20 @@
   ],
   "equipment": [
     {
-      "id": 1,
-      "name": "Sous Vide Immersion Circulator",
-      "type": "Precision Cooking",
-      "capabilities": "Precise temperature control, long slow cooking"
-    },
-    {
       "id": 2,
       "name": "Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "kitchenStaples": {},
+  "kitchenStaples": {
+    "Coconut oil (virgin)": true,
+    "Olive oil (extra virgin)": true,
+    "Olive oil (light or regular)": true,
+    "Coconut oil (refined)": true
+  },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-02T23:02:17.924Z",
+  "lastUpdated": "2025-08-02T23:02:31.005Z",
   "debug": {
     "message": "Data saved successfully"
   }
