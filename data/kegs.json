@@ -51,9 +51,10 @@
     "White pepper": false,
     "Sweet paprika": false,
     "Mint": false,
-    "Smoked paprika": true
+    "Smoked paprika": true,
+    "Nutmeg": true
   },
-  "lastUpdated": "2025-08-02T07:55:01.639Z",
+  "lastUpdated": "2025-08-02T07:55:04.295Z",
   "debug": {
     "message": "Data saved successfully"
   }
