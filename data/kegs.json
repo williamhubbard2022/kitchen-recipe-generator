@@ -1,54 +1,884 @@
-{
-  "ingredients": [
-    {
-      "id": 1,
-      "name": "Chicken Breast",
-      "quantity": 2,
-      "unit": "lbs",
-      "category": "Protein",
-      "expires": "2025-08-05"
-    },
-    {
-      "id": 2,
-      "name": "Basmati Rice",
-      "quantity": 1,
-      "unit": "cup",
-      "category": "Grain",
-      "expires": "2026-01-01"
-    },
-    {
-      "id": 3,
-      "name": "Heavy Cream",
-      "quantity": 1,
-      "unit": "cup",
-      "category": "Dairy",
-      "expires": "2025-08-03"
-    },
-    {
-      "id": 4,
-      "name": "Mushrooms",
-      "quantity": 8,
-      "unit": "oz",
-      "category": "Vegetable",
-      "expires": "2025-08-04"
-    }
-  ],
-  "equipment": [
-    {
-      "id": 1,
-      "name": "Sous Vide Immersion Circulator",
-      "type": "Precision Cooking",
-      "capabilities": "Precise temperature control, long slow cooking"
-    },
-    {
-      "id": 2,
-      "name": "Cast Iron Dutch Oven",
-      "type": "Cooking",
-      "capabilities": "Braising, bread baking, high heat retention"
-    }
-  ],
-  "lastUpdated": "2025-08-02T01:42:47.879Z",
-  "debug": {
-    "message": "Data saved successfully"
-  }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Recipe Generator</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .sync-indicator {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Icon components
+        const ChefHat = ({ className = "", size = 24 }) => React.createElement('svg', {
+            className, width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2"
+        }, 
+            React.createElement('path', { d: "m15 11-1 9h-4l-1-9" }),
+            React.createElement('path', { d: "m5 11 1-2c0-5 4-7 8-7s8 2 8 7l1 2-4.5 0.5" }),
+            React.createElement('path', { d: "m4 11 5-8" }),
+            React.createElement('path', { d: "m20 11-5-8" })
+        );
+
+        const Plus = ({ size = 16 }) => React.createElement('svg', {
+            width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2"
+        },
+            React.createElement('path', { d: "M5 12h14" }),
+            React.createElement('path', { d: "M12 5v14" })
+        );
+
+        const Edit2 = ({ size = 14 }) => React.createElement('svg', {
+            width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2"
+        },
+            React.createElement('path', { d: "M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" }),
+            React.createElement('path', { d: "M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" })
+        );
+
+        const Trash2 = ({ size = 14 }) => React.createElement('svg', {
+            width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2"
+        },
+            React.createElement('polyline', { points: "3,6 5,6 21,6" }),
+            React.createElement('path', { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" }),
+            React.createElement('line', { x1: "10", y1: "11", x2: "10", y2: "17" }),
+            React.createElement('line', { x1: "14", y1: "11", x2: "14", y2: "17" })
+        );
+
+        const Check = ({ size = 14 }) => React.createElement('svg', {
+            width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2"
+        },
+            React.createElement('polyline', { points: "20,6 9,17 4,12" })
+        );
+
+        const Utensils = ({ size = 16 }) => React.createElement('svg', {
+            width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2"
+        },
+            React.createElement('path', { d: "M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" }),
+            React.createElement('path', { d: "M7 2v20" }),
+            React.createElement('path', { d: "M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" })
+        );
+
+        const AlertTriangle = ({ className = "", size = 20 }) => React.createElement('svg', {
+            className, width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2"
+        },
+            React.createElement('path', { d: "M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" }),
+            React.createElement('line', { x1: "12", y1: "9", x2: "12", y2: "13" }),
+            React.createElement('line', { x1: "12", y1: "17", x2: "12.01", y2: "17" })
+        );
+
+        const Cloud = ({ size = 16, className = "" }) => React.createElement('svg', {
+            width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", className
+        },
+            React.createElement('path', { d: "M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z" })
+        );
+
+        const User = ({ size = 16 }) => React.createElement('svg', {
+            width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2"
+        },
+            React.createElement('path', { d: "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" }),
+            React.createElement('circle', { cx: "12", cy: "7", r: "4" })
+        );
+
+        const X = ({ size = 20 }) => React.createElement('svg', {
+            width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2"
+        },
+            React.createElement('path', { d: "M18 6 6 18" }),
+            React.createElement('path', { d: "M6 6l12 12" })
+        );
+
+        const RecipeGenerator = () => {
+            // User management functions
+            const getUserId = () => {
+                let username = localStorage.getItem('username');
+                if (username) {
+                    return username;
+                }
+                
+                let userId = localStorage.getItem('user_id');
+                if (!userId) {
+                    userId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                    localStorage.setItem('user_id', userId);
+                }
+                return userId;
+            };
+
+            const setUsername = (newUsername) => {
+                if (!newUsername || newUsername.trim() === '') return false;
+                
+                const cleanUsername = newUsername.toLowerCase().replace(/[^a-z0-9-_]/g, '');
+                if (cleanUsername.length < 2) {
+                    alert('Username must be at least 2 characters long and contain only letters, numbers, hyphens, and underscores');
+                    return false;
+                }
+                
+                localStorage.setItem('username', cleanUsername);
+                setUserId(cleanUsername);
+                setShowUserModal(false);
+                
+                // Immediately load data for the new user instead of triggering save
+                loadDataForUser(cleanUsername);
+                return true;
+            };
+
+            const loadDataForUser = async (targetUserId) => {
+                try {
+                    setIsSyncing(true);
+                    const response = await fetch(`/.netlify/functions/github-sync?userId=${targetUserId}`, {
+                        method: 'GET',
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        // Load the user's data or keep defaults if no data exists
+                        if (data.ingredients && data.ingredients.length > 0) {
+                            setIngredients(data.ingredients);
+                        } else {
+                            // Keep current ingredients if no saved data
+                            console.log('No saved ingredients found for user, keeping current data');
+                        }
+                        if (data.equipment && data.equipment.length > 0) {
+                            setEquipment(data.equipment);
+                        } else {
+                            // Keep current equipment if no saved data
+                            console.log('No saved equipment found for user, keeping current data');
+                        }
+                        setSyncStatus('synced');
+                    } else {
+                        console.log('No data found for user, keeping current state');
+                        setSyncStatus('synced');
+                    }
+                } catch (error) {
+                    console.error('Error loading data for user:', error);
+                    setSyncStatus('error');
+                } finally {
+                    setIsSyncing(false);
+                }
+            };
+
+            const clearUsername = () => {
+                localStorage.removeItem('username');
+                const newId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                localStorage.setItem('user_id', newId);
+                setUserId(newId);
+                setShowUserModal(false);
+                // Reset to default data for anonymous user
+                setIngredients([
+                    { id: 1, name: 'Chicken Breast', quantity: 2, unit: 'lbs', category: 'Protein', expires: '2025-08-05' },
+                    { id: 2, name: 'Basmati Rice', quantity: 1, unit: 'cup', category: 'Grain', expires: '2026-01-01' },
+                    { id: 3, name: 'Heavy Cream', quantity: 1, unit: 'cup', category: 'Dairy', expires: '2025-08-03' },
+                    { id: 4, name: 'Mushrooms', quantity: 8, unit: 'oz', category: 'Vegetable', expires: '2025-08-04' }
+                ]);
+                setEquipment([
+                    { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
+                    { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
+                ]);
+                setSyncStatus('synced');
+            };
+
+            const getApiKey = () => {
+                let apiKey = localStorage.getItem('anthropic_api_key');
+                if (!apiKey) {
+                    apiKey = prompt('Please enter your Anthropic API key (starts with sk-ant-):');
+                    if (apiKey) {
+                        localStorage.setItem('anthropic_api_key', apiKey);
+                    }
+                }
+                return apiKey;
+            };
+
+            const [ingredients, setIngredients] = useState([
+                { id: 1, name: 'Chicken Breast', quantity: 2, unit: 'lbs', category: 'Protein', expires: '2025-08-05' },
+                { id: 2, name: 'Basmati Rice', quantity: 1, unit: 'cup', category: 'Grain', expires: '2026-01-01' },
+                { id: 3, name: 'Heavy Cream', quantity: 1, unit: 'cup', category: 'Dairy', expires: '2025-08-03' },
+                { id: 4, name: 'Mushrooms', quantity: 8, unit: 'oz', category: 'Vegetable', expires: '2025-08-04' }
+            ]);
+            const [equipment, setEquipment] = useState([
+                { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
+                { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
+            ]);
+            const [activeTab, setActiveTab] = useState('ingredients');
+            const [editingItem, setEditingItem] = useState(null);
+            const [generatedRecipe, setGeneratedRecipe] = useState('');
+            const [isGenerating, setIsGenerating] = useState(false);
+            const [recipePreferences, setRecipePreferences] = useState('');
+            const [isSyncing, setIsSyncing] = useState(false);
+            const [syncStatus, setSyncStatus] = useState('synced');
+            const [userId, setUserId] = useState(getUserId());
+            const [showUserModal, setShowUserModal] = useState(false);
+            const [usernameInput, setUsernameInput] = useState('');
+
+            const syncTimeoutRef = useRef(null);
+
+            useEffect(() => {
+                loadDataFromDatabase();
+                const interval = setInterval(loadDataFromDatabase, 30000);
+                return () => clearInterval(interval);
+            }, []);
+
+            useEffect(() => {
+                if (syncTimeoutRef.current) {
+                    clearTimeout(syncTimeoutRef.current);
+                }
+                
+                syncTimeoutRef.current = setTimeout(() => {
+                    saveDataToDatabase();
+                }, 1000);
+
+                return () => {
+                    if (syncTimeoutRef.current) {
+                        clearTimeout(syncTimeoutRef.current);
+                    }
+                };
+            }, [ingredients, equipment]);
+
+            const loadDataFromDatabase = async () => {
+                try {
+                    setIsSyncing(true);
+                    const response = await fetch(`/.netlify/functions/github-sync?userId=${userId}`, {
+                        method: 'GET',
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.ingredients && data.ingredients.length > 0) {
+                            setIngredients(data.ingredients);
+                        }
+                        if (data.equipment && data.equipment.length > 0) {
+                            setEquipment(data.equipment);
+                        }
+                        setSyncStatus('synced');
+                    } else {
+                        setSyncStatus('error');
+                    }
+                } catch (error) {
+                    console.error('Error loading data:', error);
+                    setSyncStatus('error');
+                } finally {
+                    setIsSyncing(false);
+                }
+            };
+
+            const saveDataToDatabase = async () => {
+                try {
+                    setSyncStatus('syncing');
+                    const response = await fetch('/.netlify/functions/github-sync', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            userId: userId,
+                            ingredients: ingredients,
+                            equipment: equipment
+                        })
+                    });
+
+                    if (response.ok) {
+                        setSyncStatus('synced');
+                        localStorage.setItem('ingredients', JSON.stringify(ingredients));
+                        localStorage.setItem('equipment', JSON.stringify(equipment));
+                    } else {
+                        setSyncStatus('error');
+                    }
+                } catch (error) {
+                    console.error('Error saving data:', error);
+                    setSyncStatus('error');
+                    localStorage.setItem('ingredients', JSON.stringify(ingredients));
+                    localStorage.setItem('equipment', JSON.stringify(equipment));
+                }
+            };
+
+            const markAsUsed = (id) => {
+                setIngredients(ingredients.filter(item => item.id !== id));
+            };
+
+            const updateQuantity = (id, newQuantity) => {
+                if (newQuantity <= 0) {
+                    markAsUsed(id);
+                } else {
+                    setIngredients(ingredients.map(item => 
+                        item.id === id ? { ...item, quantity: newQuantity } : item
+                    ));
+                }
+            };
+
+            const addIngredient = () => {
+                const newIngredient = {
+                    id: Date.now(),
+                    name: 'New Ingredient',
+                    quantity: 1,
+                    unit: 'unit',
+                    category: 'Other',
+                    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+                };
+                setIngredients([...ingredients, newIngredient]);
+                setEditingItem({ type: 'ingredient', id: newIngredient.id });
+            };
+
+            const addEquipment = () => {
+                const newEquipment = {
+                    id: Date.now(),
+                    name: 'New Equipment',
+                    type: 'Other',
+                    capabilities: 'Describe what this equipment can do'
+                };
+                setEquipment([...equipment, newEquipment]);
+                setEditingItem({ type: 'equipment', id: newEquipment.id });
+            };
+
+            const deleteIngredient = (id) => {
+                setIngredients(ingredients.filter(item => item.id !== id));
+            };
+
+            const deleteEquipment = (id) => {
+                setEquipment(equipment.filter(item => item.id !== id));
+            };
+
+            const updateIngredient = (id, field, value) => {
+                setIngredients(ingredients.map(item => 
+                    item.id === id ? { ...item, [field]: value } : item
+                ));
+            };
+
+            const updateEquipment = (id, field, value) => {
+                setEquipment(equipment.map(item => 
+                    item.id === id ? { ...item, [field]: value } : item
+                ));
+            };
+
+            const generateRecipe = async () => {
+                const apiKey = getApiKey();
+                if (!apiKey) {
+                    alert('API key is required to generate recipes');
+                    return;
+                }
+
+                setIsGenerating(true);
+                setGeneratedRecipe('');
+
+                try {
+                    const ingredientsList = ingredients.map(ing => 
+                        `${ing.name} (${ing.quantity} ${ing.unit})`
+                    ).join(', ');
+
+                    const equipmentList = equipment.map(eq => 
+                        `${eq.name} - ${eq.capabilities}`
+                    ).join(', ');
+
+                    const prompt = `Create a detailed recipe using these available ingredients: ${ingredientsList}
+
+Available specialized equipment: ${equipmentList}
+
+User preferences/notes: ${recipePreferences || 'No specific preferences'}
+
+Please create a recipe that:
+1. Uses primarily the ingredients I have available
+2. Takes advantage of my specialized kitchen equipment when possible
+3. Includes clear step-by-step instructions
+4. Mentions cooking times and temperatures
+5. If I'm missing any key ingredients, suggest simple substitutions or mention they're optional
+
+Format the recipe with a clear title, ingredient list, and numbered steps.`;
+
+                    const response = await fetch("/.netlify/functions/generate-recipe", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            prompt: prompt,
+                            apiKey: apiKey
+                        })
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || `Request failed: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    setGeneratedRecipe(data.content[0].text);
+                } catch (error) {
+                    console.error("Error generating recipe:", error);
+                    setGeneratedRecipe(`Error generating recipe: ${error.message}`);
+                } finally {
+                    setIsGenerating(false);
+                }
+            };
+
+            const isExpiringSoon = (expirationDate) => {
+                const today = new Date();
+                const expiry = new Date(expirationDate);
+                const diffTime = expiry - today;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                return diffDays <= 3 && diffDays >= 0;
+            };
+
+            const expiringSoon = ingredients.filter(ing => isExpiringSoon(ing.expires));
+
+            const getSyncStatusInfo = () => {
+                switch (syncStatus) {
+                    case 'syncing':
+                        return { 
+                            color: 'text-blue-500', 
+                            text: 'Syncing...', 
+                            icon: React.createElement(Cloud, { className: "sync-indicator" }) 
+                        };
+                    case 'synced':
+                        return { 
+                            color: 'text-green-500', 
+                            text: 'Synced', 
+                            icon: React.createElement(Cloud) 
+                        };
+                    case 'error':
+                        return { 
+                            color: 'text-red-500', 
+                            text: 'Sync Error', 
+                            icon: React.createElement(Cloud) 
+                        };
+                    default:
+                        return { 
+                            color: 'text-gray-500', 
+                            text: 'Unknown', 
+                            icon: React.createElement(Cloud) 
+                        };
+                }
+            };
+
+            const statusInfo = getSyncStatusInfo();
+
+            return React.createElement('div', { className: "max-w-7xl mx-auto p-4 bg-gray-50 min-h-screen" },
+                // Header
+                React.createElement('div', { className: "bg-white rounded-lg shadow-lg p-6 mb-6" },
+                    React.createElement('div', { className: "flex justify-between items-start" },
+                        React.createElement('div', null,
+                            React.createElement('h1', { className: "text-3xl font-bold text-gray-800 mb-2 flex items-center gap-2" },
+                                React.createElement(ChefHat, { className: "text-orange-500" }),
+                                "Kitchen Recipe Generator"
+                            ),
+                            React.createElement('p', { className: "text-gray-600" }, "🎯 Manage your kitchen inventory and generate AI recipes")
+                        ),
+                        React.createElement('div', { className: "flex items-center gap-2 text-sm" },
+                            React.createElement('div', { className: `flex items-center gap-1 ${statusInfo.color}` },
+                                statusInfo.icon,
+                                React.createElement('span', null, statusInfo.text)
+                            ),
+                            React.createElement('button', {
+                                onClick: () => setShowUserModal(true),
+                                className: "bg-purple-500 text-white px-3 py-1 rounded text-xs hover:bg-purple-600 flex items-center gap-1",
+                                title: "Manage User"
+                            },
+                                React.createElement(User, { size: 12 }),
+                                "User"
+                            ),
+                            React.createElement('button', {
+                                onClick: () => {
+                                    loadDataFromDatabase();
+                                    saveDataToDatabase();
+                                },
+                                className: "bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600",
+                                disabled: isSyncing
+                            }, isSyncing ? 'Syncing...' : 'Force Sync')
+                        )
+                    )
+                ),
+
+                // Expiring Soon Alert
+                expiringSoon.length > 0 && React.createElement('div', { className: "bg-red-50 border border-red-200 rounded-lg p-4 mb-6" },
+                    React.createElement('div', { className: "flex items-center gap-2 mb-2" },
+                        React.createElement(AlertTriangle, { className: "text-red-500" }),
+                        React.createElement('h3', { className: "font-semibold text-red-800" }, "Ingredients Expiring Soon!")
+                    ),
+                    React.createElement('div', { className: "text-red-700 text-sm" },
+                        expiringSoon.map(ing => ing.name).join(', ') + " - Consider using these first!"
+                    )
+                ),
+
+                // Main Grid
+                React.createElement('div', { className: "grid grid-cols-1 xl:grid-cols-2 gap-6" },
+                    // Left Panel - Inventory Management
+                    React.createElement('div', { className: "bg-white rounded-lg shadow-lg p-6" },
+                        React.createElement('div', { className: "flex gap-2 mb-6" },
+                            React.createElement('button', {
+                                onClick: () => setActiveTab('ingredients'),
+                                className: `px-4 py-2 rounded-lg font-medium transition-colors ${
+                                    activeTab === 'ingredients' 
+                                        ? 'bg-blue-500 text-white' 
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                }`
+                            }, `🥘 Ingredients (${ingredients.length})`),
+                            React.createElement('button', {
+                                onClick: () => setActiveTab('equipment'),
+                                className: `px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
+                                    activeTab === 'equipment' 
+                                        ? 'bg-blue-500 text-white' 
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                }`
+                            }, 
+                                React.createElement(Utensils),
+                                `Equipment (${equipment.length})`
+                            )
+                        ),
+
+                        // Tab Content
+                        activeTab === 'ingredients' ? 
+                            React.createElement('div', null,
+                                React.createElement('div', { className: "flex justify-between items-center mb-4" },
+                                    React.createElement('h2', { className: "text-xl font-semibold text-gray-800" }, "Your Ingredients"),
+                                    React.createElement('button', {
+                                        onClick: addIngredient,
+                                        className: "bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 text-sm"
+                                    },
+                                        React.createElement(Plus),
+                                        "Add"
+                                    )
+                                ),
+                                React.createElement('div', { className: "space-y-3 max-h-96 overflow-y-auto" },
+                                    ingredients.map(ingredient => 
+                                        React.createElement('div', {
+                                            key: ingredient.id,
+                                            className: `p-4 rounded-lg border-2 ${
+                                                isExpiringSoon(ingredient.expires) ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-gray-50'
+                                            }`
+                                        },
+                                            editingItem?.type === 'ingredient' && editingItem?.id === ingredient.id ?
+                                                React.createElement('div', { className: "space-y-3" },
+                                                    React.createElement('input', {
+                                                        value: ingredient.name,
+                                                        onChange: (e) => updateIngredient(ingredient.id, 'name', e.target.value),
+                                                        className: "w-full p-2 border rounded-lg",
+                                                        placeholder: "Ingredient name"
+                                                    }),
+                                                    React.createElement('div', { className: "grid grid-cols-3 gap-2" },
+                                                        React.createElement('input', {
+                                                            type: "number",
+                                                            step: "0.1",
+                                                            value: ingredient.quantity,
+                                                            onChange: (e) => updateIngredient(ingredient.id, 'quantity', parseFloat(e.target.value)),
+                                                            className: "p-2 border rounded-lg",
+                                                            placeholder: "Qty"
+                                                        }),
+                                                        React.createElement('input', {
+                                                            value: ingredient.unit,
+                                                            onChange: (e) => updateIngredient(ingredient.id, 'unit', e.target.value),
+                                                            className: "p-2 border rounded-lg",
+                                                            placeholder: "Unit"
+                                                        }),
+                                                        React.createElement('input', {
+                                                            type: "date",
+                                                            value: ingredient.expires,
+                                                            onChange: (e) => updateIngredient(ingredient.id, 'expires', e.target.value),
+                                                            className: "p-2 border rounded-lg"
+                                                        })
+                                                    ),
+                                                    React.createElement('input', {
+                                                        value: ingredient.category,
+                                                        onChange: (e) => updateIngredient(ingredient.id, 'category', e.target.value),
+                                                        className: "w-full p-2 border rounded-lg",
+                                                        placeholder: "Category (e.g., Protein, Vegetable)"
+                                                    }),
+                                                    React.createElement('div', { className: "flex gap-2" },
+                                                        React.createElement('button', {
+                                                            onClick: () => setEditingItem(null),
+                                                            className: "bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
+                                                        }, "Save"),
+                                                        React.createElement('button', {
+                                                            onClick: () => setEditingItem(null),
+                                                            className: "bg-gray-500 text-white px-3 py-1 rounded text-sm hover:bg-gray-600"
+                                                        }, "Cancel")
+                                                    )
+                                                ) :
+                                                React.createElement('div', null,
+                                                    React.createElement('div', { className: "flex justify-between items-start mb-2" },
+                                                        React.createElement('div', { className: "flex-1" },
+                                                            React.createElement('div', { className: "font-medium text-gray-800 text-lg" }, ingredient.name),
+                                                            React.createElement('div', { className: "text-sm text-gray-600" },
+                                                                React.createElement('span', { className: "font-medium" }, `${ingredient.quantity} ${ingredient.unit}`),
+                                                                React.createElement('span', { className: "mx-2" }, "•"),
+                                                                React.createElement('span', { className: "text-blue-600" }, ingredient.category)
+                                                            ),
+                                                            React.createElement('div', { className: "text-xs text-gray-500 mt-1" },
+                                                                `Expires: ${ingredient.expires}`,
+                                                                isExpiringSoon(ingredient.expires) && 
+                                                                    React.createElement('span', { className: "text-red-600 font-medium ml-2" }, "⚠️ Use Soon!")
+                                                            )
+                                                        ),
+                                                        React.createElement('div', { className: "flex gap-1 ml-4" },
+                                                            React.createElement('button', {
+                                                                onClick: () => setEditingItem({ type: 'ingredient', id: ingredient.id }),
+                                                                className: "text-blue-500 hover:text-blue-700 p-1",
+                                                                title: "Edit"
+                                                            }, React.createElement(Edit2)),
+                                                            React.createElement('button', {
+                                                                onClick: () => markAsUsed(ingredient.id),
+                                                                className: "text-orange-500 hover:text-orange-700 p-1",
+                                                                title: "Mark as Used"
+                                                            }, React.createElement(Check)),
+                                                            React.createElement('button', {
+                                                                onClick: () => deleteIngredient(ingredient.id),
+                                                                className: "text-red-500 hover:text-red-700 p-1",
+                                                                title: "Delete"
+                                                            }, React.createElement(Trash2))
+                                                        )
+                                                    ),
+                                                    React.createElement('div', { className: "flex items-center gap-2 mt-2" },
+                                                        React.createElement('span', { className: "text-xs text-gray-500" }, "Quick update:"),
+                                                        React.createElement('button', {
+                                                            onClick: () => updateQuantity(ingredient.id, ingredient.quantity - 1),
+                                                            className: "bg-red-100 text-red-600 hover:bg-red-200 rounded px-2 py-1 text-xs",
+                                                            disabled: ingredient.quantity <= 1
+                                                        }, "-1"),
+                                                        React.createElement('button', {
+                                                            onClick: () => updateQuantity(ingredient.id, ingredient.quantity / 2),
+                                                            className: "bg-yellow-100 text-yellow-600 hover:bg-yellow-200 rounded px-2 py-1 text-xs"
+                                                        }, "÷2"),
+                                                        React.createElement('button', {
+                                                            onClick: () => updateQuantity(ingredient.id, ingredient.quantity + 1),
+                                                            className: "bg-green-100 text-green-600 hover:bg-green-200 rounded px-2 py-1 text-xs"
+                                                        }, "+1")
+                                                    )
+                                                )
+                                        )
+                                    )
+                                )
+                            ) :
+                            React.createElement('div', null,
+                                React.createElement('div', { className: "flex justify-between items-center mb-4" },
+                                    React.createElement('h2', { className: "text-xl font-semibold text-gray-800" }, "Your Equipment"),
+                                    React.createElement('button', {
+                                        onClick: addEquipment,
+                                        className: "bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 text-sm"
+                                    },
+                                        React.createElement(Plus),
+                                        "Add"
+                                    )
+                                ),
+                                React.createElement('div', { className: "space-y-3 max-h-96 overflow-y-auto" },
+                                    equipment.map(item => 
+                                        React.createElement('div', {
+                                            key: item.id,
+                                            className: "p-4 rounded-lg border-2 border-gray-200 bg-gray-50"
+                                        },
+                                            editingItem?.type === 'equipment' && editingItem?.id === item.id ?
+                                                React.createElement('div', { className: "space-y-3" },
+                                                    React.createElement('input', {
+                                                        value: item.name,
+                                                        onChange: (e) => updateEquipment(item.id, 'name', e.target.value),
+                                                        className: "w-full p-2 border rounded-lg",
+                                                        placeholder: "Equipment name"
+                                                    }),
+                                                    React.createElement('input', {
+                                                        value: item.type,
+                                                        onChange: (e) => updateEquipment(item.id, 'type', e.target.value),
+                                                        className: "w-full p-2 border rounded-lg",
+                                                        placeholder: "Type/Category"
+                                                    }),
+                                                    React.createElement('textarea', {
+                                                        value: item.capabilities,
+                                                        onChange: (e) => updateEquipment(item.id, 'capabilities', e.target.value),
+                                                        className: "w-full p-2 border rounded-lg",
+                                                        placeholder: "What can this equipment do?",
+                                                        rows: 3
+                                                    }),
+                                                    React.createElement('div', { className: "flex gap-2" },
+                                                        React.createElement('button', {
+                                                            onClick: () => setEditingItem(null),
+                                                            className: "bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
+                                                        }, "Save"),
+                                                        React.createElement('button', {
+                                                            onClick: () => setEditingItem(null),
+                                                            className: "bg-gray-500 text-white px-3 py-1 rounded text-sm hover:bg-gray-600"
+                                                        }, "Cancel")
+                                                    )
+                                                ) :
+                                                React.createElement('div', { className: "flex justify-between items-start" },
+                                                    React.createElement('div', { className: "flex-1" },
+                                                        React.createElement('div', { className: "font-medium text-gray-800 text-lg" }, item.name),
+                                                        React.createElement('div', { className: "text-sm text-blue-600 mb-2" }, item.type),
+                                                        React.createElement('div', { className: "text-sm text-gray-600 leading-relaxed" }, item.capabilities)
+                                                    ),
+                                                    React.createElement('div', { className: "flex gap-1 ml-4" },
+                                                        React.createElement('button', {
+                                                            onClick: () => setEditingItem({ type: 'equipment', id: item.id }),
+                                                            className: "text-blue-500 hover:text-blue-700 p-1",
+                                                            title: "Edit"
+                                                        }, React.createElement(Edit2)),
+                                                        React.createElement('button', {
+                                                            onClick: () => deleteEquipment(item.id),
+                                                            className: "text-red-500 hover:text-red-700 p-1",
+                                                            title: "Delete"
+                                                        }, React.createElement(Trash2))
+                                                    )
+                                                )
+                                        )
+                                    )
+                                )
+                            )
+                    ),
+
+                    // Right Panel - Recipe Generation
+                    React.createElement('div', { className: "bg-white rounded-lg shadow-lg p-6" },
+                        React.createElement('h2', { className: "text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2" },
+                            React.createElement(ChefHat, { className: "text-orange-500" }),
+                            "Generate Recipe"
+                        ),
+                        React.createElement('div', { className: "mb-4" },
+                            React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" },
+                                "Preferences & Notes (optional)"
+                            ),
+                            React.createElement('textarea', {
+                                value: recipePreferences,
+                                onChange: (e) => setRecipePreferences(e.target.value),
+                                className: "w-full p-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500",
+                                placeholder: "e.g., 'vegetarian', 'under 30 minutes', 'comfort food', 'use the sous vide', 'low carb'",
+                                rows: 3
+                            })
+                        ),
+                        React.createElement('button', {
+                            onClick: generateRecipe,
+                            disabled: isGenerating || ingredients.length === 0,
+                            className: "w-full bg-orange-500 text-white py-3 px-4 rounded-lg hover:bg-orange-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-4"
+                        },
+                            isGenerating ? 
+                                React.createElement(React.Fragment, null,
+                                    React.createElement('div', { className: "animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" }),
+                                    "Generating Recipe..."
+                                ) :
+                                React.createElement(React.Fragment, null,
+                                    React.createElement(ChefHat, { size: 20 }),
+                                    `Generate Recipe (${ingredients.length} ingredients)`
+                                )
+                        ),
+                        ingredients.length === 0 && React.createElement('p', { className: "text-sm text-gray-500 text-center mb-4" },
+                            "Add some ingredients first to generate recipes!"
+                        ),
+                        generatedRecipe && React.createElement('div', { className: "mt-4 p-4 bg-gray-50 rounded-lg border max-h-96 overflow-y-auto" },
+                            React.createElement('h3', { className: "font-semibold text-gray-800 mb-3 flex items-center gap-2" },
+                                React.createElement(ChefHat, { className: "text-orange-500", size: 18 }),
+                                "Your Custom Recipe:"
+                            ),
+                            React.createElement('div', { className: "whitespace-pre-wrap text-gray-700 text-sm leading-relaxed" },
+                                generatedRecipe
+                            )
+                        )
+                    )
+                ),
+
+                // User Management Modal
+                showUserModal && React.createElement('div', { className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" },
+                    React.createElement('div', { className: "bg-white rounded-lg p-6 max-w-md w-full" },
+                        React.createElement('div', { className: "flex justify-between items-center mb-4" },
+                            React.createElement('h3', { className: "text-lg font-semibold flex items-center gap-2" },
+                                React.createElement(User),
+                                "User Management"
+                            ),
+                            React.createElement('button', {
+                                onClick: () => setShowUserModal(false),
+                                className: "text-gray-500 hover:text-gray-700"
+                            }, React.createElement(X))
+                        ),
+                        React.createElement('div', { className: "space-y-4" },
+                            React.createElement('div', null,
+                                React.createElement('p', { className: "text-sm text-gray-600 mb-2" },
+                                    "Current User: ",
+                                    React.createElement('span', { className: "font-mono bg-gray-100 px-2 py-1 rounded" },
+                                        userId.startsWith('user_') ? 'Anonymous User' : userId
+                                    )
+                                ),
+                                userId.startsWith('user_') && React.createElement('p', { className: "text-xs text-orange-600 mb-3" },
+                                    "⚠️ You're using an anonymous account. Set a username to access your data from other devices."
+                                )
+                            ),
+                            React.createElement('div', null,
+                                React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" },
+                                    "Set Username (to sync across devices)"
+                                ),
+                                React.createElement('input', {
+                                    type: "text",
+                                    value: usernameInput,
+                                    onChange: (e) => setUsernameInput(e.target.value),
+                                    className: "w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500",
+                                    placeholder: "e.g., john, mary_kitchen, chef123",
+                                    maxLength: 20
+                                }),
+                                React.createElement('p', { className: "text-xs text-gray-500 mt-1" },
+                                    "Only letters, numbers, hyphens, and underscores. 2-20 characters."
+                                )
+                            ),
+                            React.createElement('div', { className: "flex gap-2" },
+                                React.createElement('button', {
+                                    onClick: () => {
+                                        if (setUsername(usernameInput)) {
+                                            setUsernameInput('');
+                                        }
+                                    },
+                                    className: "flex-1 bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600",
+                                    disabled: !usernameInput.trim()
+                                }, "Set Username"),
+                                !userId.startsWith('user_') && React.createElement('button', {
+                                    onClick: () => {
+                                        if (confirm('This will reset you to an anonymous user and clear your current data. Are you sure?')) {
+                                            clearUsername();
+                                        }
+                                    },
+                                    className: "bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+                                }, "Reset to Anonymous")
+                            ),
+                            React.createElement('div', { className: "bg-blue-50 p-3 rounded-lg" },
+                                React.createElement('h4', { className: "font-medium text-blue-800 mb-2" }, "How it works:"),
+                                React.createElement('ul', { className: "text-xs text-blue-700 space-y-1" },
+                                    React.createElement('li', null, "• Set the same username on all your devices"),
+                                    React.createElement('li', null, "• Your data will automatically sync between them"),
+                                    React.createElement('li', null, "• Use simple names like \"john\" or \"kitchen_main\""),
+                                    React.createElement('li', null, "• No password needed - just remember your username")
+                                )
+                            )
+                        )
+                    )
+                ),
+
+                // Footer
+                React.createElement('div', { className: "mt-6 bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-lg p-4" },
+                    React.createElement('div', { className: "text-center" },
+                        React.createElement('h3', { className: "font-semibold text-blue-800 mb-1" }, "🎯 Real-time Sync Enabled!"),
+                        React.createElement('p', { className: "text-blue-700 text-sm" },
+                            "• Changes sync automatically across all your devices • Use any device - phone, laptop, tablet • Data is backed up in the cloud"
+                        ),
+                        React.createElement('p', { className: "text-blue-600 text-xs mt-2" },
+                            "📱 Current User: ",
+                            React.createElement('span', { className: "font-mono bg-blue-100 px-1 rounded" },
+                                userId.startsWith('user_') ? 'Anonymous User' : userId
+                            ),
+                            userId.startsWith('user_') && React.createElement('span', { className: "text-gray-500" },
+                                " (Click \"User\" button to set a username)"
+                            )
+                        )
+                    )
+                )
+            );
+        };
+
+        ReactDOM.render(React.createElement(RecipeGenerator), document.getElementById('root'));
+    </script>
+</body>
+</html>
