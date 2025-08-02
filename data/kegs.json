@@ -18,7 +18,7 @@
     },
     {
       "id": 1754163715461,
-      "name": "New Ingredient",
+      "name": "Fettucine dry pasta",
       "quantity": 1,
       "unit": "unit",
       "category": "Other",
@@ -49,7 +49,7 @@
     "Soybean oil": true,
     "Sesame oil (toasted)": true
   },
-  "lastUpdated": "2025-08-02T19:41:58.564Z",
+  "lastUpdated": "2025-08-02T19:42:06.304Z",
   "debug": {
     "message": "Data saved successfully"
   }
