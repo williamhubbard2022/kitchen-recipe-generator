@@ -1,14 +1,5 @@
 {
-  "ingredients": [
-    {
-      "id": 4,
-      "name": "Mushrooms",
-      "quantity": 2,
-      "unit": "oz",
-      "category": "Vegetable",
-      "expires": "2025-08-04"
-    }
-  ],
+  "ingredients": [],
   "equipment": [
     {
       "id": 1,
@@ -23,7 +14,7 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "lastUpdated": "2025-08-02T01:47:53.659Z",
+  "lastUpdated": "2025-08-02T01:47:55.755Z",
   "debug": {
     "message": "Data saved successfully"
   }
