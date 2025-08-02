@@ -9,22 +9,6 @@
       "expires": "2025-08-05"
     },
     {
-      "id": 2,
-      "name": "Basmati Rice",
-      "quantity": 1,
-      "unit": "cup",
-      "category": "Grain",
-      "expires": "2026-01-01"
-    },
-    {
-      "id": 3,
-      "name": "Heavy Cream",
-      "quantity": 1,
-      "unit": "cup",
-      "category": "Dairy",
-      "expires": "2025-08-03"
-    },
-    {
       "id": 4,
       "name": "Mushrooms",
       "quantity": 8,
@@ -49,7 +33,7 @@
   ],
   "kitchenStaples": {},
   "savedRecipes": [],
-  "lastUpdated": "2025-08-02T22:48:16.909Z",
+  "lastUpdated": "2025-08-02T22:48:21.320Z",
   "debug": {
     "message": "Data saved successfully"
   }
