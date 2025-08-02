@@ -27,9 +27,15 @@
       "name": "Blackstone Flat Top Griddle",
       "type": "Cooking",
       "capabilities": "Cast iron propane"
+    },
+    {
+      "id": 1754119994358,
+      "name": "New Equipment",
+      "type": "Other",
+      "capabilities": "Describe what this equipment can do"
     }
   ],
-  "lastUpdated": "2025-08-02T07:33:13.738Z",
+  "lastUpdated": "2025-08-02T07:33:16.505Z",
   "debug": {
     "message": "Data saved successfully"
   }
