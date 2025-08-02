@@ -8,8 +8,10 @@
       "capabilities": "Precise temperature control, long slow cooking"
     }
   ],
-  "kitchenStaples": {},
-  "lastUpdated": "2025-08-02T19:49:51.690Z",
+  "kitchenStaples": {
+    "Olive oil (extra virgin)": true
+  },
+  "lastUpdated": "2025-08-02T19:49:55.522Z",
   "debug": {
     "message": "Data saved successfully"
   }
