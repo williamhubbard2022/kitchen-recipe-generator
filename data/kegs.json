@@ -27,9 +27,15 @@
       "name": "Cuisinart Ice Cream Maker",
       "type": "Other",
       "capabilities": "2 quart ice cream maker"
+    },
+    {
+      "id": 1754119917481,
+      "name": "New Equipment",
+      "type": "Other",
+      "capabilities": "Describe what this equipment can do"
     }
   ],
-  "lastUpdated": "2025-08-02T07:31:57.262Z",
+  "lastUpdated": "2025-08-02T07:31:59.630Z",
   "debug": {
     "message": "Data saved successfully"
   }
