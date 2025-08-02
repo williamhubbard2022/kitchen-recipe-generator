@@ -134,8 +134,45 @@
                 localStorage.setItem('username', cleanUsername);
                 setUserId(cleanUsername);
                 setShowUserModal(false);
-                loadDataFromDatabase();
+                
+                // Immediately load data for the new user instead of triggering save
+                loadDataForUser(cleanUsername);
                 return true;
+            };
+
+            const loadDataForUser = async (targetUserId) => {
+                try {
+                    setIsSyncing(true);
+                    const response = await fetch(`/.netlify/functions/github-sync?userId=${targetUserId}`, {
+                        method: 'GET',
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        // Load the user's data or keep defaults if no data exists
+                        if (data.ingredients && data.ingredients.length > 0) {
+                            setIngredients(data.ingredients);
+                        } else {
+                            // Keep current ingredients if no saved data
+                            console.log('No saved ingredients found for user, keeping current data');
+                        }
+                        if (data.equipment && data.equipment.length > 0) {
+                            setEquipment(data.equipment);
+                        } else {
+                            // Keep current equipment if no saved data
+                            console.log('No saved equipment found for user, keeping current data');
+                        }
+                        setSyncStatus('synced');
+                    } else {
+                        console.log('No data found for user, keeping current state');
+                        setSyncStatus('synced');
+                    }
+                } catch (error) {
+                    console.error('Error loading data for user:', error);
+                    setSyncStatus('error');
+                } finally {
+                    setIsSyncing(false);
+                }
             };
 
             const clearUsername = () => {
@@ -144,6 +181,7 @@
                 localStorage.setItem('user_id', newId);
                 setUserId(newId);
                 setShowUserModal(false);
+                // Reset to default data for anonymous user
                 setIngredients([
                     { id: 1, name: 'Chicken Breast', quantity: 2, unit: 'lbs', category: 'Protein', expires: '2025-08-05' },
                     { id: 2, name: 'Basmati Rice', quantity: 1, unit: 'cup', category: 'Grain', expires: '2026-01-01' },
@@ -154,6 +192,7 @@
                     { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
                     { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
                 ]);
+                setSyncStatus('synced');
             };
 
             const getApiKey = () => {
