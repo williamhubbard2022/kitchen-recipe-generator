@@ -10,7 +10,7 @@
     },
     {
       "id": 1754163697427,
-      "name": "New Ingredient",
+      "name": "salmon",
       "quantity": 1,
       "unit": "unit",
       "category": "Other",
@@ -41,7 +41,7 @@
     "Soybean oil": true,
     "Sesame oil (toasted)": true
   },
-  "lastUpdated": "2025-08-02T19:41:44.310Z",
+  "lastUpdated": "2025-08-02T19:41:46.910Z",
   "debug": {
     "message": "Data saved successfully"
   }
