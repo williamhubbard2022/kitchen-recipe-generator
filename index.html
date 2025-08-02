@@ -1,4 +1,15 @@
-<!DOCTYPE html>
+const Cloud = ({ size = 16 }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+            </svg>
+        );
+
+        const X = ({ size = 20 }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 6 6 18"/>
+                <path d="M6 6l12 12"/>
+            </svg>
+        );<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -86,21 +97,74 @@
             </svg>
         );
 
-        const Cloud = ({ size = 16 }) => (
+        const User = ({ size = 16 }) => (
             <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+        );
+
+        const Settings = ({ size = 16 }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
             </svg>
         );
 
         const RecipeGenerator = () => {
-            // Generate or get user ID
+            // User management functions
             const getUserId = () => {
+                // First check if user has set a custom username
+                let username = localStorage.getItem('username');
+                if (username) {
+                    return username;
+                }
+                
+                // Otherwise use the auto-generated ID
                 let userId = localStorage.getItem('user_id');
                 if (!userId) {
                     userId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
                     localStorage.setItem('user_id', userId);
                 }
                 return userId;
+            };
+
+            const setUsername = (newUsername) => {
+                if (!newUsername || newUsername.trim() === '') return false;
+                
+                // Clean the username (remove spaces, special chars, make lowercase)
+                const cleanUsername = newUsername.toLowerCase().replace(/[^a-z0-9-_]/g, '');
+                if (cleanUsername.length < 2) {
+                    alert('Username must be at least 2 characters long and contain only letters, numbers, hyphens, and underscores');
+                    return false;
+                }
+                
+                localStorage.setItem('username', cleanUsername);
+                setUserId(cleanUsername);
+                setShowUserModal(false);
+                // Force reload data for new user
+                loadDataFromDatabase();
+                return true;
+            };
+
+            const clearUsername = () => {
+                localStorage.removeItem('username');
+                // Generate new random user ID
+                const newId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+                localStorage.setItem('user_id', newId);
+                setUserId(newId);
+                setShowUserModal(false);
+                // Reset to default data
+                setIngredients([
+                    { id: 1, name: 'Chicken Breast', quantity: 2, unit: 'lbs', category: 'Protein', expires: '2025-08-05' },
+                    { id: 2, name: 'Basmati Rice', quantity: 1, unit: 'cup', category: 'Grain', expires: '2026-01-01' },
+                    { id: 3, name: 'Heavy Cream', quantity: 1, unit: 'cup', category: 'Dairy', expires: '2025-08-03' },
+                    { id: 4, name: 'Mushrooms', quantity: 8, unit: 'oz', category: 'Vegetable', expires: '2025-08-04' }
+                ]);
+                setEquipment([
+                    { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
+                    { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
+                ]);
             };
 
             const getApiKey = () => {
@@ -131,7 +195,9 @@
             const [recipePreferences, setRecipePreferences] = useState('');
             const [isSyncing, setIsSyncing] = useState(false);
             const [syncStatus, setSyncStatus] = useState('synced'); // 'synced', 'syncing', 'error'
-            const [userId] = useState(getUserId());
+            const [userId, setUserId] = useState(getUserId());
+            const [showUserModal, setShowUserModal] = useState(false);
+            const [usernameInput, setUsernameInput] = useState('');
 
             const syncTimeoutRef = useRef(null);
 
@@ -413,6 +479,14 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                     {statusInfo.icon}
                                     <span>{statusInfo.text}</span>
                                 </div>
+                                <button
+                                    onClick={() => setShowUserModal(true)}
+                                    className="bg-purple-500 text-white px-3 py-1 rounded text-xs hover:bg-purple-600 flex items-center gap-1"
+                                    title="Manage User"
+                                >
+                                    <User size={12} />
+                                    User
+                                </button>
                                 <button
                                     onClick={() => {
                                         console.log('Force sync clicked');
@@ -766,6 +840,94 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                         </div>
                     </div>
 
+                    {/* User Management Modal */}
+                    {showUserModal && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                            <div className="bg-white rounded-lg p-6 max-w-md w-full">
+                                <div className="flex justify-between items-center mb-4">
+                                    <h3 className="text-lg font-semibold flex items-center gap-2">
+                                        <User />
+                                        User Management
+                                    </h3>
+                                    <button
+                                        onClick={() => setShowUserModal(false)}
+                                        className="text-gray-500 hover:text-gray-700"
+                                    >
+                                        <X />
+                                    </button>
+                                </div>
+                                
+                                <div className="space-y-4">
+                                    <div>
+                                        <p className="text-sm text-gray-600 mb-2">
+                                            Current User: <span className="font-mono bg-gray-100 px-2 py-1 rounded">
+                                                {userId.startsWith('user_') ? 'Anonymous User' : userId}
+                                            </span>
+                                        </p>
+                                        {userId.startsWith('user_') && (
+                                            <p className="text-xs text-orange-600 mb-3">
+                                                ⚠️ You're using an anonymous account. Set a username to access your data from other devices.
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Set Username (to sync across devices)
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={usernameInput}
+                                            onChange={(e) => setUsernameInput(e.target.value)}
+                                            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                            placeholder="e.g., john, mary_kitchen, chef123"
+                                            maxLength={20}
+                                        />
+                                        <p className="text-xs text-gray-500 mt-1">
+                                            Only letters, numbers, hyphens, and underscores. 2-20 characters.
+                                        </p>
+                                    </div>
+
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => {
+                                                if (setUsername(usernameInput)) {
+                                                    setUsernameInput('');
+                                                }
+                                            }}
+                                            className="flex-1 bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600"
+                                            disabled={!usernameInput.trim()}
+                                        >
+                                            Set Username
+                                        </button>
+                                        {!userId.startsWith('user_') && (
+                                            <button
+                                                onClick={() => {
+                                                    if (confirm('This will reset you to an anonymous user and clear your current data. Are you sure?')) {
+                                                        clearUsername();
+                                                    }
+                                                }}
+                                                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+                                            >
+                                                Reset to Anonymous
+                                            </button>
+                                        )}
+                                    </div>
+
+                                    <div className="bg-blue-50 p-3 rounded-lg">
+                                        <h4 className="font-medium text-blue-800 mb-2">How it works:</h4>
+                                        <ul className="text-xs text-blue-700 space-y-1">
+                                            <li>• Set the same username on all your devices</li>
+                                            <li>• Your data will automatically sync between them</li>
+                                            <li>• Use simple names like "john" or "kitchen_main"</li>
+                                            <li>• No password needed - just remember your username</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Footer */}
                     <div className="mt-6 bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-lg p-4">
                         <div className="text-center">
@@ -774,7 +936,8 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                 • Changes sync automatically across all your devices • Use any device - phone, laptop, tablet • Data is backed up in the cloud
                             </p>
                             <p className="text-blue-600 text-xs mt-2">
-                                📱 Your User ID: <span className="font-mono bg-blue-100 px-1 rounded">{userId}</span> (saves automatically)
+                                📱 Current User: <span className="font-mono bg-blue-100 px-1 rounded">{userId.startsWith('user_') ? 'Anonymous User' : userId}</span> 
+                                {userId.startsWith('user_') && <span className="text-gray-500"> (Click "User" button to set a username)</span>}
                             </p>
                         </div>
                     </div>
