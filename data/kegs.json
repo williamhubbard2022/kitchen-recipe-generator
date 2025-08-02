@@ -63,9 +63,10 @@
     "Distilled white vinegar": true,
     "Red wine vinegar": true,
     "Balsamic vinegar": true,
-    "Seasoned rice vinegar": true
+    "Seasoned rice vinegar": true,
+    "Black vinegar (Chinese/Zhenjiang)": true
   },
-  "lastUpdated": "2025-08-02T07:55:57.924Z",
+  "lastUpdated": "2025-08-02T07:55:59.209Z",
   "debug": {
     "message": "Data saved successfully"
   }
