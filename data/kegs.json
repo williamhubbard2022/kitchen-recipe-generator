@@ -27,9 +27,11 @@
     "Olive oil (extra virgin)": true,
     "Olive oil (light or regular)": true,
     "Vegetable oil": true,
-    "Canola oil": true
+    "Canola oil": true,
+    "Butter (unsalted)": true,
+    "Butter (salted)": true
   },
-  "lastUpdated": "2025-08-02T07:46:52.793Z",
+  "lastUpdated": "2025-08-02T07:46:59.083Z",
   "debug": {
     "message": "Data saved successfully"
   }
