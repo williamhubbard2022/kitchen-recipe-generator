@@ -18,7 +18,7 @@
     },
     {
       "id": 1754098589864,
-      "name": "New Ingredient",
+      "name": "fettucine",
       "quantity": 1,
       "unit": "unit",
       "category": "Other",
@@ -39,7 +39,7 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "lastUpdated": "2025-08-02T01:36:31.407Z",
+  "lastUpdated": "2025-08-02T01:36:37.157Z",
   "debug": {
     "message": "Data saved successfully"
   }
