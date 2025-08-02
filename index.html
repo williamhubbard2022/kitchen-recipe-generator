@@ -31,7 +31,7 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Icon components
+        // Simple icon components
         const ChefHat = ({ className = "", size = 24 }) => (
             <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="m15 11-1 9h-4l-1-9"/>
@@ -86,8 +86,8 @@
             </svg>
         );
 
-        const Cloud = ({ size = 16, className = "" }) => (
-            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        const Cloud = ({ size = 16 }) => (
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
             </svg>
         );
@@ -109,9 +109,13 @@
         const RecipeGenerator = () => {
             // User management functions
             const getUserId = () => {
+                // First check if user has set a custom username
                 let username = localStorage.getItem('username');
-                if (username) return username;
+                if (username) {
+                    return username;
+                }
                 
+                // Otherwise use the auto-generated ID
                 let userId = localStorage.getItem('user_id');
                 if (!userId) {
                     userId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
@@ -123,6 +127,7 @@
             const setUsername = (newUsername) => {
                 if (!newUsername || newUsername.trim() === '') return false;
                 
+                // Clean the username (remove spaces, special chars, make lowercase)
                 const cleanUsername = newUsername.toLowerCase().replace(/[^a-z0-9-_]/g, '');
                 if (cleanUsername.length < 2) {
                     alert('Username must be at least 2 characters long and contain only letters, numbers, hyphens, and underscores');
@@ -132,47 +137,19 @@
                 localStorage.setItem('username', cleanUsername);
                 setUserId(cleanUsername);
                 setShowUserModal(false);
-                loadDataForUser(cleanUsername);
+                // Force reload data for new user
+                loadDataFromDatabase();
                 return true;
-            };
-
-            const loadDataForUser = async (targetUserId) => {
-                try {
-                    setIsSyncing(true);
-                    const response = await fetch(`/.netlify/functions/github-sync?userId=${targetUserId}`, {
-                        method: 'GET',
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data.ingredients && data.ingredients.length > 0) {
-                            setIngredients(data.ingredients);
-                        }
-                        if (data.equipment && data.equipment.length > 0) {
-                            setEquipment(data.equipment);
-                        }
-                        if (data.pantryItems) {
-                            setPantryItems(data.pantryItems);
-                        }
-                        setSyncStatus('synced');
-                    } else {
-                        setSyncStatus('synced');
-                    }
-                } catch (error) {
-                    console.error('Error loading data for user:', error);
-                    setSyncStatus('error');
-                } finally {
-                    setIsSyncing(false);
-                }
             };
 
             const clearUsername = () => {
                 localStorage.removeItem('username');
+                // Generate new random user ID
                 const newId = 'user_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
                 localStorage.setItem('user_id', newId);
                 setUserId(newId);
                 setShowUserModal(false);
-                // Reset to defaults
+                // Reset to default data
                 setIngredients([
                     { id: 1, name: 'Chicken Breast', quantity: 2, unit: 'lbs', category: 'Protein', expires: '2025-08-05' },
                     { id: 2, name: 'Basmati Rice', quantity: 1, unit: 'cup', category: 'Grain', expires: '2026-01-01' },
@@ -183,43 +160,6 @@
                     { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
                     { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
                 ]);
-                setPantryItems({
-                    oils: [
-                        { id: 1, name: 'Olive Oil', available: true },
-                        { id: 2, name: 'Vegetable Oil', available: false },
-                        { id: 3, name: 'Coconut Oil', available: false },
-                        { id: 4, name: 'Sesame Oil', available: false },
-                        { id: 5, name: 'Avocado Oil', available: false }
-                    ],
-                    seasonings: [
-                        { id: 1, name: 'Salt', available: true },
-                        { id: 2, name: 'Black Pepper', available: true },
-                        { id: 3, name: 'Garlic Powder', available: false },
-                        { id: 4, name: 'Onion Powder', available: false },
-                        { id: 5, name: 'Paprika', available: false },
-                        { id: 6, name: 'Cumin', available: false },
-                        { id: 7, name: 'Oregano', available: false },
-                        { id: 8, name: 'Thyme', available: false },
-                        { id: 9, name: 'Basil', available: false },
-                        { id: 10, name: 'Rosemary', available: false }
-                    ],
-                    vinegars: [
-                        { id: 1, name: 'White Vinegar', available: false },
-                        { id: 2, name: 'Apple Cider Vinegar', available: false },
-                        { id: 3, name: 'Balsamic Vinegar', available: false },
-                        { id: 4, name: 'Rice Vinegar', available: false },
-                        { id: 5, name: 'Red Wine Vinegar', available: false }
-                    ],
-                    condiments: [
-                        { id: 1, name: 'Soy Sauce', available: false },
-                        { id: 2, name: 'Hot Sauce', available: false },
-                        { id: 3, name: 'Worcestershire Sauce', available: false },
-                        { id: 4, name: 'Dijon Mustard', available: false },
-                        { id: 5, name: 'Honey', available: false },
-                        { id: 6, name: 'Maple Syrup', available: false }
-                    ]
-                });
-                setSyncStatus('synced');
             };
 
             const getApiKey = () => {
@@ -233,120 +173,97 @@
                 return apiKey;
             };
 
-            // State
             const [ingredients, setIngredients] = useState([
                 { id: 1, name: 'Chicken Breast', quantity: 2, unit: 'lbs', category: 'Protein', expires: '2025-08-05' },
                 { id: 2, name: 'Basmati Rice', quantity: 1, unit: 'cup', category: 'Grain', expires: '2026-01-01' },
                 { id: 3, name: 'Heavy Cream', quantity: 1, unit: 'cup', category: 'Dairy', expires: '2025-08-03' },
                 { id: 4, name: 'Mushrooms', quantity: 8, unit: 'oz', category: 'Vegetable', expires: '2025-08-04' }
             ]);
-
             const [equipment, setEquipment] = useState([
                 { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
                 { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
             ]);
-
-            const [pantryItems, setPantryItems] = useState({
-                oils: [
-                    { id: 1, name: 'Olive Oil', available: true },
-                    { id: 2, name: 'Vegetable Oil', available: false },
-                    { id: 3, name: 'Coconut Oil', available: false },
-                    { id: 4, name: 'Sesame Oil', available: false },
-                    { id: 5, name: 'Avocado Oil', available: false }
-                ],
-                seasonings: [
-                    { id: 1, name: 'Salt', available: true },
-                    { id: 2, name: 'Black Pepper', available: true },
-                    { id: 3, name: 'Garlic Powder', available: false },
-                    { id: 4, name: 'Onion Powder', available: false },
-                    { id: 5, name: 'Paprika', available: false },
-                    { id: 6, name: 'Cumin', available: false },
-                    { id: 7, name: 'Oregano', available: false },
-                    { id: 8, name: 'Thyme', available: false },
-                    { id: 9, name: 'Basil', available: false },
-                    { id: 10, name: 'Rosemary', available: false }
-                ],
-                vinegars: [
-                    { id: 1, name: 'White Vinegar', available: false },
-                    { id: 2, name: 'Apple Cider Vinegar', available: false },
-                    { id: 3, name: 'Balsamic Vinegar', available: false },
-                    { id: 4, name: 'Rice Vinegar', available: false },
-                    { id: 5, name: 'Red Wine Vinegar', available: false }
-                ],
-                condiments: [
-                    { id: 1, name: 'Soy Sauce', available: false },
-                    { id: 2, name: 'Hot Sauce', available: false },
-                    { id: 3, name: 'Worcestershire Sauce', available: false },
-                    { id: 4, name: 'Dijon Mustard', available: false },
-                    { id: 5, name: 'Honey', available: false },
-                    { id: 6, name: 'Maple Syrup', available: false }
-                ]
-            });
-
             const [activeTab, setActiveTab] = useState('ingredients');
             const [editingItem, setEditingItem] = useState(null);
             const [generatedRecipe, setGeneratedRecipe] = useState('');
             const [isGenerating, setIsGenerating] = useState(false);
             const [recipePreferences, setRecipePreferences] = useState('');
             const [isSyncing, setIsSyncing] = useState(false);
-            const [syncStatus, setSyncStatus] = useState('synced');
+            const [syncStatus, setSyncStatus] = useState('synced'); // 'synced', 'syncing', 'error'
             const [userId, setUserId] = useState(getUserId());
             const [showUserModal, setShowUserModal] = useState(false);
             const [usernameInput, setUsernameInput] = useState('');
 
             const syncTimeoutRef = useRef(null);
 
-            // Effects
+            // Load data from database on component mount
             useEffect(() => {
                 loadDataFromDatabase();
+                // Set up periodic sync check (every 30 seconds)
                 const interval = setInterval(loadDataFromDatabase, 30000);
                 return () => clearInterval(interval);
             }, []);
 
+            // Auto-save to database when data changes (debounced)
             useEffect(() => {
                 if (syncTimeoutRef.current) {
                     clearTimeout(syncTimeoutRef.current);
                 }
                 
-                if (!isSyncing) {
-                    syncTimeoutRef.current = setTimeout(() => {
-                        saveDataToDatabase();
-                    }, 1000);
-                }
+                syncTimeoutRef.current = setTimeout(() => {
+                    saveDataToDatabase();
+                }, 1000); // Save 1 second after user stops making changes
 
                 return () => {
                     if (syncTimeoutRef.current) {
                         clearTimeout(syncTimeoutRef.current);
                     }
                 };
-            }, [ingredients, equipment, pantryItems, isSyncing]);
+            }, [ingredients, equipment]);
 
-            // Database functions
             const loadDataFromDatabase = async () => {
                 try {
                     setIsSyncing(true);
+                    console.log('Loading data for user:', userId);
+                    
                     const response = await fetch(`/.netlify/functions/github-sync?userId=${userId}`, {
                         method: 'GET',
                     });
 
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', response.headers);
+
                     if (response.ok) {
                         const data = await response.json();
+                        console.log('Received data:', data);
+                        
+                        // Only update if we actually got data from the database
                         if (data.ingredients && data.ingredients.length > 0) {
                             setIngredients(data.ingredients);
                         }
                         if (data.equipment && data.equipment.length > 0) {
                             setEquipment(data.equipment);
                         }
-                        if (data.pantryItems) {
-                            setPantryItems(data.pantryItems);
-                        }
                         setSyncStatus('synced');
                     } else {
+                        const errorText = await response.text();
+                        console.error('Failed to load data:', response.status, errorText);
                         setSyncStatus('error');
                     }
                 } catch (error) {
                     console.error('Error loading data:', error);
                     setSyncStatus('error');
+                    // Fallback to localStorage if database fails
+                    const savedIngredients = localStorage.getItem('ingredients');
+                    const savedEquipment = localStorage.getItem('equipment');
+                    if (savedIngredients) {
+                        const parsed = JSON.parse(savedIngredients);
+                        if (parsed.length > 0) setIngredients(parsed);
+                    }
+                    if (savedEquipment) {
+                        const parsed = JSON.parse(savedEquipment);
+                        if (parsed.length > 0) setEquipment(parsed);
+                    }
                 } finally {
                     setIsSyncing(false);
                 }
@@ -355,6 +272,12 @@
             const saveDataToDatabase = async () => {
                 try {
                     setSyncStatus('syncing');
+                    console.log('Saving data for user:', userId);
+                    console.log('Data to save:', { 
+                        ingredients: ingredients.length, 
+                        equipment: equipment.length 
+                    });
+                    
                     const response = await fetch('/.netlify/functions/github-sync', {
                         method: 'POST',
                         headers: {
@@ -363,29 +286,34 @@
                         body: JSON.stringify({
                             userId: userId,
                             ingredients: ingredients,
-                            equipment: equipment,
-                            pantryItems: pantryItems
+                            equipment: equipment
                         })
                     });
 
+                    console.log('Save response status:', response.status);
+                    console.log('Save response headers:', response.headers);
+
                     if (response.ok) {
+                        const result = await response.json();
+                        console.log('Save result:', result);
                         setSyncStatus('synced');
+                        // Also save to localStorage as backup
                         localStorage.setItem('ingredients', JSON.stringify(ingredients));
                         localStorage.setItem('equipment', JSON.stringify(equipment));
-                        localStorage.setItem('pantryItems', JSON.stringify(pantryItems));
                     } else {
+                        const errorData = await response.text();
+                        console.error('Save failed:', response.status, errorData);
                         setSyncStatus('error');
                     }
                 } catch (error) {
                     console.error('Error saving data:', error);
                     setSyncStatus('error');
+                    // Fallback to localStorage
                     localStorage.setItem('ingredients', JSON.stringify(ingredients));
                     localStorage.setItem('equipment', JSON.stringify(equipment));
-                    localStorage.setItem('pantryItems', JSON.stringify(pantryItems));
                 }
             };
 
-            // Ingredient functions
             const markAsUsed = (id) => {
                 setIngredients(ingredients.filter(item => item.id !== id));
             };
@@ -413,17 +341,6 @@
                 setEditingItem({ type: 'ingredient', id: newIngredient.id });
             };
 
-            const deleteIngredient = (id) => {
-                setIngredients(ingredients.filter(item => item.id !== id));
-            };
-
-            const updateIngredient = (id, field, value) => {
-                setIngredients(ingredients.map(item => 
-                    item.id === id ? { ...item, [field]: value } : item
-                ));
-            };
-
-            // Equipment functions
             const addEquipment = () => {
                 const newEquipment = {
                     id: Date.now(),
@@ -435,8 +352,18 @@
                 setEditingItem({ type: 'equipment', id: newEquipment.id });
             };
 
+            const deleteIngredient = (id) => {
+                setIngredients(ingredients.filter(item => item.id !== id));
+            };
+
             const deleteEquipment = (id) => {
                 setEquipment(equipment.filter(item => item.id !== id));
+            };
+
+            const updateIngredient = (id, field, value) => {
+                setIngredients(ingredients.map(item => 
+                    item.id === id ? { ...item, [field]: value } : item
+                ));
             };
 
             const updateEquipment = (id, field, value) => {
@@ -445,41 +372,6 @@
                 ));
             };
 
-            // Pantry functions
-            const togglePantryItem = (category, itemId) => {
-                setPantryItems(prev => ({
-                    ...prev,
-                    [category]: prev[category].map(item =>
-                        item.id === itemId 
-                            ? { ...item, available: !item.available }
-                            : item
-                    )
-                }));
-            };
-
-            const addCustomPantryItem = (category, itemName) => {
-                if (!itemName || itemName.trim() === '') return;
-                
-                const newItem = {
-                    id: Date.now(),
-                    name: itemName.trim(),
-                    available: true
-                };
-                
-                setPantryItems(prev => ({
-                    ...prev,
-                    [category]: [...prev[category], newItem]
-                }));
-            };
-
-            const deletePantryItem = (category, itemId) => {
-                setPantryItems(prev => ({
-                    ...prev,
-                    [category]: prev[category].filter(item => item.id !== itemId)
-                }));
-            };
-
-            // Recipe generation
             const generateRecipe = async () => {
                 const apiKey = getApiKey();
                 if (!apiKey) {
@@ -499,45 +391,20 @@
                         `${eq.name} - ${eq.capabilities}`
                     ).join(', ');
 
-                    // Get available pantry items
-                    const availablePantryItems = {};
-                    Object.keys(pantryItems).forEach(category => {
-                        const available = pantryItems[category].filter(item => item.available);
-                        if (available.length > 0) {
-                            availablePantryItems[category] = available.map(item => item.name);
-                        }
-                    });
+                    const prompt = `Create a detailed recipe using these available ingredients: ${ingredientsList}
 
-                    const pantryItemsText = Object.keys(availablePantryItems).length > 0 
-                        ? Object.entries(availablePantryItems)
-                            .map(([category, items]) => `${category}: ${items.join(', ')}`)
-                            .join(' | ')
-                        : 'Basic salt and pepper only';
+Available specialized equipment: ${equipmentList}
 
-                    const prompt = `Create a detailed recipe using ONLY these available ingredients and pantry items:
-
-MAIN INGREDIENTS: ${ingredientsList}
-
-AVAILABLE PANTRY ITEMS: ${pantryItemsText}
-
-AVAILABLE EQUIPMENT: ${equipmentList}
-
-USER PREFERENCES: ${recipePreferences || 'No specific preferences'}
-
-IMPORTANT CONSTRAINTS:
-- You may ONLY use ingredients from the "MAIN INGREDIENTS" and "AVAILABLE PANTRY ITEMS" lists above
-- Do NOT suggest any ingredients not listed above
-- Do NOT assume any pantry staples beyond what is explicitly listed
-- If you need something not available, suggest a substitution using only available items OR mention the recipe cannot be made without purchasing additional ingredients
+User preferences/notes: ${recipePreferences || 'No specific preferences'}
 
 Please create a recipe that:
-1. Uses ONLY the ingredients and pantry items listed above
-2. Takes advantage of available kitchen equipment when possible
+1. Uses primarily the ingredients I have available
+2. Takes advantage of my specialized kitchen equipment when possible
 3. Includes clear step-by-step instructions
 4. Mentions cooking times and temperatures
-5. If the available ingredients are insufficient for a complete recipe, clearly state what additional items would need to be purchased
+5. If I'm missing any key ingredients, suggest simple substitutions or mention they're optional
 
-Format the recipe with a clear title, ingredient list (using only available items), and numbered steps.`;
+Format the recipe with a clear title, ingredient list, and numbered steps.`;
 
                     const response = await fetch("/.netlify/functions/generate-recipe", {
                         method: "POST",
@@ -565,7 +432,6 @@ Format the recipe with a clear title, ingredient list (using only available item
                 }
             };
 
-            // Utility functions
             const isExpiringSoon = (expirationDate) => {
                 const today = new Date();
                 const expiry = new Date(expirationDate);
@@ -579,29 +445,13 @@ Format the recipe with a clear title, ingredient list (using only available item
             const getSyncStatusInfo = () => {
                 switch (syncStatus) {
                     case 'syncing':
-                        return { 
-                            color: 'text-blue-500', 
-                            text: 'Syncing...', 
-                            icon: <Cloud className="sync-indicator" /> 
-                        };
+                        return { color: 'text-blue-500', text: 'Syncing...', icon: <Cloud className="sync-indicator" /> };
                     case 'synced':
-                        return { 
-                            color: 'text-green-500', 
-                            text: 'Synced', 
-                            icon: <Cloud /> 
-                        };
+                        return { color: 'text-green-500', text: 'Synced', icon: <Cloud /> };
                     case 'error':
-                        return { 
-                            color: 'text-red-500', 
-                            text: 'Sync Error', 
-                            icon: <Cloud /> 
-                        };
+                        return { color: 'text-red-500', text: 'Sync Error', icon: <Cloud /> };
                     default:
-                        return { 
-                            color: 'text-gray-500', 
-                            text: 'Unknown', 
-                            icon: <Cloud /> 
-                        };
+                        return { color: 'text-gray-500', text: 'Unknown', icon: <Cloud /> };
                 }
             };
 
@@ -634,6 +484,7 @@ Format the recipe with a clear title, ingredient list (using only available item
                                 </button>
                                 <button
                                     onClick={() => {
+                                        console.log('Force sync clicked');
                                         loadDataFromDatabase();
                                         saveDataToDatabase();
                                     }}
@@ -641,6 +492,15 @@ Format the recipe with a clear title, ingredient list (using only available item
                                     disabled={isSyncing}
                                 >
                                     {isSyncing ? 'Syncing...' : 'Force Sync'}
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        console.log('Current state:', { ingredients, equipment, userId });
+                                        console.log('Sync status:', syncStatus);
+                                    }}
+                                    className="bg-gray-500 text-white px-3 py-1 rounded text-xs hover:bg-gray-600"
+                                >
+                                    Debug
                                 </button>
                             </div>
                         </div>
@@ -662,7 +522,7 @@ Format the recipe with a clear title, ingredient list (using only available item
                     <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                         {/* Left Panel - Inventory Management */}
                         <div className="bg-white rounded-lg shadow-lg p-6">
-                            <div className="flex gap-2 mb-6 flex-wrap">
+                            <div className="flex gap-2 mb-6">
                                 <button
                                     onClick={() => setActiveTab('ingredients')}
                                     className={`px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -684,49 +544,9 @@ Format the recipe with a clear title, ingredient list (using only available item
                                     <Utensils />
                                     Equipment ({equipment.length})
                                 </button>
-                                <button
-                                    onClick={() => setActiveTab('oils')}
-                                    className={`px-3 py-2 rounded-lg font-medium transition-colors text-sm ${
-                                        activeTab === 'oils' 
-                                            ? 'bg-green-500 text-white' 
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                    }`}
-                                >
-                                    🫒 Oils ({pantryItems.oils.filter(item => item.available).length})
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('seasonings')}
-                                    className={`px-3 py-2 rounded-lg font-medium transition-colors text-sm ${
-                                        activeTab === 'seasonings' 
-                                            ? 'bg-green-500 text-white' 
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                    }`}
-                                >
-                                    🧂 Seasonings ({pantryItems.seasonings.filter(item => item.available).length})
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('vinegars')}
-                                    className={`px-3 py-2 rounded-lg font-medium transition-colors text-sm ${
-                                        activeTab === 'vinegars' 
-                                            ? 'bg-green-500 text-white' 
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                    }`}
-                                >
-                                    🍶 Vinegars ({pantryItems.vinegars.filter(item => item.available).length})
-                                </button>
-                                <button
-                                    onClick={() => setActiveTab('condiments')}
-                                    className={`px-3 py-2 rounded-lg font-medium transition-colors text-sm ${
-                                        activeTab === 'condiments' 
-                                            ? 'bg-green-500 text-white' 
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                    }`}
-                                >
-                                    🍯 Condiments ({pantryItems.condiments.filter(item => item.available).length})
-                                </button>
                             </div>
 
-                            {/* Tab Content */}
+                            {/* Ingredients Tab */}
                             {activeTab === 'ingredients' && (
                                 <div>
                                     <div className="flex justify-between items-center mb-4">
@@ -872,6 +692,7 @@ Format the recipe with a clear title, ingredient list (using only available item
                                 </div>
                             )}
 
+                            {/* Equipment Tab */}
                             {activeTab === 'equipment' && (
                                 <div>
                                     <div className="flex justify-between items-center mb-4">
@@ -951,79 +772,6 @@ Format the recipe with a clear title, ingredient list (using only available item
                                                 )}
                                             </div>
                                         ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Pantry tabs */}
-                            {['oils', 'seasonings', 'vinegars', 'condiments'].includes(activeTab) && (
-                                <div>
-                                    <div className="flex justify-between items-center mb-4">
-                                        <h2 className="text-xl font-semibold text-gray-800">
-                                            Available {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
-                                        </h2>
-                                        <button
-                                            onClick={() => {
-                                                const itemName = prompt(`Add custom ${activeTab.slice(0, -1)}:`);
-                                                if (itemName) addCustomPantryItem(activeTab, itemName);
-                                            }}
-                                            className="bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 text-sm"
-                                        >
-                                            <Plus />
-                                            Add Custom
-                                        </button>
-                                    </div>
-                                    
-                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 max-h-96 overflow-y-auto">
-                                        {pantryItems[activeTab].map(item => (
-                                            <div
-                                                key={item.id}
-                                                className={`p-3 rounded-lg border-2 transition-colors ${
-                                                    item.available 
-                                                        ? 'border-green-300 bg-green-50' 
-                                                        : 'border-gray-200 bg-gray-50'
-                                                }`}
-                                            >
-                                                <div className="flex items-center justify-between">
-                                                    <label 
-                                                        className="flex items-center gap-2 cursor-pointer flex-1"
-                                                        onClick={() => togglePantryItem(activeTab, item.id)}
-                                                    >
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={item.available}
-                                                            onChange={() => togglePantryItem(activeTab, item.id)}
-                                                            className="w-4 h-4 text-green-600 rounded focus:ring-green-500"
-                                                        />
-                                                        <span className={`text-sm font-medium ${
-                                                            item.available ? 'text-green-800' : 'text-gray-600'
-                                                        }`}>
-                                                            {item.name}
-                                                        </span>
-                                                    </label>
-                                                    {/* Only show delete button for custom items (high ID numbers) */}
-                                                    {item.id > 100 && (
-                                                        <button
-                                                            onClick={() => deletePantryItem(activeTab, item.id)}
-                                                            className="text-red-500 hover:text-red-700 p-1 ml-2"
-                                                            title="Delete custom item"
-                                                        >
-                                                            <Trash2 size={12} />
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    
-                                    <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                                        <p className="text-sm text-blue-700 mb-2">
-                                            <strong>💡 Tip: </strong>
-                                            Check the items you have available. Only checked items will be used in recipe generation.
-                                        </p>
-                                        <p className="text-xs text-blue-600">
-                                            Currently available: {pantryItems[activeTab].filter(item => item.available).map(item => item.name).join(', ') || 'None selected'}
-                                        </p>
                                     </div>
                                 </div>
                             )}
@@ -1183,12 +931,8 @@ Format the recipe with a clear title, ingredient list (using only available item
                                 • Changes sync automatically across all your devices • Use any device - phone, laptop, tablet • Data is backed up in the cloud
                             </p>
                             <p className="text-blue-600 text-xs mt-2">
-                                📱 Current User: <span className="font-mono bg-blue-100 px-1 rounded">
-                                    {userId.startsWith('user_') ? 'Anonymous User' : userId}
-                                </span> 
-                                {userId.startsWith('user_') && (
-                                    <span className="text-gray-500"> (Click "User" button to set a username)</span>
-                                )}
+                                📱 Current User: <span className="font-mono bg-blue-100 px-1 rounded">{userId.startsWith('user_') ? 'Anonymous User' : userId}</span> 
+                                {userId.startsWith('user_') && <span className="text-gray-500"> (Click "User" button to set a username)</span>}
                             </p>
                         </div>
                     </div>
