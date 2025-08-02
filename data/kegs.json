@@ -1,38 +1,5 @@
 {
-  "ingredients": [
-    {
-      "id": 1,
-      "name": "Chicken Breast",
-      "quantity": 2,
-      "unit": "lbs",
-      "category": "Protein",
-      "expires": "2025-08-05"
-    },
-    {
-      "id": 2,
-      "name": "Basmati Rice",
-      "quantity": 1,
-      "unit": "cup",
-      "category": "Grain",
-      "expires": "2026-01-01"
-    },
-    {
-      "id": 3,
-      "name": "Heavy Cream",
-      "quantity": 1,
-      "unit": "cup",
-      "category": "Dairy",
-      "expires": "2025-08-03"
-    },
-    {
-      "id": 4,
-      "name": "Mushrooms",
-      "quantity": 8,
-      "unit": "oz",
-      "category": "Vegetable",
-      "expires": "2025-08-04"
-    }
-  ],
+  "ingredients": [],
   "equipment": [
     {
       "id": 1,
@@ -48,7 +15,7 @@
     }
   ],
   "kitchenStaples": {},
-  "lastUpdated": "2025-08-02T19:49:45.779Z",
+  "lastUpdated": "2025-08-02T19:49:49.710Z",
   "debug": {
     "message": "Data saved successfully"
   }
