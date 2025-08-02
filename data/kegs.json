@@ -1,22 +1,5 @@
 {
-  "ingredients": [
-    {
-      "id": 3,
-      "name": "Heavy Cream",
-      "quantity": 1,
-      "unit": "cup",
-      "category": "Dairy",
-      "expires": "2025-08-03"
-    },
-    {
-      "id": 4,
-      "name": "Mushrooms",
-      "quantity": 8,
-      "unit": "oz",
-      "category": "Vegetable",
-      "expires": "2025-08-04"
-    }
-  ],
+  "ingredients": [],
   "equipment": [
     {
       "id": 1,
@@ -31,8 +14,17 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "kitchenStaples": {},
-  "lastUpdated": "2025-08-02T19:41:24.264Z",
+  "kitchenStaples": {
+    "Coconut oil (virgin)": true,
+    "Vegetable oil": true,
+    "Walnut oil": true,
+    "Corn oil": true,
+    "Coconut oil (refined)": true,
+    "Olive oil (light or regular)": true,
+    "Soybean oil": true,
+    "Sesame oil (toasted)": true
+  },
+  "lastUpdated": "2025-08-02T19:41:29.919Z",
   "debug": {
     "message": "Data saved successfully"
   }
