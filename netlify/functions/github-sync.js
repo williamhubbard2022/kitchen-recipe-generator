@@ -1,4 +1,21 @@
-// netlify/functions/github-sync.js
+if (!userId) {
+      console.error('No userId provided');
+      return {
+        statusCode: 400,
+        headers: { 
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          error: 'User ID is required',
+          debug: {
+            method: httpMethod,
+            queryParams: event.queryStringParameters,
+            bodyProvided: !!event.body
+          }
+        })
+      };
+    }// netlify/functions/github-sync.js
 exports.handler = async (event, context) => {
   // Handle CORS preflight
   if (event.httpMethod === 'OPTIONS') {
@@ -15,11 +32,15 @@ exports.handler = async (event, context) => {
 
   try {
     // Debug logging
-    console.log('Function called with method:', event.httpMethod);
+    console.log('=== FUNCTION START ===');
+    console.log('Method:', event.httpMethod);
+    console.log('Query params:', event.queryStringParameters);
+    console.log('Body:', event.body);
     console.log('Environment check:', {
       hasToken: !!process.env.GITHUB_TOKEN,
       hasRepo: !!process.env.GITHUB_REPO,
-      tokenPrefix: process.env.GITHUB_TOKEN ? process.env.GITHUB_TOKEN.substring(0, 10) + '...' : 'undefined'
+      tokenPrefix: process.env.GITHUB_TOKEN ? process.env.GITHUB_TOKEN.substring(0, 10) + '...' : 'undefined',
+      repoValue: process.env.GITHUB_REPO
     });
 
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -28,7 +49,9 @@ exports.handler = async (event, context) => {
     if (!GITHUB_TOKEN || !GITHUB_REPO) {
       console.error('Missing environment variables:', {
         hasToken: !!GITHUB_TOKEN,
-        hasRepo: !!GITHUB_REPO
+        hasRepo: !!GITHUB_REPO,
+        tokenLength: GITHUB_TOKEN ? GITHUB_TOKEN.length : 0,
+        repoValue: GITHUB_REPO || 'undefined'
       });
       return {
         statusCode: 500,
@@ -41,23 +64,27 @@ exports.handler = async (event, context) => {
           details: `Missing ${!GITHUB_TOKEN ? 'GITHUB_TOKEN' : ''} ${!GITHUB_REPO ? 'GITHUB_REPO' : ''}`,
           debug: {
             hasToken: !!GITHUB_TOKEN,
-            hasRepo: !!GITHUB_REPO
+            hasRepo: !!GITHUB_REPO,
+            tokenLength: GITHUB_TOKEN ? GITHUB_TOKEN.length : 0,
+            repoValue: GITHUB_REPO || 'undefined'
           }
         })
       };
     }
 
-    const { method } = event;
+    const { httpMethod } = event;
     let userId, ingredients, equipment;
 
-    if (method === 'GET') {
+    if (httpMethod === 'GET') {
       userId = event.queryStringParameters?.userId;
-    } else {
+      console.log('GET request for user:', userId);
+    } else if (httpMethod === 'POST') {
       try {
         const body = JSON.parse(event.body || '{}');
         userId = body.userId;
         ingredients = body.ingredients;
         equipment = body.equipment;
+        console.log('POST request for user:', userId, 'with', ingredients?.length || 0, 'ingredients and', equipment?.length || 0, 'equipment');
       } catch (parseError) {
         console.error('JSON parse error:', parseError);
         return {
@@ -66,19 +93,25 @@ exports.handler = async (event, context) => {
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ error: 'Invalid JSON in request body' })
+          body: JSON.stringify({ 
+            error: 'Invalid JSON in request body',
+            details: parseError.message,
+            receivedBody: event.body
+          })
         };
       }
-    }
-
-    if (!userId) {
+    } else {
+      console.error('Invalid method:', httpMethod);
       return {
-        statusCode: 400,
+        statusCode: 405,
         headers: { 
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ error: 'User ID is required' })
+        body: JSON.stringify({ 
+          error: `Method ${httpMethod} not allowed`,
+          allowedMethods: ['GET', 'POST', 'OPTIONS']
+        })
       };
     }
 
@@ -97,7 +130,7 @@ exports.handler = async (event, context) => {
 
     console.log('API URL:', apiUrl);
 
-    switch (method) {
+    switch (httpMethod) {
       case 'GET':
         try {
           console.log('Attempting to fetch file from GitHub...');
