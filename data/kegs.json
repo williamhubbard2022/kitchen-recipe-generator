@@ -19,7 +19,7 @@
     {
       "id": 3,
       "name": "Heavy Cream",
-      "quantity": 1,
+      "quantity": 0.5,
       "unit": "cup",
       "category": "Dairy",
       "expires": "2025-08-03"
@@ -27,7 +27,7 @@
     {
       "id": 4,
       "name": "Mushrooms",
-      "quantity": 8,
+      "quantity": 2,
       "unit": "oz",
       "category": "Vegetable",
       "expires": "2025-08-04"
@@ -47,7 +47,7 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "lastUpdated": "2025-08-02T01:45:52.593Z",
+  "lastUpdated": "2025-08-02T01:45:55.637Z",
   "debug": {
     "message": "Data saved successfully"
   }
