@@ -1,57 +1,53 @@
 {
   "ingredients": [
     {
-      "id": 1754178119352,
-      "name": "chicken",
-      "quantity": 2,
-      "unit": "lbs",
-      "category": "Other",
-      "expires": "2025-08-09"
+      "id": 3,
+      "name": "Heavy Cream",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Dairy",
+      "expires": "2025-08-03"
     },
     {
-      "id": 1754178126419,
-      "name": "basmati rice",
-      "quantity": 1,
-      "unit": "unit",
-      "category": "Other",
-      "expires": "2025-08-09"
+      "id": 4,
+      "name": "Mushrooms",
+      "quantity": 8,
+      "unit": "oz",
+      "category": "Vegetable",
+      "expires": "2025-08-04"
     }
   ],
   "equipment": [
     {
-      "id": 1754178132280,
-      "name": "rice cooker",
-      "type": "Other",
-      "capabilities": "cook rice"
+      "id": 1,
+      "name": "Sous Vide Immersion Circulator",
+      "type": "Precision Cooking",
+      "capabilities": "Precise temperature control, long slow cooking"
     },
     {
-      "id": 1754178142081,
-      "name": "ninja cold press juicer",
-      "type": "Other",
-      "capabilities": "juice"
+      "id": 2,
+      "name": "Cast Iron Dutch Oven",
+      "type": "Cooking",
+      "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
   "kitchenStaples": {
-    "Olive oil (light or regular)": true,
-    "Coconut oil (virgin)": true,
-    "Coconut oil (refined)": true,
+    "Pumpkin seed oil": true,
+    "Corn oil": true,
     "Olive oil (extra virgin)": true,
-    "Basil": true,
-    "Oregano": true,
-    "Cloves (ground or whole)": true,
-    "Allspice": true,
-    "Seasoned rice vinegar": true,
-    "Rice vinegar (unseasoned)": true,
-    "Teriyaki sauce": true,
-    "Tzatziki": true,
-    "Granulated white sugar": true,
-    "Monk fruit sweetener": true,
-    "Corn syrup": true,
-    "Agave syrup": true,
-    "Powdered sugar": true
+    "Coconut oil (refined)": true,
+    "Olive oil (light or regular)": true,
+    "Safflower oil": true,
+    "Sesame oil (toasted)": true,
+    "Grapeseed oil": true,
+    "Butter (unsalted)": true,
+    "Thyme": true,
+    "White pepper": true,
+    "Sage": true,
+    "Oregano": true
   },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-02T23:42:46.872Z",
+  "lastUpdated": "2025-08-02T23:43:15.964Z",
   "debug": {
     "message": "Data saved successfully"
   }
