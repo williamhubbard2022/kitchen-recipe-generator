@@ -67,9 +67,11 @@
     "Black vinegar (Chinese/Zhenjiang)": true,
     "Ketchup": true,
     "Soy sauce": true,
-    "Fish sauce": true
+    "Fish sauce": true,
+    "Tzatziki": false,
+    "Teriyaki sauce": true
   },
-  "lastUpdated": "2025-08-02T07:56:07.803Z",
+  "lastUpdated": "2025-08-02T07:56:09.844Z",
   "debug": {
     "message": "Data saved successfully"
   }
