@@ -31,11 +31,11 @@
     {
       "id": 1754119917481,
       "name": "Blackstone flat top griddle",
-      "type": "Other",
+      "type": "Cooking",
       "capabilities": "Cast iron"
     }
   ],
-  "lastUpdated": "2025-08-02T07:32:14.340Z",
+  "lastUpdated": "2025-08-02T07:32:19.643Z",
   "debug": {
     "message": "Data saved successfully"
   }
