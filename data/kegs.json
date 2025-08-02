@@ -12,9 +12,10 @@
     "Olive oil (extra virgin)": true,
     "Avocado oil": true,
     "Coconut oil (refined)": true,
-    "Grapeseed oil": true
+    "Grapeseed oil": true,
+    "Peanut oil": true
   },
-  "lastUpdated": "2025-08-02T19:50:00.608Z",
+  "lastUpdated": "2025-08-02T19:50:03.044Z",
   "debug": {
     "message": "Data saved successfully"
   }
