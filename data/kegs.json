@@ -56,9 +56,11 @@
     "Taco seasoning": true,
     "Chili flakes (gochugaru, aleppo, etc.)": false,
     "MSG (e.g., Ajinomoto)": true,
-    "Bouillon (cubes or paste: chicken, beef, veg)": true
+    "Bouillon (cubes or paste: chicken, beef, veg)": true,
+    "Celery salt": true,
+    "Kosher salt": true
   },
-  "lastUpdated": "2025-08-02T07:55:17.606Z",
+  "lastUpdated": "2025-08-02T07:55:19.187Z",
   "debug": {
     "message": "Data saved successfully"
   }
