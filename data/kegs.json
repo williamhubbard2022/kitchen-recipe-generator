@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Chicken Breast",
-      "quantity": 2,
+      "quantity": 1,
       "unit": "lbs",
       "category": "Protein",
       "expires": "2025-08-05"
@@ -11,7 +11,7 @@
     {
       "id": 2,
       "name": "Basmati Rice",
-      "quantity": 1,
+      "quantity": 0.5,
       "unit": "cup",
       "category": "Grain",
       "expires": "2026-01-01"
@@ -47,7 +47,7 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "lastUpdated": "2025-08-02T01:45:45.346Z",
+  "lastUpdated": "2025-08-02T01:45:52.593Z",
   "debug": {
     "message": "Data saved successfully"
   }
