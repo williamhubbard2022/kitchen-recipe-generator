@@ -42,17 +42,17 @@
     "Black pepper": true,
     "Turmeric": true,
     "Coconut oil (virgin)": false,
-    "Sage": false,
+    "Sage": true,
     "Marjoram": false,
     "Bay leaves": true,
     "Cayenne pepper": true,
     "Crushed red pepper": true,
     "Cumin": true,
     "White pepper": false,
-    "Sweet paprika": true,
+    "Sweet paprika": false,
     "Mint": false
   },
-  "lastUpdated": "2025-08-02T07:54:57.430Z",
+  "lastUpdated": "2025-08-02T07:54:59.804Z",
   "debug": {
     "message": "Data saved successfully"
   }
