@@ -7,6 +7,30 @@
       "unit": "lbs",
       "category": "Protein",
       "expires": "2025-08-05"
+    },
+    {
+      "id": 2,
+      "name": "Basmati Rice",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Grain",
+      "expires": "2026-01-01"
+    },
+    {
+      "id": 3,
+      "name": "Heavy Cream",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Dairy",
+      "expires": "2025-08-03"
+    },
+    {
+      "id": 4,
+      "name": "Mushrooms",
+      "quantity": 8,
+      "unit": "oz",
+      "category": "Vegetable",
+      "expires": "2025-08-04"
     }
   ],
   "equipment": [
@@ -25,7 +49,7 @@
   ],
   "kitchenStaples": {},
   "savedRecipes": [],
-  "lastUpdated": "2025-08-02T22:53:28.972Z",
+  "lastUpdated": "2025-08-02T22:54:13.318Z",
   "debug": {
     "message": "Data saved successfully"
   }
