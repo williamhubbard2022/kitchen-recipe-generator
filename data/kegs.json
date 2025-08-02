@@ -47,8 +47,10 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "kitchenStaples": {},
-  "lastUpdated": "2025-08-02T07:45:31.080Z",
+  "kitchenStaples": {
+    "Olive oil (extra virgin)": true
+  },
+  "lastUpdated": "2025-08-02T07:45:35.477Z",
   "debug": {
     "message": "Data saved successfully"
   }
