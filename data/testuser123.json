@@ -9,6 +9,22 @@
       "expires": "2025-08-05"
     },
     {
+      "id": 2,
+      "name": "Basmati Rice",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Grain",
+      "expires": "2026-01-01"
+    },
+    {
+      "id": 3,
+      "name": "Heavy Cream",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Dairy",
+      "expires": "2025-08-03"
+    },
+    {
       "id": 4,
       "name": "Mushrooms",
       "quantity": 8,
@@ -31,16 +47,9 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "kitchenStaples": {
-    "Olive oil (light or regular)": true,
-    "Coconut oil (virgin)": true,
-    "Pumpkin seed oil": true,
-    "Sesame oil (toasted)": true,
-    "Butter (salted)": true,
-    "Olive oil (extra virgin)": true
-  },
+  "kitchenStaples": {},
   "savedRecipes": [],
-  "lastUpdated": "2025-08-02T22:59:13.007Z",
+  "lastUpdated": "2025-08-02T22:59:38.076Z",
   "debug": {
     "message": "Data saved successfully"
   }
