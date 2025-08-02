@@ -68,9 +68,10 @@
     "Cinnamon": true,
     "Ginger (ground)": true,
     "Turmeric": true,
-    "Nutmeg": true
+    "Nutmeg": true,
+    "Coriander": true
   },
-  "lastUpdated": "2025-08-02T20:13:57.184Z",
+  "lastUpdated": "2025-08-02T20:14:04.878Z",
   "debug": {
     "message": "Data saved successfully"
   }
