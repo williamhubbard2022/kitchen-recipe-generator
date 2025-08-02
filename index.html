@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+const updateEquipment = (id, field, value) => {
+                setEquipment(equipment.map(item => 
+                    item.id === id ? { ...item, [field]: value } : item
+                ));
+            };<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -158,9 +162,18 @@
                         }
                         if (data.equipment && data.equipment.length > 0) {
                             setEquipment(data.equipment);
+                        }
+                        if (data.pantryItems) {
+                            setPantryItems(data.pantryItems);
                         } else {
                             // Keep current equipment if no saved data
                             console.log('No saved equipment found for user, keeping current data');
+                        }
+                        if (data.pantryItems) {
+                            setPantryItems(data.pantryItems);
+                        } else {
+                            // Keep current pantry items if no saved data
+                            console.log('No saved pantry items found for user, keeping current data');
                         }
                         setSyncStatus('synced');
                     } else {
@@ -192,6 +205,42 @@
                     { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
                     { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
                 ]);
+                setPantryItems({
+                    oils: [
+                        { id: 1, name: 'Olive Oil', available: true },
+                        { id: 2, name: 'Vegetable Oil', available: false },
+                        { id: 3, name: 'Coconut Oil', available: false },
+                        { id: 4, name: 'Sesame Oil', available: false },
+                        { id: 5, name: 'Avocado Oil', available: false }
+                    ],
+                    seasonings: [
+                        { id: 1, name: 'Salt', available: true },
+                        { id: 2, name: 'Black Pepper', available: true },
+                        { id: 3, name: 'Garlic Powder', available: false },
+                        { id: 4, name: 'Onion Powder', available: false },
+                        { id: 5, name: 'Paprika', available: false },
+                        { id: 6, name: 'Cumin', available: false },
+                        { id: 7, name: 'Oregano', available: false },
+                        { id: 8, name: 'Thyme', available: false },
+                        { id: 9, name: 'Basil', available: false },
+                        { id: 10, name: 'Rosemary', available: false }
+                    ],
+                    vinegars: [
+                        { id: 1, name: 'White Vinegar', available: false },
+                        { id: 2, name: 'Apple Cider Vinegar', available: false },
+                        { id: 3, name: 'Balsamic Vinegar', available: false },
+                        { id: 4, name: 'Rice Vinegar', available: false },
+                        { id: 5, name: 'Red Wine Vinegar', available: false }
+                    ],
+                    condiments: [
+                        { id: 1, name: 'Soy Sauce', available: false },
+                        { id: 2, name: 'Hot Sauce', available: false },
+                        { id: 3, name: 'Worcestershire Sauce', available: false },
+                        { id: 4, name: 'Dijon Mustard', available: false },
+                        { id: 5, name: 'Honey', available: false },
+                        { id: 6, name: 'Maple Syrup', available: false }
+                    ]
+                });
                 setSyncStatus('synced');
             };
 
@@ -216,6 +265,42 @@
                 { id: 1, name: 'Sous Vide Immersion Circulator', type: 'Precision Cooking', capabilities: 'Precise temperature control, long slow cooking' },
                 { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
             ]);
+            const [pantryItems, setPantryItems] = useState({
+                oils: [
+                    { id: 1, name: 'Olive Oil', available: true },
+                    { id: 2, name: 'Vegetable Oil', available: false },
+                    { id: 3, name: 'Coconut Oil', available: false },
+                    { id: 4, name: 'Sesame Oil', available: false },
+                    { id: 5, name: 'Avocado Oil', available: false }
+                ],
+                seasonings: [
+                    { id: 1, name: 'Salt', available: true },
+                    { id: 2, name: 'Black Pepper', available: true },
+                    { id: 3, name: 'Garlic Powder', available: false },
+                    { id: 4, name: 'Onion Powder', available: false },
+                    { id: 5, name: 'Paprika', available: false },
+                    { id: 6, name: 'Cumin', available: false },
+                    { id: 7, name: 'Oregano', available: false },
+                    { id: 8, name: 'Thyme', available: false },
+                    { id: 9, name: 'Basil', available: false },
+                    { id: 10, name: 'Rosemary', available: false }
+                ],
+                vinegars: [
+                    { id: 1, name: 'White Vinegar', available: false },
+                    { id: 2, name: 'Apple Cider Vinegar', available: false },
+                    { id: 3, name: 'Balsamic Vinegar', available: false },
+                    { id: 4, name: 'Rice Vinegar', available: false },
+                    { id: 5, name: 'Red Wine Vinegar', available: false }
+                ],
+                condiments: [
+                    { id: 1, name: 'Soy Sauce', available: false },
+                    { id: 2, name: 'Hot Sauce', available: false },
+                    { id: 3, name: 'Worcestershire Sauce', available: false },
+                    { id: 4, name: 'Dijon Mustard', available: false },
+                    { id: 5, name: 'Honey', available: false },
+                    { id: 6, name: 'Maple Syrup', available: false }
+                ]
+            });
             const [activeTab, setActiveTab] = useState('ingredients');
             const [editingItem, setEditingItem] = useState(null);
             const [generatedRecipe, setGeneratedRecipe] = useState('');
@@ -289,7 +374,8 @@
                         body: JSON.stringify({
                             userId: userId,
                             ingredients: ingredients,
-                            equipment: equipment
+                            equipment: equipment,
+                            pantryItems: pantryItems
                         })
                     });
 
@@ -360,10 +446,37 @@
                 ));
             };
 
-            const updateEquipment = (id, field, value) => {
-                setEquipment(equipment.map(item => 
-                    item.id === id ? { ...item, [field]: value } : item
-                ));
+            const togglePantryItem = (category, itemId) => {
+                setPantryItems(prev => ({
+                    ...prev,
+                    [category]: prev[category].map(item =>
+                        item.id === itemId 
+                            ? { ...item, available: !item.available }
+                            : item
+                    )
+                }));
+            };
+
+            const addCustomPantryItem = (category, itemName) => {
+                if (!itemName || itemName.trim() === '') return;
+                
+                const newItem = {
+                    id: Date.now(),
+                    name: itemName.trim(),
+                    available: true
+                };
+                
+                setPantryItems(prev => ({
+                    ...prev,
+                    [category]: [...prev[category], newItem]
+                }));
+            };
+
+            const deletePantryItem = (category, itemId) => {
+                setPantryItems(prev => ({
+                    ...prev,
+                    [category]: prev[category].filter(item => item.id !== itemId)
+                }));
             };
 
             const generateRecipe = async () => {
@@ -385,20 +498,45 @@
                         `${eq.name} - ${eq.capabilities}`
                     ).join(', ');
 
-                    const prompt = `Create a detailed recipe using these available ingredients: ${ingredientsList}
+                    // Get available pantry items
+                    const availablePantryItems = {};
+                    Object.keys(pantryItems).forEach(category => {
+                        const available = pantryItems[category].filter(item => item.available);
+                        if (available.length > 0) {
+                            availablePantryItems[category] = available.map(item => item.name);
+                        }
+                    });
 
-Available specialized equipment: ${equipmentList}
+                    const pantryItemsText = Object.keys(availablePantryItems).length > 0 
+                        ? Object.entries(availablePantryItems)
+                            .map(([category, items]) => `${category}: ${items.join(', ')}`)
+                            .join(' | ')
+                        : 'Basic salt and pepper only';
 
-User preferences/notes: ${recipePreferences || 'No specific preferences'}
+                    const prompt = `Create a detailed recipe using ONLY these available ingredients and pantry items:
+
+MAIN INGREDIENTS: ${ingredientsList}
+
+AVAILABLE PANTRY ITEMS: ${pantryItemsText}
+
+AVAILABLE EQUIPMENT: ${equipmentList}
+
+USER PREFERENCES: ${recipePreferences || 'No specific preferences'}
+
+IMPORTANT CONSTRAINTS:
+- You may ONLY use ingredients from the "MAIN INGREDIENTS" and "AVAILABLE PANTRY ITEMS" lists above
+- Do NOT suggest any ingredients not listed above
+- Do NOT assume any pantry staples beyond what is explicitly listed
+- If you need something not available, suggest a substitution using only available items OR mention the recipe cannot be made without purchasing additional ingredients
 
 Please create a recipe that:
-1. Uses primarily the ingredients I have available
-2. Takes advantage of my specialized kitchen equipment when possible
+1. Uses ONLY the ingredients and pantry items listed above
+2. Takes advantage of available kitchen equipment when possible
 3. Includes clear step-by-step instructions
 4. Mentions cooking times and temperatures
-5. If I'm missing any key ingredients, suggest simple substitutions or mention they're optional
+5. If the available ingredients are insufficient for a complete recipe, clearly state what additional items would need to be purchased
 
-Format the recipe with a clear title, ingredient list, and numbered steps.`;
+Format the recipe with a clear title, ingredient list (using only available items), and numbered steps.`;
 
                     const response = await fetch("/.netlify/functions/generate-recipe", {
                         method: "POST",
@@ -518,7 +656,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                 React.createElement('div', { className: "grid grid-cols-1 xl:grid-cols-2 gap-6" },
                     // Left Panel - Inventory Management
                     React.createElement('div', { className: "bg-white rounded-lg shadow-lg p-6" },
-                        React.createElement('div', { className: "flex gap-2 mb-6" },
+                        React.createElement('div', { className: "flex gap-2 mb-6 flex-wrap" },
                             React.createElement('button', {
                                 onClick: () => setActiveTab('ingredients'),
                                 className: `px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -537,7 +675,39 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                             }, 
                                 React.createElement(Utensils),
                                 `Equipment (${equipment.length})`
-                            )
+                            ),
+                            React.createElement('button', {
+                                onClick: () => setActiveTab('oils'),
+                                className: `px-3 py-2 rounded-lg font-medium transition-colors text-sm ${
+                                    activeTab === 'oils' 
+                                        ? 'bg-green-500 text-white' 
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                }`
+                            }, `🫒 Oils (${pantryItems.oils.filter(item => item.available).length})`),
+                            React.createElement('button', {
+                                onClick: () => setActiveTab('seasonings'),
+                                className: `px-3 py-2 rounded-lg font-medium transition-colors text-sm ${
+                                    activeTab === 'seasonings' 
+                                        ? 'bg-green-500 text-white' 
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                }`
+                            }, `🧂 Seasonings (${pantryItems.seasonings.filter(item => item.available).length})`),
+                            React.createElement('button', {
+                                onClick: () => setActiveTab('vinegars'),
+                                className: `px-3 py-2 rounded-lg font-medium transition-colors text-sm ${
+                                    activeTab === 'vinegars' 
+                                        ? 'bg-green-500 text-white' 
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                }`
+                            }, `🍶 Vinegars (${pantryItems.vinegars.filter(item => item.available).length})`),
+                            React.createElement('button', {
+                                onClick: () => setActiveTab('condiments'),
+                                className: `px-3 py-2 rounded-lg font-medium transition-colors text-sm ${
+                                    activeTab === 'condiments' 
+                                        ? 'bg-green-500 text-white' 
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                }`
+                            }, `🍯 Condiments (${pantryItems.condiments.filter(item => item.available).length})`)
                         ),
 
                         // Tab Content
@@ -662,6 +832,71 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                     )
                                 )
                             ) :
+                            // Pantry tabs (oils, seasonings, vinegars, condiments)
+                            ['oils', 'seasonings', 'vinegars', 'condiments'].includes(activeTab) ?
+                                React.createElement('div', null,
+                                    React.createElement('div', { className: "flex justify-between items-center mb-4" },
+                                        React.createElement('h2', { className: "text-xl font-semibold text-gray-800" }, 
+                                            `Available ${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}`
+                                        ),
+                                        React.createElement('button', {
+                                            onClick: () => {
+                                                const itemName = prompt(`Add custom ${activeTab.slice(0, -1)}:`);
+                                                if (itemName) addCustomPantryItem(activeTab, itemName);
+                                            },
+                                            className: "bg-green-500 text-white px-3 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center gap-2 text-sm"
+                                        },
+                                            React.createElement(Plus),
+                                            "Add Custom"
+                                        )
+                                    ),
+                                    React.createElement('div', { className: "grid grid-cols-2 md:grid-cols-3 gap-2 max-h-96 overflow-y-auto" },
+                                        pantryItems[activeTab].map(item => 
+                                            React.createElement('div', {
+                                                key: item.id,
+                                                className: `p-3 rounded-lg border-2 transition-colors ${
+                                                    item.available 
+                                                        ? 'border-green-300 bg-green-50' 
+                                                        : 'border-gray-200 bg-gray-50'
+                                                }`
+                                            },
+                                                React.createElement('div', { className: "flex items-center justify-between" },
+                                                    React.createElement('label', { 
+                                                        className: "flex items-center gap-2 cursor-pointer flex-1",
+                                                        onClick: () => togglePantryItem(activeTab, item.id)
+                                                    },
+                                                        React.createElement('input', {
+                                                            type: "checkbox",
+                                                            checked: item.available,
+                                                            onChange: () => togglePantryItem(activeTab, item.id),
+                                                            className: "w-4 h-4 text-green-600 rounded focus:ring-green-500"
+                                                        }),
+                                                        React.createElement('span', { 
+                                                            className: `text-sm font-medium ${
+                                                                item.available ? 'text-green-800' : 'text-gray-600'
+                                                            }`
+                                                        }, item.name)
+                                                    ),
+                                                    // Only show delete button for custom items (high ID numbers)
+                                                    item.id > 100 && React.createElement('button', {
+                                                        onClick: () => deletePantryItem(activeTab, item.id),
+                                                        className: "text-red-500 hover:text-red-700 p-1 ml-2",
+                                                        title: "Delete custom item"
+                                                    }, React.createElement(Trash2, { size: 12 }))
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    React.createElement('div', { className: "mt-4 p-3 bg-blue-50 rounded-lg" },
+                                        React.createElement('p', { className: "text-sm text-blue-700 mb-2" },
+                                            React.createElement('strong', null, "💡 Tip: "),
+                                            "Check the items you have available. Only checked items will be used in recipe generation."
+                                        ),
+                                        React.createElement('p', { className: "text-xs text-blue-600" },
+                                            `Currently available: ${pantryItems[activeTab].filter(item => item.available).map(item => item.name).join(', ') || 'None selected'}`
+                                        )
+                                    )
+                                ) : :
                             React.createElement('div', null,
                                 React.createElement('div', { className: "flex justify-between items-center mb-4" },
                                     React.createElement('h2', { className: "text-xl font-semibold text-gray-800" }, "Your Equipment"),
