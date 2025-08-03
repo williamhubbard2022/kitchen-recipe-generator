@@ -1,0 +1,40 @@
+{
+  "ingredients": [
+    {
+      "id": 1,
+      "name": "Chicken Breast",
+      "quantity": 13,
+      "unit": "lbs",
+      "category": "Protein",
+      "expires": "2025-08-05"
+    },
+    {
+      "id": 4,
+      "name": "Mushrooms",
+      "quantity": 0.03125,
+      "unit": "oz",
+      "category": "Vegetable",
+      "expires": "2025-08-04"
+    }
+  ],
+  "equipment": [
+    {
+      "id": 1,
+      "name": "Sous Vide Immersion Circulator",
+      "type": "Precision Cooking",
+      "capabilities": "Precise temperature control, long slow cooking"
+    },
+    {
+      "id": 2,
+      "name": "Cast Iron Dutch Oven",
+      "type": "Cooking",
+      "capabilities": "Braising, bread baking, high heat retention"
+    }
+  ],
+  "kitchenStaples": {},
+  "savedRecipes": [],
+  "lastUpdated": "2025-08-03T00:00:31.524Z",
+  "debug": {
+    "message": "Data saved successfully"
+  }
+}
