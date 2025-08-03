@@ -46,8 +46,20 @@
     "Sage": true,
     "Oregano": true
   },
-  "savedRecipes": [],
-  "lastUpdated": "2025-08-03T00:01:45.751Z",
+  "savedRecipes": [
+    {
+      "id": 1754179312653,
+      "title": "Cast Iron Dutch Oven Braised Chicken and Rice",
+      "content": "# Cast Iron Dutch Oven Braised Chicken and Rice\n\nThis one-pot meal takes advantage of your cast iron Dutch oven's excellent heat retention and braising capabilities to create tender, flavorful chicken with perfectly cooked rice.\n\n## Ingredients\n\n**Main Ingredients:**\n- 3-4 lbs chicken breast (from your 13 lbs available)\n- 1½ cups basmati rice (from your 12 oz available)\n- 0.03125 oz mushrooms, sliced thin\n\n**Kitchen Staples:**\n- 3 tablespoons olive oil (regular)\n- 2 tablespoons butter (unsalted)\n- 1 teaspoon kosher salt (plus more for seasoning)\n- ½ teaspoon black pepper *(optional - if not available, increase other herbs)*\n- 1 teaspoon dried thyme\n- 1 teaspoon dried oregano\n- ½ teaspoon garlic salt\n- 3 cups chicken broth (made from bouillon cubes/paste)\n- 2 tablespoons white wine vinegar\n- ½ teaspoon onion salt\n\n## Instructions\n\n1. **Prepare the chicken** (10 minutes): Cut chicken breasts into uniform 2-inch chunks. Season generously with kosher salt, thyme, oregano, and garlic salt. Let sit at room temperature for 10 minutes.\n\n2. **Heat the Dutch oven** (5 minutes): Preheat your cast iron Dutch oven over medium-high heat. Add olive oil and let it shimmer.\n\n3. **Sear the chicken** (8-10 minutes): Brown chicken pieces on all sides, working in batches to avoid overcrowding. Transfer browned chicken to a plate and set aside.\n\n4. **Sauté aromatics** (3-4 minutes): In the same Dutch oven, add butter and sliced mushrooms. Cook until mushrooms release their moisture and become golden. Season with onion salt.\n\n5. **Add rice** (2-3 minutes): Add basmati rice to the pot, stirring to coat with the mushroom mixture and toast lightly.\n\n6. **Build the braise** (2 minutes): Pour in white wine vinegar and scrape up any browned bits from the bottom. Add chicken broth gradually, stirring constantly.\n\n7. **Combine and braise** (25-30 minutes): Return chicken to the pot, nestling pieces into the rice. Bring to a boil, then reduce heat to low, cover tightly, and simmer for 25-30 minutes until rice is tender and chicken reaches 165°F internal temperature.\n\n8. **Rest and serve** (10 minutes): Remove from heat and let stand, covered, for 10 minutes. Fluff rice gently with a fork and taste for seasoning, adding more salt if needed.\n\n## Cooking Notes\n\n- **Temperature:** Start at medium-high for searing, reduce to low for braising\n- **Total cooking time:** About 1 hour\n- **Serves:** 6-8 people\n- **Storage:** Leftovers keep well for 3 days refrigerated\n\n## Substitution Notes\n\n- If you want more mushroom flavor but are limited by quantity, you can create mushroom broth by adding an extra bouillon cube to the liquid\n- Fresh herbs can replace dried (use 3x the amount if available)\n- The small amount of mushrooms will add flavor throughout - slice them as thin as possible to distribute evenly\n\nThis recipe maximizes your Dutch oven's braising capabilities while creating a complete, satisfying meal from your available ingredients!",
+      "createdAt": "2025-08-03T00:01:52.653Z",
+      "ingredients": [
+        "Heavy Cream (1 cup)",
+        "Mushrooms (8 oz)"
+      ],
+      "preferences": ""
+    }
+  ],
+  "lastUpdated": "2025-08-03T00:01:57.262Z",
   "debug": {
     "message": "Data saved successfully"
   }
