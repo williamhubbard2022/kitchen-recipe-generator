@@ -1,31 +1,29 @@
 {
   "ingredients": [
     {
-      "id": 1,
-      "name": "Chicken Breast",
-      "quantity": 13,
-      "unit": "lbs",
-      "category": "Protein",
-      "expires": "2025-08-05"
+      "id": 3,
+      "name": "Heavy Cream",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Dairy",
+      "expires": "2025-08-03"
     },
     {
       "id": 4,
       "name": "Mushrooms",
-      "quantity": 0.03125,
+      "quantity": 8,
       "unit": "oz",
       "category": "Vegetable",
       "expires": "2025-08-04"
-    },
-    {
-      "id": 1754179258163,
-      "name": "basmati rice",
-      "quantity": 12,
-      "unit": "oz",
-      "category": "Other",
-      "expires": "2030-08-10"
     }
   ],
   "equipment": [
+    {
+      "id": 1,
+      "name": "Sous Vide Immersion Circulator",
+      "type": "Precision Cooking",
+      "capabilities": "Precise temperature control, long slow cooking"
+    },
     {
       "id": 2,
       "name": "Cast Iron Dutch Oven",
@@ -34,43 +32,22 @@
     }
   ],
   "kitchenStaples": {
-    "Olive oil (light or regular)": true,
-    "Coconut oil (refined)": true,
-    "Olive oil (extra virgin)": true,
-    "Peanut oil": true,
-    "Corn oil": true,
     "Pumpkin seed oil": true,
+    "Corn oil": true,
+    "Olive oil (extra virgin)": true,
+    "Coconut oil (refined)": true,
+    "Olive oil (light or regular)": true,
     "Safflower oil": true,
     "Sesame oil (toasted)": true,
-    "Vegetable oil": true,
     "Grapeseed oil": true,
     "Butter (unsalted)": true,
-    "Shortening (e.g., Crisco)": true,
-    "Walnut oil": true,
-    "Sunflower oil": true,
-    "Avocado oil": true,
-    "Marjoram": true,
     "Thyme": true,
-    "Oregano": true,
-    "Basil": true,
-    "Dill": true,
+    "White pepper": true,
     "Sage": true,
-    "Kosher salt": true,
-    "Table salt": true,
-    "Garlic salt": true,
-    "Onion salt": true,
-    "Celery salt": true,
-    "Bouillon (cubes or paste: chicken, beef, veg)": true,
-    "Apple cider vinegar": true,
-    "Champagne vinegar": true,
-    "Distilled white vinegar": true,
-    "Sherry vinegar": true,
-    "White wine vinegar": true,
-    "Red wine vinegar": true,
-    "Seasoned rice vinegar": true
+    "Oregano": true
   },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-03T00:01:09.224Z",
+  "lastUpdated": "2025-08-03T00:01:45.751Z",
   "debug": {
     "message": "Data saved successfully"
   }
