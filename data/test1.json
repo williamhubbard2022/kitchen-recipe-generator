@@ -15,6 +15,14 @@
       "unit": "oz",
       "category": "Vegetable",
       "expires": "2025-08-04"
+    },
+    {
+      "id": 1754179258163,
+      "name": "basmati rice",
+      "quantity": 12,
+      "unit": "oz",
+      "category": "Other",
+      "expires": "2030-08-10"
     }
   ],
   "equipment": [
@@ -62,7 +70,7 @@
     "Seasoned rice vinegar": true
   },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-03T00:01:00.167Z",
+  "lastUpdated": "2025-08-03T00:01:09.224Z",
   "debug": {
     "message": "Data saved successfully"
   }
