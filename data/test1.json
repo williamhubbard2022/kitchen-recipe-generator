@@ -1,0 +1,69 @@
+{
+  "ingredients": [
+    {
+      "id": 1,
+      "name": "Chicken Breast",
+      "quantity": 13,
+      "unit": "lbs",
+      "category": "Protein",
+      "expires": "2025-08-05"
+    },
+    {
+      "id": 4,
+      "name": "Mushrooms",
+      "quantity": 0.03125,
+      "unit": "oz",
+      "category": "Vegetable",
+      "expires": "2025-08-04"
+    }
+  ],
+  "equipment": [
+    {
+      "id": 2,
+      "name": "Cast Iron Dutch Oven",
+      "type": "Cooking",
+      "capabilities": "Braising, bread baking, high heat retention"
+    }
+  ],
+  "kitchenStaples": {
+    "Olive oil (light or regular)": true,
+    "Coconut oil (refined)": true,
+    "Olive oil (extra virgin)": true,
+    "Peanut oil": true,
+    "Corn oil": true,
+    "Pumpkin seed oil": true,
+    "Safflower oil": true,
+    "Sesame oil (toasted)": true,
+    "Vegetable oil": true,
+    "Grapeseed oil": true,
+    "Butter (unsalted)": true,
+    "Shortening (e.g., Crisco)": true,
+    "Walnut oil": true,
+    "Sunflower oil": true,
+    "Avocado oil": true,
+    "Marjoram": true,
+    "Thyme": true,
+    "Oregano": true,
+    "Basil": true,
+    "Dill": true,
+    "Sage": true,
+    "Kosher salt": true,
+    "Table salt": true,
+    "Garlic salt": true,
+    "Onion salt": true,
+    "Celery salt": true,
+    "Bouillon (cubes or paste: chicken, beef, veg)": true,
+    "Apple cider vinegar": true,
+    "Champagne vinegar": true,
+    "Distilled white vinegar": true,
+    "Sherry vinegar": true,
+    "White wine vinegar": true,
+    "Red wine vinegar": true,
+    "Seasoned rice vinegar": true
+  },
+  "savedRecipes": [],
+  "lastUpdated": "2025-08-03T00:01:00.167Z",
+  "debug": {
+    "message": "Data saved successfully"
+  }
+}
