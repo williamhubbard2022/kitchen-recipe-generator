@@ -721,10 +721,33 @@
                 } catch (error) {
                     console.error('Error loading data:', error);
                     setSyncStatus('error');
-                    // No localStorage fallback - database only
-                    console.log('Database failed, keeping current state');
-                    } finally {
-                        setIsSyncing(false);
+                    // Don't fallback to localStorage for named users - only for anonymous users
+                    if (userId.startsWith('user_')) {
+                        console.log('Database failed for anonymous user, falling back to localStorage');
+                        const savedIngredients = localStorage.getItem('ingredients');
+                        const savedEquipment = localStorage.getItem('equipment');
+                        const savedStaples = localStorage.getItem('kitchenStaples');
+                        if (savedIngredients) {
+                            const parsed = JSON.parse(savedIngredients);
+                            setIngredients(parsed);
+                        }
+                        if (savedEquipment) {
+                            const parsed = JSON.parse(savedEquipment);
+                            setEquipment(parsed);
+                        }
+                        if (savedStaples) {
+                            setKitchenStaples(JSON.parse(savedStaples));
+                        }
+                        const savedRecipesData = localStorage.getItem('savedRecipes');
+                        if (savedRecipesData) {
+                            setSavedRecipes(JSON.parse(savedRecipesData));
+                        }
+                    } else {
+                        console.log('Database failed for named user, keeping current state (no localStorage fallback)');
+                    
+                }
+                } finally {
+                    setIsSyncing(false);
                 }
             };
 
@@ -759,8 +782,13 @@
                         const result = await response.json();
                         console.log('Save result:', result);
                         setSyncStatus('synced');
-                        // No localStorage backup - database only
-                    }
+                        // Only save to localStorage as backup for anonymous users
+                        if (userId.startsWith('user_')) {
+                            localStorage.setItem('ingredients', JSON.stringify(ingredients));
+                            localStorage.setItem('equipment', JSON.stringify(equipment));
+                            localStorage.setItem('kitchenStaples', JSON.stringify(kitchenStaples));
+                            localStorage.setItem('savedRecipes', JSON.stringify(savedRecipes));
+                        }
                     } else {
                         const errorData = await response.text();
                         console.error('Save failed:', response.status, errorData);
@@ -769,7 +797,13 @@
                 } catch (error) {
                     console.error('Error saving data:', error);
                     setSyncStatus('error');
-                    // No localStorage fallback - database only
+                    // Only fallback to localStorage for anonymous users
+                    if (userId.startsWith('user_')) {
+                        localStorage.setItem('ingredients', JSON.stringify(ingredients));
+                        localStorage.setItem('equipment', JSON.stringify(equipment));
+                        localStorage.setItem('kitchenStaples', JSON.stringify(kitchenStaples));
+                        localStorage.setItem('savedRecipes', JSON.stringify(savedRecipes));
+                    }
                 }
             };
 
@@ -1649,9 +1683,6 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
-
-
-
 
 
 
