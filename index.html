@@ -723,11 +723,10 @@
                     setSyncStatus('error');
                     // No localStorage fallback - database only
                     console.log('Database failed, keeping current state');
-                }
-                } finally {
-                    setIsSyncing(false);
-                }
-            };
+             } finally {
+                setIsSyncing(false);
+             }
+          };
 
             const saveDataToDatabase = async () => {
                 try {
@@ -1650,6 +1649,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
 
 
