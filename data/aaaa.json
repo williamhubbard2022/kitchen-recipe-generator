@@ -1,22 +1,6 @@
 {
   "ingredients": [
     {
-      "id": 1,
-      "name": "Chicken Breast",
-      "quantity": 2,
-      "unit": "lbs",
-      "category": "Protein",
-      "expires": "2025-08-05"
-    },
-    {
-      "id": 2,
-      "name": "Basmati Rice",
-      "quantity": 1,
-      "unit": "cup",
-      "category": "Grain",
-      "expires": "2026-01-01"
-    },
-    {
       "id": 3,
       "name": "Heavy Cream",
       "quantity": 1,
@@ -48,18 +32,22 @@
     }
   ],
   "kitchenStaples": {
-    "Olive oil (light or regular)": true,
+    "Pumpkin seed oil": true,
+    "Corn oil": true,
     "Olive oil (extra virgin)": true,
     "Coconut oil (refined)": true,
-    "Coconut oil (virgin)": true,
-    "Corn oil": true,
+    "Olive oil (light or regular)": true,
+    "Safflower oil": true,
     "Sesame oil (toasted)": true,
-    "Vegetable oil": true,
-    "Soybean oil": true,
-    "Grapeseed oil": true
+    "Grapeseed oil": true,
+    "Butter (unsalted)": true,
+    "Thyme": true,
+    "White pepper": true,
+    "Sage": true,
+    "Oregano": true
   },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-03T00:03:08.060Z",
+  "lastUpdated": "2025-08-03T00:03:47.045Z",
   "debug": {
     "message": "Data saved successfully"
   }
