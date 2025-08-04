@@ -7,6 +7,22 @@
       "unit": "oz",
       "category": "Vegetable",
       "expires": "2025-08-04"
+    },
+    {
+      "id": 1754266738428,
+      "name": "New Ingredient",
+      "quantity": 1,
+      "unit": "unit",
+      "category": "Other",
+      "expires": "2025-08-11"
+    },
+    {
+      "id": 1754266739930,
+      "name": "New Ingredient",
+      "quantity": 1,
+      "unit": "unit",
+      "category": "Other",
+      "expires": "2025-08-11"
     }
   ],
   "equipment": [],
@@ -27,7 +43,7 @@
     "Balsamic vinegar": true
   },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-04T00:19:00.165Z",
+  "lastUpdated": "2025-08-04T00:19:03.785Z",
   "debug": {
     "message": "Data saved successfully"
   }
