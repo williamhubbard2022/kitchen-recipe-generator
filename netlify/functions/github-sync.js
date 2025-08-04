@@ -56,7 +56,7 @@ exports.handler = async (event, context) => {
     }
 
     const { httpMethod } = event;
-    let userId, ingredients, equipment, kitchenStaples, savedRecipes;
+    let userId, ingredients, equipment, kitchenStaples, customStaples, savedRecipes;
 
     if (httpMethod === 'GET') {
       userId = event.queryStringParameters?.userId;
@@ -213,6 +213,7 @@ exports.handler = async (event, context) => {
               ingredients: ingredients || [],
               equipment: equipment || [],
               kitchenStaples: kitchenStaples || [],
+              customStaples: customStaples || [],
               savedRecipes: savedRecipes || [],
               lastUpdated: new Date().toISOString(),
               debug: { message: 'Data saved successfully' }
