@@ -542,6 +542,9 @@
             ]);
             const [kitchenStaples, setKitchenStaples] = useState({});
             const [savedRecipeContent, setSavedRecipeContent] = useState('');
+            const [customStaples, setCustomStaples] = useState({});
+            const [showAddCustomStaple, setShowAddCustomStaple] = useState('');
+            const [customStapleInput, setCustomStapleInput] = useState('');
             const [savedRecipes, setSavedRecipes] = useState([]);
             const [activeTab, setActiveTab] = useState('ingredients');
             const [editingItem, setEditingItem] = useState(null);
@@ -730,7 +733,7 @@
                         clearTimeout(syncTimeoutRef.current);
                     }
                 };
-            }, [ingredients, equipment, kitchenStaples, savedRecipes, userId]); // Remove the switching flags from dependencies
+            }, [ingredients, equipment, kitchenStaples, customStaples, savedRecipes, userId]); // Remove the switching flags from dependencies
             
             const loadDataFromDatabase = async (forceLoad = false) => {
                 // Don't load if user is actively editing or has unsaved changes, unless forced
@@ -756,6 +759,7 @@
                         setEquipment(data.equipment || []);
                         setKitchenStaples(data.kitchenStaples || {});
                         setSavedRecipes(data.savedRecipes || []);
+                        setCustomStaples(data.customStaples || {});
                         setSyncStatus('synced');
                         
                         console.log('State updated with database data');
@@ -814,6 +818,7 @@
                             ingredients: ingredients,
                             equipment: equipment,
                             kitchenStaples: kitchenStaples,
+                            customStaples: customStaples,
                             savedRecipes: savedRecipes
                         })
                     });
@@ -951,7 +956,9 @@
             };
 
             const getSelectedStaplesCount = () => {
-                return Object.values(kitchenStaples).filter(Boolean).length;
+                const regularStaples = Object.values(kitchenStaples).filter(Boolean).length;
+                const customStaplesCount = Object.values(customStaples).filter(Boolean).length;
+                return regularStaples + customStaplesCount;
             };
 
             const generateRecipe = async () => {
@@ -974,11 +981,16 @@
                         `${eq.name} - ${eq.capabilities}`
                     ).join(', ');
 
-                    // Get selected staples
-                    const selectedStaples = Object.entries(kitchenStaples)
+                    // Get selected staples (both regular and custom)
+                    const selectedRegularStaples = Object.entries(kitchenStaples)
                         .filter(([_, selected]) => selected)
-                        .map(([name, _]) => name)
-                        .join(', ');
+                        .map(([name, _]) => name);
+                        
+                    const selectedCustomStaples = Object.entries(customStaples)
+                        .filter(([_, selected]) => selected)
+                        .map(([name, _]) => name);
+                        
+                    const selectedStaples = [...selectedRegularStaples, ...selectedCustomStaples].join(', ');
 
                     const prompt = `Create a detailed recipe using these available ingredients: ${ingredientsList}
 
@@ -1170,7 +1182,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                 </button>
                                 <button
                                     onClick={() => {
-                                        console.log('Current state:', { ingredients, equipment, kitchenStaples, userId });
+                                        console.log('Current state:', { ingredients, equipment, kitchenStaples, customStaples, userId });
                                         console.log('Sync status:', syncStatus);
                                     }}
                                     className="bg-orange-500 text-white px-3 py-1 rounded text-xs hover:bg-orange-600"
@@ -1471,23 +1483,140 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                 </div>
                             )}
 
-                            {/* Kitchen Staples Tab */}
                             {activeTab === 'staples' && (
                                 <div>
                                     <div className="flex justify-between items-center mb-4">
                                         <h2 className="text-xl font-semibold text-gray-800">Kitchen Staples</h2>
                                         <span className="text-sm text-gray-600">
-                                            {getSelectedStaplesCount()} items selected
+                                            {getSelectedStaplesCount() + Object.values(customStaples).filter(Boolean).length} items selected
                                         </span>
                                     </div>
                                     
                                     <p className="text-sm text-gray-600 mb-4">
                                         Select the pantry staples you have on hand. These will be considered when generating recipes.
                                     </p>
+                                    
+                                    {/* Add Custom Staples Section HERE - before the existing categories */}
+                                    {Object.keys(customStaples).length > 0 && (
+                                        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-3">
+                                            <div className="px-4 py-3 bg-purple-50 border-b">
+                                                <div className="flex items-center gap-2 font-medium text-purple-800">
+                                                    <span className="text-lg">✨</span>
+                                                    <span>Your Custom Staples</span>
+                                                </div>
+                                            </div>
+                                            <div className="p-4">
+                                                <div className="staples-grid">
+                                                    {Object.keys(customStaples).map(item => (
+                                                        <div key={item} className="flex items-center gap-2 text-sm hover:bg-gray-50 p-1 rounded">
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={customStaples[item] || false}
+                                                                onChange={() => {
+                                                                    trackUserAction();
+                                                                    setCustomStaples(prev => ({
+                                                                        ...prev,
+                                                                        [item]: !prev[item]
+                                                                    }));
+                                                                }}
+                                                                className="w-4 h-4 text-purple-500 rounded focus:ring-purple-500"
+                                                            />
+                                                            <span className="text-gray-700 flex-1">{item}</span>
+                                                            <button
+                                                                onClick={() => {
+                                                                    trackUserAction();
+                                                                    const newCustomStaples = { ...customStaples };
+                                                                    delete newCustomStaples[item];
+                                                                    setCustomStaples(newCustomStaples);
+                                                                }}
+                                                                className="text-red-500 hover:text-red-700 p-1"
+                                                                title="Remove custom staple"
+                                                            >
+                                                                <X size={12} />
+                                                            </button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                            
                                     <div className="space-y-3 max-h-96 overflow-y-auto">
                                         {Object.entries(KITCHEN_STAPLES).map(([key, category]) => 
                                             renderStapleCategory(key, category)
                                         )}
+                                        
+                                        {/* Add Custom Staple Input Section */}
+                                        <div className="bg-white rounded-lg border-2 border-dashed border-gray-300 p-4">
+                                            <h4 className="font-medium text-gray-700 mb-2 flex items-center gap-2">
+                                                <Plus size={16} />
+                                                Add Your Own Staples
+                                            </h4>
+                                            <div className="grid grid-cols-4 gap-2 mb-3">
+                                                {Object.keys(KITCHEN_STAPLES).map(categoryKey => (
+                                                    <button
+                                                        key={categoryKey}
+                                                        onClick={() => setShowAddCustomStaple(categoryKey)}
+                                                        className={`text-sm px-2 py-1 rounded border transition-colors ${
+                                                            showAddCustomStaple === categoryKey 
+                                                                ? 'bg-purple-500 text-white border-purple-500' 
+                                                                : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
+                                                        }`}
+                                                    >
+                                                        {KITCHEN_STAPLES[categoryKey].name.split(' ')[0]}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                            
+                                            {showAddCustomStaple && (
+                                                <div className="flex gap-2">
+                                                    <input
+                                                        type="text"
+                                                        value={customStapleInput}
+                                                        onChange={(e) => setCustomStapleInput(e.target.value)}
+                                                        placeholder={`Add custom ${KITCHEN_STAPLES[showAddCustomStaple].name.toLowerCase()}`}
+                                                        className="flex-1 p-2 text-sm border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                                        onKeyPress={(e) => {
+                                                            if (e.key === 'Enter' && customStapleInput.trim()) {
+                                                                trackUserAction();
+                                                                setCustomStaples(prev => ({
+                                                                    ...prev,
+                                                                    [customStapleInput.trim()]: false
+                                                                }));
+                                                                setCustomStapleInput('');
+                                                                setShowAddCustomStaple('');
+                                                            }
+                                                        }}
+                                                    />
+                                                    <button
+                                                        onClick={() => {
+                                                            if (customStapleInput.trim()) {
+                                                                trackUserAction();
+                                                                setCustomStaples(prev => ({
+                                                                    ...prev,
+                                                                    [customStapleInput.trim()]: false
+                                                                }));
+                                                                setCustomStapleInput('');
+                                                                setShowAddCustomStaple('');
+                                                            }
+                                                        }}
+                                                        className="bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 text-sm"
+                                                        disabled={!customStapleInput.trim()}
+                                                    >
+                                                        Add
+                                                    </button>
+                                                    <button
+                                                        onClick={() => {
+                                                            setShowAddCustomStaple('');
+                                                            setCustomStapleInput('');
+                                                        }}
+                                                        className="bg-gray-300 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-400 text-sm"
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             )}
@@ -1741,6 +1870,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
 
 
