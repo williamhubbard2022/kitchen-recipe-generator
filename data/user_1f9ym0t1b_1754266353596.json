@@ -29,11 +29,17 @@
       "name": "Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
+    },
+    {
+      "id": 1754266359656,
+      "name": "New Equipment",
+      "type": "Other",
+      "capabilities": "Describe what this equipment can do"
     }
   ],
   "kitchenStaples": {},
   "savedRecipes": [],
-  "lastUpdated": "2025-08-04T00:12:40.281Z",
+  "lastUpdated": "2025-08-04T00:12:43.486Z",
   "debug": {
     "message": "Data saved successfully"
   }
