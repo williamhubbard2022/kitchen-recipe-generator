@@ -7,6 +7,22 @@
       "unit": "oz",
       "category": "Vegetable",
       "expires": "2025-08-04"
+    },
+    {
+      "id": 1754267128527,
+      "name": "New Ingredient",
+      "quantity": 1,
+      "unit": "unit",
+      "category": "Other",
+      "expires": "2025-08-11"
+    },
+    {
+      "id": 1754267130053,
+      "name": "New Ingredient",
+      "quantity": 1,
+      "unit": "unit",
+      "category": "Other",
+      "expires": "2025-08-11"
     }
   ],
   "equipment": [
@@ -51,7 +67,7 @@
       "preferences": ""
     }
   ],
-  "lastUpdated": "2025-08-03T00:02:02.991Z",
+  "lastUpdated": "2025-08-04T00:25:33.914Z",
   "debug": {
     "message": "Data saved successfully"
   }
