@@ -23,6 +23,14 @@
       "unit": "unit",
       "category": "Other",
       "expires": "2025-08-11"
+    },
+    {
+      "id": 1754267132095,
+      "name": "New Ingredient",
+      "quantity": 1,
+      "unit": "unit",
+      "category": "Other",
+      "expires": "2025-08-11"
     }
   ],
   "equipment": [
@@ -67,7 +75,7 @@
       "preferences": ""
     }
   ],
-  "lastUpdated": "2025-08-04T00:25:33.914Z",
+  "lastUpdated": "2025-08-04T00:25:35.972Z",
   "debug": {
     "message": "Data saved successfully"
   }
