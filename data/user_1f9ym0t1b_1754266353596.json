@@ -15,6 +15,22 @@
       "unit": "oz",
       "category": "Vegetable",
       "expires": "2025-08-04"
+    },
+    {
+      "id": 1754266367089,
+      "name": "New Ingredient",
+      "quantity": 1,
+      "unit": "unit",
+      "category": "Other",
+      "expires": "2025-08-11"
+    },
+    {
+      "id": 1754266368695,
+      "name": "New Ingredient",
+      "quantity": 1,
+      "unit": "unit",
+      "category": "Other",
+      "expires": "2025-08-11"
     }
   ],
   "equipment": [
@@ -51,7 +67,7 @@
   ],
   "kitchenStaples": {},
   "savedRecipes": [],
-  "lastUpdated": "2025-08-04T00:12:48.449Z",
+  "lastUpdated": "2025-08-04T00:12:52.524Z",
   "debug": {
     "message": "Data saved successfully"
   }
