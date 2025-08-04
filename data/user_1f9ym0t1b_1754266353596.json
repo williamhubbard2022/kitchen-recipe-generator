@@ -1,12 +1,12 @@
 {
   "ingredients": [
     {
-      "id": 1,
-      "name": "Chicken Breast",
-      "quantity": 2,
-      "unit": "lbs",
-      "category": "Protein",
-      "expires": "2025-08-05"
+      "id": 3,
+      "name": "Heavy Cream",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Dairy",
+      "expires": "2025-08-03"
     },
     {
       "id": 4,
@@ -15,22 +15,6 @@
       "unit": "oz",
       "category": "Vegetable",
       "expires": "2025-08-04"
-    },
-    {
-      "id": 1754266367089,
-      "name": "New Ingredient",
-      "quantity": 1,
-      "unit": "unit",
-      "category": "Other",
-      "expires": "2025-08-11"
-    },
-    {
-      "id": 1754266368695,
-      "name": "New Ingredient",
-      "quantity": 1,
-      "unit": "unit",
-      "category": "Other",
-      "expires": "2025-08-11"
     }
   ],
   "equipment": [
@@ -45,29 +29,25 @@
       "name": "Cast Iron Dutch Oven",
       "type": "Cooking",
       "capabilities": "Braising, bread baking, high heat retention"
-    },
-    {
-      "id": 1754266359656,
-      "name": "New Equipment",
-      "type": "Other",
-      "capabilities": "Describe what this equipment can do"
-    },
-    {
-      "id": 1754266362038,
-      "name": "New Equipment",
-      "type": "Other",
-      "capabilities": "Describe what this equipment can do"
-    },
-    {
-      "id": 1754266364618,
-      "name": "New Equipment",
-      "type": "Other",
-      "capabilities": "Describe what this equipment can do"
     }
   ],
-  "kitchenStaples": {},
+  "kitchenStaples": {
+    "Pumpkin seed oil": true,
+    "Corn oil": true,
+    "Olive oil (extra virgin)": true,
+    "Coconut oil (refined)": true,
+    "Olive oil (light or regular)": true,
+    "Safflower oil": true,
+    "Sesame oil (toasted)": true,
+    "Grapeseed oil": true,
+    "Butter (unsalted)": true,
+    "Thyme": true,
+    "White pepper": true,
+    "Sage": true,
+    "Oregano": true
+  },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-04T00:12:52.524Z",
+  "lastUpdated": "2025-08-04T00:13:05.700Z",
   "debug": {
     "message": "Data saved successfully"
   }
