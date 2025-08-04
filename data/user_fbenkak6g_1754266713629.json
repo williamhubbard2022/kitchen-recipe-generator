@@ -23,9 +23,24 @@
       "capabilities": "Braising, bread baking, high heat retention"
     }
   ],
-  "kitchenStaples": {},
+  "kitchenStaples": {
+    "Coconut vinegar": true,
+    "Sherry vinegar": true,
+    "Distilled white vinegar": true,
+    "Apple cider vinegar": true,
+    "Champagne vinegar": true,
+    "Black vinegar (Chinese/Zhenjiang)": true,
+    "Rice vinegar (unseasoned)": true,
+    "Cane vinegar": true,
+    "White wine vinegar": true,
+    "Red wine vinegar": true,
+    "Seasoned rice vinegar": true,
+    "Ume plum vinegar": true,
+    "Malt vinegar": true,
+    "Balsamic vinegar": true
+  },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-04T00:18:39.882Z",
+  "lastUpdated": "2025-08-04T00:18:51.550Z",
   "debug": {
     "message": "Data saved successfully"
   }
