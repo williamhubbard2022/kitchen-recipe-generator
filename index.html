@@ -337,44 +337,52 @@
             
             const cleanUsername = newUsername.toLowerCase().replace(/[^a-z0-9-_]/g, '');
             if (cleanUsername.length < 2) {
-                alert('Username must be at least 2 characters long and contain only letters, numbers, hyphens, and underscores');
+                alert('Username must be at least 2 characters long');
                 return false;
             }
             
-            console.log('Switching to user:', cleanUsername);
+            console.log('🔄 Switching to user:', cleanUsername);
             
-            // Clear any pending operations
+            // STOP ALL AUTO-SAVE ACTIVITY IMMEDIATELY
+            setIsSwitchingUsers(true);
             if (syncTimeoutRef.current) {
                 clearTimeout(syncTimeoutRef.current);
                 syncTimeoutRef.current = null;
             }
             
-            // Reset flags
-            setIsSwitchingUsers(true);
+            // Reset all flags that could trigger auto-save
             setHasUnsavedChanges(false);
             setIsUserActive(false);
-            setEditingItem(null);
-            lastUserActionRef.current = 0;
+            lastUserActionRef.current = 0; // This prevents auto-save from triggering
             
-            // Update user immediately
+            // Update user ID and close modal
             localStorage.setItem('username', cleanUsername);
-            setUserId(cleanUsername);
+            setUserId(cleanUsername); // This should update immediately
             setShowUserModal(false);
             
-            // Force load new user's data
+            // Force load new user's data after a delay to ensure userId state is updated
             setTimeout(async () => {
-                console.log('Loading data for new user:', cleanUsername);
+                console.log('🔄 Loading data for NEW user:', cleanUsername);
                 await loadDataFromDatabase(true);
                 
-                // Re-enable auto-save after a delay
+                // Wait longer before re-enabling auto-save
                 setTimeout(() => {
+                    console.log('🔄 Re-enabling auto-save for user:', cleanUsername);
                     setIsSwitchingUsers(false);
-                    console.log('User switch complete, auto-save re-enabled');
-                }, 1000);
-            }, 500);
+                }, 3000); // Increased delay
+            }, 1000);
             
             return true;
         };
+            const debugUserIdState = () => {
+                console.log('=== USER ID DEBUG ===');
+                console.log('Current userId state:', userId);
+                console.log('localStorage username:', localStorage.getItem('username'));
+                console.log('localStorage user_id:', localStorage.getItem('user_id'));
+                console.log('getUserId() returns:', getUserId());
+                console.log('isSwitchingUsers:', isSwitchingUsers);
+                console.log('=== END USER ID DEBUG ===');
+            };
             
             const clearUsername = () => {
                 console.log('Clearing username and switching to anonymous user');
@@ -598,20 +606,15 @@
             // Load data from database on component mount
             useEffect(() => {
                 const initialLoad = async () => {
+                    console.log('🚀 Initial load for user:', userId);
                     await loadDataFromDatabase(true);
                     setIsInitialLoad(false);
                 };
                 initialLoad();
                 
-                // Set up periodic sync check (every 30 seconds, but only when user is not active)
-                const interval = setInterval(() => {
-                    const timeSinceLastAction = Date.now() - lastUserActionRef.current;
-                    if (!isUserActive && !hasUnsavedChanges && timeSinceLastAction > 10000) {
-                        loadDataFromDatabase();
-                    }
-                }, 30000);
-                return () => clearInterval(interval);
-            }, []);
+                // REMOVE the periodic sync - it's causing conflicts
+                // Just rely on manual syncing and auto-save
+            }, []); // Remove userId from dependencies to prevent re-loading
             
             // Handle page visibility changes to prevent sync conflicts
             useEffect(() => {
@@ -629,7 +632,7 @@
             }, [hasUnsavedChanges, isUserActive]);
             // Auto-save to database when data changes (debounced)
             useEffect(() => {
-                // Skip auto-save for switching users, no userId, initial load, or no user actions yet
+                // COMPLETELY DISABLE auto-save during these conditions
                 if (!userId || isSwitchingUsers || isInitialLoad || lastUserActionRef.current === 0) {
                     return;
                 }
@@ -641,9 +644,12 @@
                 setHasUnsavedChanges(true);
                 
                 syncTimeoutRef.current = setTimeout(() => {
-                    console.log('Auto-saving data for user:', userId);
-                    saveDataToDatabase();
-                    setHasUnsavedChanges(false);
+                    // Double-check userId hasn't changed during the timeout
+                    if (!isSwitchingUsers && userId) {
+                        console.log('💾 Auto-saving for user:', userId);
+                        saveDataToDatabase();
+                        setHasUnsavedChanges(false);
+                    }
                 }, 2000);
             
                 return () => {
@@ -651,7 +657,7 @@
                         clearTimeout(syncTimeoutRef.current);
                     }
                 };
-            }, [ingredients, equipment, kitchenStaples, savedRecipes, userId, isSwitchingUsers, isInitialLoad]);
+            }, [ingredients, equipment, kitchenStaples, savedRecipes, userId]); // Remove the switching flags from dependencies
             
             const loadDataFromDatabase = async (forceLoad = false) => {
                 // Don't load if user is actively editing or has unsaved changes, unless forced
@@ -1641,6 +1647,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
 
 
