@@ -341,39 +341,73 @@
                 return false;
             }
             
-            console.log('🔄 Switching to user:', cleanUsername);
+            console.log('🔄 Starting user switch to:', cleanUsername);
             
-            // STOP ALL AUTO-SAVE ACTIVITY IMMEDIATELY
+            // IMMEDIATELY stop ALL background activity
             setIsSwitchingUsers(true);
+            setHasUnsavedChanges(false);
+            setIsUserActive(false);
+            lastUserActionRef.current = 0;
+            
+            // Clear any pending timeouts
             if (syncTimeoutRef.current) {
                 clearTimeout(syncTimeoutRef.current);
                 syncTimeoutRef.current = null;
             }
             
-            // Reset all flags that could trigger auto-save
-            setHasUnsavedChanges(false);
-            setIsUserActive(false);
-            lastUserActionRef.current = 0; // This prevents auto-save from triggering
-            
-            // Update user ID and close modal
+            // Update localStorage first
             localStorage.setItem('username', cleanUsername);
-            setUserId(cleanUsername); // This should update immediately
             setShowUserModal(false);
             
-            // Force load new user's data after a delay to ensure userId state is updated
+            // Force update userId and load data in one go
+            setUserId(cleanUsername);
+            
+            // Use a longer delay and explicit user ID to avoid race conditions
             setTimeout(async () => {
-                console.log('🔄 Loading data for NEW user:', cleanUsername);
-                await loadDataFromDatabase(true);
+                console.log('🔄 Loading data for user:', cleanUsername);
                 
-                // Wait longer before re-enabling auto-save
+                try {
+                    const response = await fetch(`/.netlify/functions/github-sync?userId=${cleanUsername}`, {
+                        method: 'GET',
+                    });
+        
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('📦 Loaded data for', cleanUsername, ':', data);
+                        
+                        // Update state with explicit data
+                        setIngredients(data.ingredients || []);
+                        setEquipment(data.equipment || []);
+                        setKitchenStaples(data.kitchenStaples || {});
+                        setSavedRecipes(data.savedRecipes || []);
+                        
+                        console.log('✅ State updated for user:', cleanUsername);
+                    } else {
+                        console.log('📦 No data found for user:', cleanUsername, 'setting empty data');
+                        setIngredients([]);
+                        setEquipment([]);
+                        setKitchenStaples({});
+                        setSavedRecipes([]);
+                    }
+                } catch (error) {
+                    console.error('❌ Error loading data for user:', cleanUsername, error);
+                    setIngredients([]);
+                    setEquipment([]);
+                    setKitchenStaples({});
+                    setSavedRecipes([]);
+                }
+                
+                // Re-enable auto-save after a longer delay
                 setTimeout(() => {
-                    console.log('🔄 Re-enabling auto-save for user:', cleanUsername);
+                    console.log('✅ Re-enabling auto-save for user:', cleanUsername);
                     setIsSwitchingUsers(false);
-                }, 3000); // Increased delay
-            }, 1000);
+                }, 2000);
+                
+            }, 500);
             
             return true;
         };
+            
             const debugUserIdState = () => {
                 console.log('=== USER ID DEBUG ===');
                 console.log('Current userId state:', userId);
@@ -601,9 +635,8 @@
                     console.log('🔄 loadDataFromDatabase finished');
                 }
             };
-            
-            // Then the next function should start here (probably loadDataFromDatabase)
-            // Load data from database on component mount
+
+            // Load data from database on component mount ONLY
             useEffect(() => {
                 const initialLoad = async () => {
                     console.log('🚀 Initial load for user:', userId);
@@ -611,25 +644,8 @@
                     setIsInitialLoad(false);
                 };
                 initialLoad();
-                
-                // REMOVE the periodic sync - it's causing conflicts
-                // Just rely on manual syncing and auto-save
-            }, []); // Remove userId from dependencies to prevent re-loading
-            
-            // Handle page visibility changes to prevent sync conflicts
-            useEffect(() => {
-                const handleVisibilityChange = () => {
-                    if (document.visibilityState === 'visible') {
-                        // Page became visible, sync if no unsaved changes
-                        if (!hasUnsavedChanges && !isUserActive) {
-                            setTimeout(() => loadDataFromDatabase(true), 1000);
-                        }
-                    }
-                };
-            
-                document.addEventListener('visibilitychange', handleVisibilityChange);
-                return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-            }, [hasUnsavedChanges, isUserActive]);
+                // NO PERIODIC LOADING - this was causing the conflicts
+            }, []); // Empty dependency array
             // Auto-save to database when data changes (debounced)
             useEffect(() => {
                 // COMPLETELY DISABLE auto-save during these conditions
@@ -1647,6 +1663,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
 
 
