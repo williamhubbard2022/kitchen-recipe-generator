@@ -435,6 +435,7 @@
                         setIngredients(data.ingredients || []);
                         setEquipment(data.equipment || []);
                         setKitchenStaples(data.kitchenStaples || {});
+                        setCustomStaples(data.customStaples || {});
                         setSavedRecipes(data.savedRecipes || []);
                         
                         console.log('✅ State updated for user:', cleanUsername);
@@ -511,6 +512,7 @@
                 ]);
                 setKitchenStaples({});
                 setSavedRecipes([]);
+                setCustomStaples({});
                 
                 // Re-enable auto-save after delay
                 setTimeout(() => {
@@ -1870,6 +1872,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
 
 
