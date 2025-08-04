@@ -485,6 +485,7 @@
                 { id: 2, name: 'Cast Iron Dutch Oven', type: 'Cooking', capabilities: 'Braising, bread baking, high heat retention' }
             ]);
             const [kitchenStaples, setKitchenStaples] = useState({});
+            const [savedRecipeContent, setSavedRecipeContent] = useState('');
             const [savedRecipes, setSavedRecipes] = useState([]);
             const [activeTab, setActiveTab] = useState('ingredients');
             const [editingItem, setEditingItem] = useState(null);
@@ -898,6 +899,7 @@
             };
 
             const generateRecipe = async () => {
+                setSavedRecipeContent('');
                 const apiKey = getApiKey();
                 if (!apiKey) {
                     alert('API key is required to generate recipes');
@@ -1540,10 +1542,29 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                             Your Custom Recipe:
                                         </h3>
                                         <button
-                                            onClick={() => saveRecipe(generatedRecipe)}
-                                            className="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 flex items-center gap-1"
+                                            onClick={() => {
+                                                if (savedRecipeContent !== generatedRecipe) {
+                                                    saveRecipe(generatedRecipe);
+                                                    setSavedRecipeContent(generatedRecipe);
+                                                }
+                                            }}
+                                            disabled={savedRecipeContent === generatedRecipe}
+                                            className={`px-3 py-1 rounded text-sm flex items-center gap-1 transition-colors ${
+                                                savedRecipeContent === generatedRecipe 
+                                                    ? 'bg-gray-400 text-gray-600 cursor-not-allowed' 
+                                                    : 'bg-green-500 text-white hover:bg-green-600'
+                                            }`}
                                         >
-                                            💾 Save Recipe
+                                            {savedRecipeContent === generatedRecipe ? (
+                                                <>
+                                                    <Check size={12} />
+                                                    Saved!
+                                                </>
+                                            ) : (
+                                                <>
+                                                    💾 Save Recipe
+                                                </>
+                                            )}
                                         </button>
                                     </div>
                                     <div className="whitespace-pre-wrap text-gray-700 text-sm leading-relaxed">
@@ -1663,6 +1684,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
 
 
