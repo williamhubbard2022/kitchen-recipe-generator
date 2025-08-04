@@ -313,7 +313,63 @@
                 }
             }
         };
-
+        // Add this function after the icon components
+        const formatRecipeText = (text) => {
+            if (!text) return '';
+            
+            // Convert markdown-style formatting to HTML
+            let formatted = text
+                // Headers (## Title -> <h3>Title</h3>)
+                .replace(/^### (.*$)/gm, '<h4 class="font-semibold text-gray-800 mt-4 mb-2 text-base">$1</h4>')
+                .replace(/^## (.*$)/gm, '<h3 class="font-bold text-gray-900 mt-4 mb-3 text-lg">$1</h3>')
+                .replace(/^# (.*$)/gm, '<h2 class="font-bold text-gray-900 mt-4 mb-3 text-xl">$1</h2>')
+                
+                // Bold text (**text** -> <strong>text</strong>)
+                .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-800">$1</strong>')
+                
+                // Italic text (*text* -> <em>text</em>)
+                .replace(/\*(.*?)\*/g, '<em class="italic text-gray-700">$1</em>')
+                
+                // Numbered lists (1. item -> proper HTML list)
+                .replace(/^\d+\.\s+(.+$)/gm, '<li class="mb-1 ml-4">$1</li>')
+                
+                // Bullet points (- item or * item -> proper HTML list)
+                .replace(/^[-*]\s+(.+$)/gm, '<li class="mb-1 ml-4 list-disc">$1</li>')
+                
+                // Convert line breaks to proper spacing
+                .replace(/\n\n/g, '</p><p class="mb-3">')
+                .replace(/\n/g, '<br />');
+            
+            // Wrap in paragraph tags and handle lists
+            formatted = '<p class="mb-3">' + formatted + '</p>';
+            
+            // Clean up and wrap lists properly
+            formatted = formatted
+                .replace(/(<li[^>]*>.*?<\/li>)/gs, (match) => {
+                    return match;
+                })
+                // Wrap consecutive <li> elements in <ul> or <ol>
+                .replace(/(<li class="mb-1 ml-4 list-disc"[^>]*>.*?<\/li>)/gs, (match) => {
+                    return match.replace(/class="mb-1 ml-4 list-disc"/g, 'class="mb-1"');
+                })
+                .replace(/(<li class="mb-1 ml-4"[^>]*>.*?<\/li>)/gs, (match) => {
+                    return match.replace(/class="mb-1 ml-4"/g, 'class="mb-1"');
+                });
+            
+            // Wrap bullet point lists
+            formatted = formatted.replace(
+                /(<li class="mb-1"[^>]*>.*?<\/li>(?:\s*<li class="mb-1"[^>]*>.*?<\/li>)*)/gs,
+                '<ol class="list-decimal ml-6 mb-4">$1</ol>'
+            );
+            
+            // Wrap numbered lists  
+            formatted = formatted.replace(
+                /(<li class="mb-1 list-disc"[^>]*>.*?<\/li>(?:\s*<li class="mb-1 list-disc"[^>]*>.*?<\/li>)*)/gs,
+                '<ul class="list-disc ml-6 mb-4">$1</ul>'
+            );
+            
+            return formatted;
+        };
         const RecipeGenerator = () => {
             // User management functions
             const getUserId = () => {
@@ -1478,9 +1534,9 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                                         </button>
                                                     </div>
                                                     <div className="text-sm text-gray-700 bg-white p-3 rounded border max-h-40 overflow-y-auto">
-                                                        <div className="whitespace-pre-wrap">
-                                                            {recipe.content}
-                                                        </div>
+                                                        <div 
+                                                            dangerouslySetInnerHTML={{ __html: formatRecipeText(recipe.content) }}
+                                                        />
                                                     </div>
                                                 </div>
                                             ))}
@@ -1567,9 +1623,10 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
                                             )}
                                         </button>
                                     </div>
-                                    <div className="whitespace-pre-wrap text-gray-700 text-sm leading-relaxed">
-                                        {generatedRecipe}
-                                    </div>
+                                    <div 
+                                        className="text-gray-700 text-sm leading-relaxed"
+                                        dangerouslySetInnerHTML={{ __html: formatRecipeText(generatedRecipe) }}
+                                    />
                                 </div>
                             )}
                         </div>
@@ -1684,6 +1741,7 @@ Format the recipe with a clear title, ingredient list, and numbered steps.`;
     </script>
 </body>
 </html>
+
 
 
 
