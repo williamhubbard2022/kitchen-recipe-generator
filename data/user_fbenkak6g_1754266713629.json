@@ -9,20 +9,7 @@
       "expires": "2025-08-04"
     }
   ],
-  "equipment": [
-    {
-      "id": 1,
-      "name": "Sous Vide Immersion Circulator",
-      "type": "Precision Cooking",
-      "capabilities": "Precise temperature control, long slow cooking"
-    },
-    {
-      "id": 2,
-      "name": "Cast Iron Dutch Oven",
-      "type": "Cooking",
-      "capabilities": "Braising, bread baking, high heat retention"
-    }
-  ],
+  "equipment": [],
   "kitchenStaples": {
     "Coconut vinegar": true,
     "Sherry vinegar": true,
@@ -40,7 +27,7 @@
     "Balsamic vinegar": true
   },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-04T00:18:51.550Z",
+  "lastUpdated": "2025-08-04T00:19:00.165Z",
   "debug": {
     "message": "Data saved successfully"
   }
