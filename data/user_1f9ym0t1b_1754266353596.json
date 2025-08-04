@@ -41,11 +41,17 @@
       "name": "New Equipment",
       "type": "Other",
       "capabilities": "Describe what this equipment can do"
+    },
+    {
+      "id": 1754266364618,
+      "name": "New Equipment",
+      "type": "Other",
+      "capabilities": "Describe what this equipment can do"
     }
   ],
   "kitchenStaples": {},
   "savedRecipes": [],
-  "lastUpdated": "2025-08-04T00:12:45.877Z",
+  "lastUpdated": "2025-08-04T00:12:48.449Z",
   "debug": {
     "message": "Data saved successfully"
   }
