@@ -1,0 +1,70 @@
+{
+  "ingredients": [
+    {
+      "id": 1,
+      "name": "Chicken Breast",
+      "quantity": 2,
+      "unit": "lbs",
+      "category": "Protein",
+      "expires": "2025-08-05"
+    },
+    {
+      "id": 2,
+      "name": "Basmati Rice",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Grain",
+      "expires": "2026-01-01"
+    },
+    {
+      "id": 3,
+      "name": "Heavy Cream",
+      "quantity": 1,
+      "unit": "cup",
+      "category": "Dairy",
+      "expires": "2025-08-03"
+    },
+    {
+      "id": 4,
+      "name": "Mushrooms",
+      "quantity": 8,
+      "unit": "oz",
+      "category": "Vegetable",
+      "expires": "2025-08-04"
+    }
+  ],
+  "equipment": [
+    {
+      "id": 1,
+      "name": "Sous Vide Immersion Circulator",
+      "type": "Precision Cooking",
+      "capabilities": "Precise temperature control, long slow cooking"
+    },
+    {
+      "id": 2,
+      "name": "Cast Iron Dutch Oven",
+      "type": "Cooking",
+      "capabilities": "Braising, bread baking, high heat retention"
+    }
+  ],
+  "kitchenStaples": {},
+  "savedRecipes": [
+    {
+      "id": 1754267837598,
+      "title": "Sous Vide Chicken with Creamy Mushroom Rice Pilaf",
+      "content": "# Sous Vide Chicken with Creamy Mushroom Rice Pilaf\n\nThis recipe combines perfectly tender sous vide chicken with a rich, creamy mushroom rice pilaf finished in a cast iron Dutch oven for exceptional flavor and texture.\n\n## Ingredients\n\n### For the Sous Vide Chicken:\n- 2 lbs chicken breast\n- Salt and pepper (or any seasoning blend you have)\n- 1-2 tablespoons oil or butter (optional, for searing)\n\n### For the Creamy Mushroom Rice Pilaf:\n- 1 cup basmati rice\n- 8 oz mushrooms, sliced\n- 1 cup heavy cream\n- 2 cups water or chicken broth (water works fine)\n- Salt and pepper to taste\n- 1-2 tablespoons oil or butter for cooking\n\n## Instructions\n\n### Prepare the Sous Vide Chicken:\n1. **Season the chicken** (30 minutes before cooking): Generously season chicken breasts with salt and pepper on both sides. Let rest at room temperature for 30 minutes.\n\n2. **Set up sous vide**: Fill a large pot or container with water and set your immersion circulator to **145°F (63°C)** for juicy, tender chicken.\n\n3. **Bag the chicken**: Place seasoned chicken breasts in a vacuum-seal bag or zip-lock bag. If using zip-lock, use the water displacement method to remove air.\n\n4. **Cook sous vide**: Submerge bag in water bath and cook for **2-3 hours**. The chicken will be perfectly cooked and can hold safely for up to 4 hours.\n\n### Prepare the Creamy Mushroom Rice Pilaf:\n5. **Start the rice** (about 45 minutes before chicken is done): Heat your cast iron Dutch oven over medium heat. Add oil or butter.\n\n6. **Sauté mushrooms**: Add sliced mushrooms to the Dutch oven and cook for **5-7 minutes** until golden brown and moisture has evaporated. Season with salt and pepper.\n\n7. **Toast the rice**: Add basmati rice to the mushrooms and stir for **2-3 minutes** until rice is lightly toasted and fragrant.\n\n8. **Add liquid**: Pour in 2 cups of water (or broth if you have it) and bring to a boil. Reduce heat to low, cover, and simmer for **15-18 minutes**.\n\n9. **Finish with cream**: Remove from heat and let stand **5 minutes**. Stir in heavy cream and season with salt and pepper to taste.\n\n### Finish and Serve:\n10. **Sear the chicken** (optional): Remove chicken from sous vide bag and pat dry. Heat a skillet over high heat with a little oil and sear chicken for **1-2 minutes per side** for color and texture.\n\n11. **Rest and slice**: Let chicken rest for **2-3 minutes**, then slice against the grain.\n\n12. **Plate**: Serve sliced chicken over the creamy mushroom rice pilaf.\n\n## Cooking Times Summary:\n- **Total time**: About 3 hours (mostly hands-off)\n- **Sous vide chicken**: 2-3 hours at 145°F\n- **Rice pilaf**: 30-35 minutes active cooking\n- **Optional searing**: 3-4 minutes\n\n## Missing Ingredient Substitutions:\n- **No oil/butter**: You can cook the mushrooms and rice in a dry pan, though they won't brown as nicely\n- **No salt/pepper**: Any dried herbs or spice blends you have will work\n- **No chicken broth**: Water works perfectly fine for the rice\n- **Want more flavor**: Any onion, garlic, or herbs you have on hand would be excellent additions\n\nThis recipe maximizes your specialized equipment while creating a restaurant-quality meal with minimal additional ingredients needed!",
+      "createdAt": "2025-08-04T00:37:17.598Z",
+      "ingredients": [
+        "Chicken Breast (2 lbs)",
+        "Basmati Rice (1 cup)",
+        "Heavy Cream (1 cup)",
+        "Mushrooms (8 oz)"
+      ],
+      "preferences": ""
+    }
+  ],
+  "lastUpdated": "2025-08-04T00:37:21.527Z",
+  "debug": {
+    "message": "Data saved successfully"
+  }
+}
