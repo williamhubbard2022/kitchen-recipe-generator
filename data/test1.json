@@ -1,0 +1,22 @@
+{
+  "ingredients": [],
+  "equipment": [],
+  "kitchenStaples": {
+    "Olive oil (light or regular)": true,
+    "Coconut oil (virgin)": true,
+    "Corn oil": true,
+    "Vegetable oil": true,
+    "Butter (salted)": true,
+    "Safflower oil": true,
+    "Sesame oil (toasted)": true,
+    "Bacon grease": true,
+    "Soybean oil": true,
+    "Grapeseed oil": true
+  },
+  "customStaples": [],
+  "savedRecipes": [],
+  "lastUpdated": "2025-08-04T00:52:54.682Z",
+  "debug": {
+    "message": "Data saved successfully"
+  }
+}
