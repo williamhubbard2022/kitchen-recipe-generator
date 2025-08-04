@@ -2,21 +2,21 @@
   "ingredients": [],
   "equipment": [],
   "kitchenStaples": {
-    "Olive oil (light or regular)": true,
-    "Coconut oil (virgin)": true,
-    "Olive oil (extra virgin)": true,
-    "Coconut oil (refined)": true,
-    "Vegetable oil": true,
-    "Sesame oil (toasted)": true,
-    "Safflower oil": true,
-    "Corn oil": true,
-    "Pumpkin seed oil": true,
-    "Butter (salted)": true,
-    "Bacon grease": true,
-    "Duck fat": true
+    "Olive oil (light or regular)": false,
+    "Coconut oil (virgin)": false,
+    "Olive oil (extra virgin)": false,
+    "Coconut oil (refined)": false,
+    "Vegetable oil": false,
+    "Sesame oil (toasted)": false,
+    "Safflower oil": false,
+    "Corn oil": false,
+    "Pumpkin seed oil": false,
+    "Butter (salted)": false,
+    "Bacon grease": false,
+    "Duck fat": false
   },
   "savedRecipes": [],
-  "lastUpdated": "2025-08-04T00:29:32.724Z",
+  "lastUpdated": "2025-08-04T00:29:47.723Z",
   "debug": {
     "message": "Data saved successfully"
   }
